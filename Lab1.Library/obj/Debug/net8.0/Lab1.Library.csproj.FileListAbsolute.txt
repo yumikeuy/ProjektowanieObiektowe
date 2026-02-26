@@ -1,0 +1,11 @@
+\\nonus\yushkevichm\ProjektowanieObiektowe\Lab1\Lab1.Library\bin\Debug\net8.0\Lab1.Library.deps.json
+\\nonus\yushkevichm\ProjektowanieObiektowe\Lab1\Lab1.Library\bin\Debug\net8.0\Lab1.Library.dll
+\\nonus\yushkevichm\ProjektowanieObiektowe\Lab1\Lab1.Library\bin\Debug\net8.0\Lab1.Library.pdb
+\\nonus\yushkevichm\ProjektowanieObiektowe\Lab1\Lab1.Library\obj\Debug\net8.0\Lab1.Library.GeneratedMSBuildEditorConfig.editorconfig
+\\nonus\yushkevichm\ProjektowanieObiektowe\Lab1\Lab1.Library\obj\Debug\net8.0\Lab1.Library.AssemblyInfoInputs.cache
+\\nonus\yushkevichm\ProjektowanieObiektowe\Lab1\Lab1.Library\obj\Debug\net8.0\Lab1.Library.AssemblyInfo.cs
+\\nonus\yushkevichm\ProjektowanieObiektowe\Lab1\Lab1.Library\obj\Debug\net8.0\Lab1.Library.csproj.CoreCompileInputs.cache
+\\nonus\yushkevichm\ProjektowanieObiektowe\Lab1\Lab1.Library\obj\Debug\net8.0\Lab1.Library.dll
+\\nonus\yushkevichm\ProjektowanieObiektowe\Lab1\Lab1.Library\obj\Debug\net8.0\refint\Lab1.Library.dll
+\\nonus\yushkevichm\ProjektowanieObiektowe\Lab1\Lab1.Library\obj\Debug\net8.0\Lab1.Library.pdb
+\\nonus\yushkevichm\ProjektowanieObiektowe\Lab1\Lab1.Library\obj\Debug\net8.0\ref\Lab1.Library.dll
