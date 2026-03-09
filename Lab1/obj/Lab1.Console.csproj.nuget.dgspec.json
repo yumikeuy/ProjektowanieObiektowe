@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "\\\\nonus\\yushkevichm\\ProjektowanieObiektowe\\Lab1\\Lab1\\Lab1.Console.csproj": {}
+    "H:\\ProjektowanieObiektowe\\Lab1\\Lab1\\Lab1.Console.csproj": {}
   },
   "projects": {
-    "\\\\nonus\\yushkevichm\\ProjektowanieObiektowe\\Lab1\\Lab1.Library\\Lab1.Library.csproj": {
+    "H:\\ProjektowanieObiektowe\\Lab1\\Lab1.Library\\Lab1.Library.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "\\\\nonus\\yushkevichm\\ProjektowanieObiektowe\\Lab1\\Lab1.Library\\Lab1.Library.csproj",
+        "projectUniqueName": "H:\\ProjektowanieObiektowe\\Lab1\\Lab1.Library\\Lab1.Library.csproj",
         "projectName": "Lab1.Library",
-        "projectPath": "\\\\nonus\\yushkevichm\\ProjektowanieObiektowe\\Lab1\\Lab1.Library\\Lab1.Library.csproj",
+        "projectPath": "H:\\ProjektowanieObiektowe\\Lab1\\Lab1.Library\\Lab1.Library.csproj",
         "packagesPath": "C:\\Users\\yushkevichm\\.nuget\\packages\\",
-        "outputPath": "\\\\nonus\\yushkevichm\\ProjektowanieObiektowe\\Lab1\\Lab1.Library\\obj\\",
+        "outputPath": "H:\\ProjektowanieObiektowe\\Lab1\\Lab1.Library\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
@@ -86,14 +86,14 @@
         }
       }
     },
-    "\\\\nonus\\yushkevichm\\ProjektowanieObiektowe\\Lab1\\Lab1\\Lab1.Console.csproj": {
+    "H:\\ProjektowanieObiektowe\\Lab1\\Lab1\\Lab1.Console.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "\\\\nonus\\yushkevichm\\ProjektowanieObiektowe\\Lab1\\Lab1\\Lab1.Console.csproj",
+        "projectUniqueName": "H:\\ProjektowanieObiektowe\\Lab1\\Lab1\\Lab1.Console.csproj",
         "projectName": "Lab1.Console",
-        "projectPath": "\\\\nonus\\yushkevichm\\ProjektowanieObiektowe\\Lab1\\Lab1\\Lab1.Console.csproj",
+        "projectPath": "H:\\ProjektowanieObiektowe\\Lab1\\Lab1\\Lab1.Console.csproj",
         "packagesPath": "C:\\Users\\yushkevichm\\.nuget\\packages\\",
-        "outputPath": "\\\\nonus\\yushkevichm\\ProjektowanieObiektowe\\Lab1\\Lab1\\obj\\",
+        "outputPath": "H:\\ProjektowanieObiektowe\\Lab1\\Lab1\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
@@ -117,8 +117,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "\\\\nonus\\yushkevichm\\ProjektowanieObiektowe\\Lab1\\Lab1.Library\\Lab1.Library.csproj": {
-                "projectPath": "\\\\nonus\\yushkevichm\\ProjektowanieObiektowe\\Lab1\\Lab1.Library\\Lab1.Library.csproj"
+              "H:\\ProjektowanieObiektowe\\Lab1\\Lab1.Library\\Lab1.Library.csproj": {
+                "projectPath": "H:\\ProjektowanieObiektowe\\Lab1\\Lab1.Library\\Lab1.Library.csproj"
               }
             }
           }
