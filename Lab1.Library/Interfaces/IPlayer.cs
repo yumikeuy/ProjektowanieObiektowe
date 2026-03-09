@@ -6,7 +6,14 @@ using System.Threading.Tasks;
 
 namespace Lab1.Library.Interfaces
 {
-    public class IPlayer
+    public interface IPlayer
     {
+        public void TryMoveUp();
+        public void TryMoveLeft();
+        public void TryMoveDown();
+        public void TryMoveRight();
+        public void TryGrabItem();
+        public void TryUseLeftItem();
+        public void TryUseRightItem();
     }
 }
