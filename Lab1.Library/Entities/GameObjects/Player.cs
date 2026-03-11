@@ -11,15 +11,11 @@ namespace Lab1.Library.Entities.GameObjects
     public class Player() : GameObject('¶'), IPlayer
     {
         public new string Tag = "Player";
-        public void TryMoveUp()
-        {
+        public PlayerState State { get; set; } = null!;
 
-        }
-        public void TryMoveLeft() { }
-        public void TryMoveDown() { }
-        public void TryMoveRight() { }
-        public void TryGrabItem() { }
-        public void TryUseLeftItem() { }
-        public void TryUseRightItem() { }
+        public Player()
+        {
+            throw new NotImplementedException();
+        }      
     }
 }

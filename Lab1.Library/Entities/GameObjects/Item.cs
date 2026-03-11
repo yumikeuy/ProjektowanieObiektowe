@@ -10,6 +10,6 @@ namespace Lab1.Library.Entities.GameObjects
 {
     public abstract class Item : GameObject, IItem
     {
-        
+        public string Description { get; set; } = string.Empty;
     }
 }

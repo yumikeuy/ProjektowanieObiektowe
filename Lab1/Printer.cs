@@ -10,10 +10,9 @@ namespace Lab1.Console
 {
     public class Printer
     {
-
         public void Print(IPrintable printable)
         {
-
+            printable.Print();
         }
 
         public void PrepareConsole()

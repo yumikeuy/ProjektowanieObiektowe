@@ -13,6 +13,8 @@ namespace Lab1.Library.Entities
         public int[] Pos { get; set; } = [0, 0];
         public string Tag { get; set; } = string.Empty;
 
+        public int[] PrintAt { get; set; } = [0, 0];
+
         public virtual void Print() => Console.Write(c);
     }
 }

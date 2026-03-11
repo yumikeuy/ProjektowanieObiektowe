@@ -8,6 +8,7 @@ namespace Lab1.Library.Interfaces
 {
     public interface IPrintable
     {
+        public int[] PrintAt {  get; set; }
         public void Print();
     }
 }
