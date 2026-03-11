@@ -116,6 +116,12 @@ namespace Lab1.Console
                         case ConsoleKey.D5:
                             TryTakeItemToHand(4);
                             continue;
+                        case ConsoleKey.D0:
+                            TryHideItem();
+                            continue;
+                        case ConsoleKey.Q:
+                            TryDropItem();
+                            continue;
                         default:
                             continue;
                     }
@@ -163,6 +169,15 @@ namespace Lab1.Console
         public bool TryTakeItemToHand(int d)
         {
             return PlayerState.TryTakeItemToHand(currentHand, d);
+        }
+
+        public bool TryHideItem()
+        {
+            return PlayerState.TryHideItem(currentHand);
+        }
+        public bool TryDropItem()
+        {
+            return PlayerState.TryDropItem(currentHand);
         }
     }
 }

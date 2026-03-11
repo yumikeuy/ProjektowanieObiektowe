@@ -62,9 +62,9 @@ namespace Lab1.Library.Entities
             WriteLineCustom("----------------------------------");
 
             WriteLineCustom("");
-            if (Hand1 is null) WriteLineCustom($"Left Hand: \t                                                              ");
+            if (Hand1 is null) WriteLineCustom($"Left Hand: \t                                                     ");
             else WriteLineCustom($"Left Hand: \t{Hand1?.Description}");
-            if (Hand2 is null) WriteLineCustom($"Right Hand: \t                                                              ");
+            if (Hand2 is null) WriteLineCustom($"Right Hand: \t                                                     ");
             else WriteLineCustom($"Right Hand:\t{Hand2?.Description}");
             WriteLineCustom("");
 
@@ -95,9 +95,9 @@ namespace Lab1.Library.Entities
             if (!inventoryChanged) return;
 
             (int, int) p = System.Console.GetCursorPosition();
-            for (int i = 0; i < Console.BufferHeight - p.Item2; i++) 
+            for (int i = 0; i < 10; i++) 
             {
-                for(int j = 0; j < Console.BufferWidth - p.Item1; j++)
+                for(int j = 0; j < 100; j++)
                 {
                     System.Console.Write(' ');
                 }
@@ -138,9 +138,9 @@ namespace Lab1.Library.Entities
             if (Hand(hand) is not null && !IsInventoryFull())
             {
                 Inventory.Add(Hand(hand)!);
-                SetHand(hand, null);
                 if (Hand(hand) is Weapon weapon && weapon.IsTwoHanded)
                     SetHand(1 - hand, null);
+                SetHand(hand, null);
                 inventoryChanged = true;
                 return true;
             }
@@ -155,12 +155,12 @@ namespace Lab1.Library.Entities
 
         public bool TryDropItem(int hand)
         {
-            if(CurrentItem is not null)
+            if(CurrentItem is null)
             {
                 CurrentItem = Hand(hand);
-                SetHand(hand, null);
                 if (Hand(hand) is Weapon weapon && weapon.IsTwoHanded)
                     SetHand(1 - hand, null);
+                SetHand(hand, null);
                 return true;
             }
             
@@ -252,6 +252,11 @@ namespace Lab1.Library.Entities
                 Hand1 = item;
             if (hand == 1)
                 Hand2 = item;
+        }
+
+        public bool TryHideItem(int hand)
+        {
+            return TryAddToInventory(hand);
         }
     }
 }
