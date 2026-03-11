@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,15 +20,16 @@ namespace Lab1.Console
 
         private bool stopLoop = false;
 
-        public GameManager(Printer printer)
-        {
-            _printer = printer;
-        }
-        public GameManager(Printer printer, Board board)
-        {
-            _printer = printer;
-            Board = board;
-        }
+        //public GameManager(Printer printer)
+        //{
+        //    _printer = printer;
+        //}
+        //public GameManager(Printer printer, Board board)
+        //{
+        //    _printer = printer;
+        //    Board = board;
+        //}
+
         public GameManager(Printer printer, Board board, Player player)
         {
             _printer = printer;
@@ -36,24 +38,25 @@ namespace Lab1.Console
             PlayerState = player.State;
         }
 
-        public void PrepareConsole()
-        {
-            _printer.PrepareConsole();
-        }
+        //public void PrepareConsole()
+        //{
+        //    _printer.PrepareConsole();
+        //}
 
-        public void AddBoard(Board board)
-        {
-            Board = board;
-        }
+        //public void AddBoard(Board board)
+        //{
+        //    Board = board;
+        //}
 
-        public void AddPlayer(Player player)
-        {
-            Player = player;
-            PlayerState = player.State;
-        }
+        //public void AddPlayer(Player player)
+        //{
+        //    Player = player;
+        //    PlayerState = player.State;
+        //}
 
         public void StartGame()
         {
+            _printer.PrepareConsole();
             _printer.Print(Board);
             _printer.Print(PlayerState);
 
@@ -64,6 +67,9 @@ namespace Lab1.Console
         {
             while (!stopLoop)
             {
+                _printer.Print(Board);
+                _printer.Print(PlayerState);
+
                 if (System.Console.KeyAvailable)
                 {
                     var key = System.Console.ReadKey(true).Key;
@@ -83,13 +89,16 @@ namespace Lab1.Console
                             TryMoveRight();
                             continue;
                         case ConsoleKey.E:
-                            TryGrabItem();
+                            TryPickUpItem();
                             continue;
                         case ConsoleKey.L:
                             TryUseLeftItem();
                             continue;
                         case ConsoleKey.R:
                             TryUseRightItem();
+                            continue;
+                        case ConsoleKey.Escape:
+                            StopGame();
                             continue;
                         default:
                             continue;
@@ -102,84 +111,29 @@ namespace Lab1.Console
 
         public void StopGame()
         {
-            throw new NotImplementedException();
+            stopLoop = true;
         }
 
-        public void TryMoveUp()
+        public bool TryMoveUp()
         {
-            var currentPos = Player.Pos;
-            int[] newPos = [currentPos[0], currentPos[1] - 1 ];
-
-            if (IsInside(newPos) && Board.Cell(newPos) is not Wall)
-            {
-                Player.Pos = newPos;
-                if (Board.Cell(newPos) is Item)
-                {
-                    PlayerState.IsOnItem = true;
-                }
-            }
+            return Board.TryMovePlayer(Player, new(Player.Pos.X, Player.Pos.Y - 1));
+        }
+        public bool TryMoveLeft()
+        {
+            return Board.TryMovePlayer(Player, new(Player.Pos.X - 1, Player.Pos.Y));
+        }
+        public bool TryMoveDown()
+        {
+            return Board.TryMovePlayer(Player, new(Player.Pos.X, Player.Pos.Y + 1));
+        }
+        public bool TryMoveRight()
+        {
+            return Board.TryMovePlayer(Player, new(Player.Pos.X + 1, Player.Pos.Y));
         }
 
-        public void TryMoveLeft()
+        public bool TryPickUpItem()
         {
-            var currentPos = Player.Pos;
-            int[] newPos = [currentPos[0] - 1, currentPos[1]];
-
-            if (IsInside(newPos) && Board.Cell(newPos) is not Wall)
-            {
-                Player.Pos = newPos;
-                if (Board.Cell(newPos) is Item)
-                {
-                    PlayerState.IsOnItem = true;
-                }
-            }
-        }
-        public void TryMoveDown()
-        {
-            var currentPos = Player.Pos;
-            int[] newPos = [currentPos[0], currentPos[1] + 1];
-
-            if (IsInside(newPos) && Board.Cell(newPos) is not Wall)
-            {
-                Player.Pos = newPos;
-                if (Board.Cell(newPos) is Item)
-                {
-                    PlayerState.IsOnItem = true;
-                }
-            }
-        }
-        public void TryMoveRight()
-        {
-            var currentPos = Player.Pos;
-            int[] newPos = [currentPos[0] + 1, currentPos[1]];
-
-            if (IsInside(newPos) && Board.Cell(newPos) is not Wall)
-            {
-                Player.Pos = newPos;
-                if(Board.Cell(newPos) is Item)
-                {
-                    PlayerState.IsOnItem = true;
-                }
-            }
-        }
-        public void TryGrabItem()
-        {
-            var currentPos = Player.Pos;
-            if (PlayerState.IsOnItem)
-            {
-                if (PlayerState.TryAddToInventory((Item)Board.Cell(currentPos)))
-                {
-                    Board.SetCell(currentPos, new EmptyGameObject());
-                }
-                else
-                {
-                    // Full Inventory
-                }
-            }
-            else
-            {
-                // No Item
-            }
+            return PlayerState.TryAddToInventory();
         }
         public void TryUseLeftItem()
         {
@@ -190,9 +144,6 @@ namespace Lab1.Console
             throw new NotImplementedException();
         }
 
-        private bool IsInside(int[] pos)
-        {
-            return pos[0] > 0 && pos[1] > 0 && pos[0] < Board.width + 1 && pos[1] < Board.height + 1;
-        }
+        
     }
 }

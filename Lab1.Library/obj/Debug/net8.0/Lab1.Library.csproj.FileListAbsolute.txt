@@ -9,3 +9,15 @@
 \\nonus\yushkevichm\ProjektowanieObiektowe\Lab1\Lab1.Library\obj\Debug\net8.0\refint\Lab1.Library.dll
 \\nonus\yushkevichm\ProjektowanieObiektowe\Lab1\Lab1.Library\obj\Debug\net8.0\Lab1.Library.pdb
 \\nonus\yushkevichm\ProjektowanieObiektowe\Lab1\Lab1.Library\obj\Debug\net8.0\ref\Lab1.Library.dll
+C:\Users\Admin\misha\PW\PO\ProjektowanieObiektowe\Lab1.Library\bin\Debug\net8.0\Lab1.Library.deps.json
+C:\Users\Admin\misha\PW\PO\ProjektowanieObiektowe\Lab1.Library\bin\Debug\net8.0\Lab1.Library.dll
+C:\Users\Admin\misha\PW\PO\ProjektowanieObiektowe\Lab1.Library\bin\Debug\net8.0\Lab1.Library.pdb
+C:\Users\Admin\misha\PW\PO\ProjektowanieObiektowe\Lab1.Library\obj\Debug\net8.0\Lab1.Library.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Admin\misha\PW\PO\ProjektowanieObiektowe\Lab1.Library\obj\Debug\net8.0\Lab1.Library.AssemblyInfoInputs.cache
+C:\Users\Admin\misha\PW\PO\ProjektowanieObiektowe\Lab1.Library\obj\Debug\net8.0\Lab1.Library.AssemblyInfo.cs
+C:\Users\Admin\misha\PW\PO\ProjektowanieObiektowe\Lab1.Library\obj\Debug\net8.0\Lab1.Library.csproj.CoreCompileInputs.cache
+C:\Users\Admin\misha\PW\PO\ProjektowanieObiektowe\Lab1.Library\obj\Debug\net8.0\Lab1.Library.sourcelink.json
+C:\Users\Admin\misha\PW\PO\ProjektowanieObiektowe\Lab1.Library\obj\Debug\net8.0\Lab1.Library.dll
+C:\Users\Admin\misha\PW\PO\ProjektowanieObiektowe\Lab1.Library\obj\Debug\net8.0\refint\Lab1.Library.dll
+C:\Users\Admin\misha\PW\PO\ProjektowanieObiektowe\Lab1.Library\obj\Debug\net8.0\Lab1.Library.pdb
+C:\Users\Admin\misha\PW\PO\ProjektowanieObiektowe\Lab1.Library\obj\Debug\net8.0\ref\Lab1.Library.dll

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Formats.Asn1;
 using System.Linq;
 using System.Text;
@@ -8,14 +9,11 @@ using Lab1.Library.Interfaces;
 
 namespace Lab1.Library.Entities.GameObjects
 {
-    public class Player() : GameObject('¶'), IPlayer
+    public class Player(Point pos) : GameObject(pos), IPlayer
     {
-        public new string Tag = "Player";
-        public PlayerState State { get; set; } = null!;
+        public override char Char { get; set; } = 'O';
 
-        public Player()
-        {
-            throw new NotImplementedException();
-        }      
+        public override string Tag { get; set; } = "Player";
+        public PlayerState State { get; set; } = new();
     }
 }
