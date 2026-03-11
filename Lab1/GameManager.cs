@@ -19,6 +19,7 @@ namespace Lab1.Console
         Player Player { get; set; }
 
         private bool stopLoop = false;
+        private int currentHand = 0;
 
         //public GameManager(Printer printer)
         //{
@@ -92,13 +93,28 @@ namespace Lab1.Console
                             TryPickUpItem();
                             continue;
                         case ConsoleKey.L:
-                            TryUseLeftItem();
+                            SelectLeftHand();
                             continue;
                         case ConsoleKey.R:
-                            TryUseRightItem();
+                            SelectRightHand();
                             continue;
                         case ConsoleKey.Escape:
                             StopGame();
+                            continue;
+                        case ConsoleKey.D1:
+                            TryTakeItemToHand(0);
+                            continue;
+                        case ConsoleKey.D2:
+                            TryTakeItemToHand(1);
+                            continue;
+                        case ConsoleKey.D3:
+                            TryTakeItemToHand(2);
+                            continue;
+                        case ConsoleKey.D4:
+                            TryTakeItemToHand(3);
+                            continue;
+                        case ConsoleKey.D5:
+                            TryTakeItemToHand(4);
                             continue;
                         default:
                             continue;
@@ -135,15 +151,18 @@ namespace Lab1.Console
         {
             return PlayerState.TryAddToInventory();
         }
-        public void TryUseLeftItem()
+        public void SelectLeftHand()
         {
-            throw new NotImplementedException();
+            currentHand = 0;
         }
-        public void TryUseRightItem()
+        public void SelectRightHand()
         {
-            throw new NotImplementedException();
+            currentHand = 1;
         }
 
-        
+        public bool TryTakeItemToHand(int d)
+        {
+            return PlayerState.TryTakeItemToHand(currentHand, d);
+        }
     }
 }

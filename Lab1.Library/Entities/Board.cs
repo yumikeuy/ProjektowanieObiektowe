@@ -131,7 +131,7 @@ namespace Lab1.Library.Entities
 
         private bool IsInside(Point pos)
         {
-            return pos.X > 0 && pos.Y > 0 && pos.X < width && pos.Y < height;
+            return pos.X >= 0 && pos.Y >= 0 && pos.X < width && pos.Y < height;
         }
 
         private bool IsNextTo(Point playerPos, Point pos)
