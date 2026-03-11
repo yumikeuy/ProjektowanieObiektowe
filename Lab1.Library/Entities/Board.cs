@@ -29,13 +29,17 @@ namespace Lab1.Library.Entities
 
         public void Print()
         {
-            System.Console.SetCursorPosition(PrintAt.X, PrintAt.Y);
-            for (int i = 0; i < height; i++)
+            System.Console.SetCursorPosition(PrintAt.X, PrintAt.Y - 1);
+            for (int i = -1; i <= height; i++)
             {
-                for(int j = 0; j < width; j++)
+                for(int j = -1; j <= width; j++)
                 {
-                    var obj = Data[j, i];
-                    obj.Print();
+                    if (i == -1 || i == height)
+                        System.Console.Write('-');
+                    else if(j == -1 || j == width)
+                        System.Console.Write('|');
+                    else
+                        Data[j, i].Print();
                 }
                 System.Console.SetCursorPosition(PrintAt.X, PrintAt.Y + i + 1);
             }
