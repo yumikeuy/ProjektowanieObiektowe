@@ -1,5 +1,4 @@
 ﻿using Lab1.Library.Entities.GameObjects;
-using Lab1.Library.Entities.GameObjects.Items.Armor;
 using Lab1.Library.Entities.GameObjects.Items.Weapons;
 using Lab1.Library.Entities.GameObjects.Money;
 using Lab1.Library.Interfaces;
@@ -18,15 +17,49 @@ namespace Lab1.Library.Entities
     {
         public const int width = 40;
         public const int height = 20;
+
+        private GameObject[,] data = new GameObject[width, height];
+
         public Point PlayerStartPos { get; set; }
         public Point PrintAt { get; set; } = new Point(1, 1);
-        public GameObject[,] Data { get; set; } = new GameObject[width, height];
 
-        public Board(out Player player)
+        public Board()
         {
-            BoardDefaultInit(out player);
+            BoardDefaultInit();
         }
+        public void BoardDefaultInit()
+        {
+            var randomizer = new Random();
 
+            for (int i = 0; i < height; i++)
+            {
+                for (int j = 0; j < width; j++)
+                {
+                    int r = randomizer.Next(1, 100);
+                    switch (r)
+                    {
+                        case <= 10:
+                            data[j, i] = new Wall(new(j, i));
+                            break;
+                        case <= 11:
+                            data[j, i] = new Coin(new(j, i));
+                            break;
+                        case <= 12:
+                            data[j, i] = new Gold(new(j, i));
+                            break;
+                        case <= 13:
+                            data[j, i] = new MachineGun(new(j, i));
+                            break;
+                        case <= 14:
+                            data[j, i] = new ClassicBow(new(j, i));
+                            break;
+                        default:
+                            data[j, i] = new EmptyGameObject(new(j, i));
+                            break;
+                    }
+                }
+            }
+        }
         public void Print()
         {
             System.Console.SetCursorPosition(PrintAt.X, PrintAt.Y - 1);
@@ -39,53 +72,9 @@ namespace Lab1.Library.Entities
                     else if(j == -1 || j == width)
                         System.Console.Write('|');
                     else
-                        Data[j, i].Print();
+                        data[j, i].Print();
                 }
                 System.Console.SetCursorPosition(PrintAt.X, PrintAt.Y + i + 1);
-            }
-        }
-
-        public void BoardDefaultInit(out Player player)
-        {
-            var randomizer = new Random();
-            PlayerStartPos = new(randomizer.Next(0, width), randomizer.Next(0, height));
-            player = new Player(PlayerStartPos);
-            SetCell(PlayerStartPos, player);
-
-            for (int i = 0; i < height; i++)
-            {
-                for (int j = 0; j < width; j++)
-                {
-                    int r = randomizer.Next(1, 100);
-                    if (PlayerStartPos.X == j && PlayerStartPos.Y == i)
-                    {
-                        continue;
-                    }
-                    if(r <= 10)
-                    {
-                        Data[j, i] = new Wall(new(j, i));
-                    }
-                    else if(r <= 11)
-                    {
-                        Data[j, i] = new Coin(new(j, i));
-                    }
-                    else if(r <= 12)
-                    {
-                        Data[j, i] = new Gold(new(j, i));
-                    }
-                    else if (r <= 13)
-                    {
-                        Data[j, i] = new MachineGun(new(j, i));
-                    }
-                    else if (r <= 14)
-                    {
-                        Data[j, i] = new ClassicBow(new(j, i));
-                    }
-                    else
-                    {
-                        Data[j, i] = new EmptyGameObject(new(j, i));
-                    }
-                }
             }
         }
 
@@ -94,50 +83,51 @@ namespace Lab1.Library.Entities
             var currentPos = player.Pos;
 
             if(!IsNextTo(currentPos, pos) || !IsInside(pos)) return false;
-            if (Cell(pos) is Wall) return false;
+            if (GetAt(pos) is Wall) return false;
                 
-            var nextObj = Cell(pos);
-
-            if (player.State.CurrentItem is null)
-                SetCell(currentPos, new EmptyGameObject(currentPos));
-            else
-               SetCell(currentPos, player.State.CurrentItem);
-
-            player.State.CurrentItem = null;
-
-            MovePlayer(player, pos);
-
-            if(nextObj is Coin)
-                player.State.Coins++;
-            else if (nextObj is Gold)
-                player.State.Gold++;
-            else if(nextObj is Item newItem) 
-                player.State.CurrentItem = newItem;
+            player.Move(pos);
             
             return true; 
         }
 
-        private void MovePlayer(Player player, Point pos)
+        public bool TryPickUp(Player player)
         {
-            SetCell(pos, player);
-            player.Pos = pos;
+            if (GetAt(player.Pos).Pick(player.State))
+            {
+                SetAt(player.Pos, new EmptyGameObject(player.Pos));
+                return true;
+            }
+
+            return false;
+        }
+        public bool TryDrop(Player player)
+        {
+            if (GetAt(player.Pos).IsEmpty)
+            {
+                var item = player.State.Drop();
+                if (item != null)
+                {
+                    SetAt(player.Pos, item);
+                    return true;
+                }
+            }
+
+            return false;
         }
 
-        public GameObject Cell(Point pos)
+        public GameObject GetAt(Point pos)
         {
-            return Data[pos.X, pos.Y];
+            return data[pos.X, pos.Y];
         }
-
-        public void SetCell(Point pos, GameObject gameObject)
+        private void SetAt(Point pos, GameObject gameObject)
         {
-            Data[pos.X, pos.Y] = gameObject;
+            data[pos.X, pos.Y] = gameObject;
         }
 
         private bool IsInside(Point pos)
         {
             return pos.X >= 0 && pos.Y >= 0 && pos.X < width && pos.Y < height;
         }
-
         private bool IsNextTo(Point playerPos, Point pos)
         {
             return ((Math.Abs(playerPos.X - pos.X) <= 1 && playerPos.Y == pos.Y) ||

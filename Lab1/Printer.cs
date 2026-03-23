@@ -20,10 +20,5 @@ namespace Lab1.Console
             System.Console.CursorVisible = false;
             System.Console.Clear();
         }
-
-        public void PrintAt()
-        {
-
-        }
     }
 }

@@ -12,54 +12,24 @@ namespace Lab1.Console
 {
     public class GameManager
     {
-        //IPrinter
-        Printer _printer;
-        Board Board { get; set; }
-        PlayerState PlayerState { get; set; }
-        Player Player { get; set; }
+        private Printer _printer;
+        private Board _board;
+        private Player _player;
 
         private bool stopLoop = false;
-        private int currentHand = 0;
-
-        //public GameManager(Printer printer)
-        //{
-        //    _printer = printer;
-        //}
-        //public GameManager(Printer printer, Board board)
-        //{
-        //    _printer = printer;
-        //    Board = board;
-        //}
 
         public GameManager(Printer printer, Board board, Player player)
         {
             _printer = printer;
-            Board = board;
-            Player = player;
-            PlayerState = player.State;
+            _board = board;
+            _player = player;
         }
-
-        //public void PrepareConsole()
-        //{
-        //    _printer.PrepareConsole();
-        //}
-
-        //public void AddBoard(Board board)
-        //{
-        //    Board = board;
-        //}
-
-        //public void AddPlayer(Player player)
-        //{
-        //    Player = player;
-        //    PlayerState = player.State;
-        //}
 
         public void StartGame()
         {
             _printer.PrepareConsole();
-            _printer.Print(Board);
-            _printer.Print(PlayerState);
+            _printer.Print(_board);
+            _printer.Print(_player.State);
 
             StartGameLoop();
         }
@@ -68,8 +38,9 @@ namespace Lab1.Console
         {
             while (!stopLoop)
             {
-                _printer.Print(Board);
-                _printer.Print(PlayerState);
+                _printer.Print(_board);
+                _printer.Print(_player.State);
+                _printer.Print(_player);
 
                 if (System.Console.KeyAvailable)
                 {
@@ -101,20 +72,8 @@ namespace Lab1.Console
                         case ConsoleKey.Escape:
                             StopGame();
                             continue;
-                        case ConsoleKey.D1:
-                            TryTakeItemToHand(0);
-                            continue;
-                        case ConsoleKey.D2:
-                            TryTakeItemToHand(1);
-                            continue;
-                        case ConsoleKey.D3:
-                            TryTakeItemToHand(2);
-                            continue;
-                        case ConsoleKey.D4:
-                            TryTakeItemToHand(3);
-                            continue;
-                        case ConsoleKey.D5:
-                            TryTakeItemToHand(4);
+                        case >= ConsoleKey.D1 and <= ConsoleKey.D9:
+                            TryTakeItemToHand(key - ConsoleKey.D1);
                             continue;
                         case ConsoleKey.D0:
                             TryHideItem();
@@ -136,48 +95,46 @@ namespace Lab1.Console
             stopLoop = true;
         }
 
-        public bool TryMoveUp()
+        public void TryMoveUp()
         {
-            return Board.TryMovePlayer(Player, new(Player.Pos.X, Player.Pos.Y - 1));
+            _board.TryMovePlayer(_player, new(_player.Pos.X, _player.Pos.Y - 1));
         }
-        public bool TryMoveLeft()
+        public void TryMoveLeft()
         {
-            return Board.TryMovePlayer(Player, new(Player.Pos.X - 1, Player.Pos.Y));
+            _board.TryMovePlayer(_player, new(_player.Pos.X - 1, _player.Pos.Y));
         }
-        public bool TryMoveDown()
+        public void TryMoveDown()
         {
-            return Board.TryMovePlayer(Player, new(Player.Pos.X, Player.Pos.Y + 1));
+            _board.TryMovePlayer(_player, new(_player.Pos.X, _player.Pos.Y + 1));
         }
-        public bool TryMoveRight()
+        public void TryMoveRight()
         {
-            return Board.TryMovePlayer(Player, new(Player.Pos.X + 1, Player.Pos.Y));
+            _board.TryMovePlayer(_player, new(_player.Pos.X + 1, _player.Pos.Y));
         }
 
         public bool TryPickUpItem()
         {
-            return PlayerState.TryAddToInventory();
-        }
-        public void SelectLeftHand()
-        {
-            currentHand = 0;
-        }
-        public void SelectRightHand()
-        {
-            currentHand = 1;
-        }
-
-        public bool TryTakeItemToHand(int d)
-        {
-            return PlayerState.TryTakeItemToHand(currentHand, d);
-        }
-
-        public bool TryHideItem()
-        {
-            return PlayerState.TryHideItem(currentHand);
+            return _board.TryPickUp(_player);                
         }
         public bool TryDropItem()
         {
-            return PlayerState.TryDropItem(currentHand);
+            return _board.TryDrop(_player);
+        }
+        public bool TryTakeItemToHand(int i)
+        {
+            return _player.State.TryTakeItemToHand(i);
+        }
+        public bool TryHideItem()
+        {
+            return _player.State.TryHideItem();
+        }
+        public void SelectLeftHand()
+        {
+            _player.State.SelectHand(Hands.Left);
+        }
+        public void SelectRightHand()
+        {
+            _player.State.SelectHand(Hands.Right);
         }
     }
 }

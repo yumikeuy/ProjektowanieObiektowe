@@ -11,5 +11,11 @@ namespace Lab1.Library.Entities.GameObjects.Money
     {
         public override char Char { get; set; } = 'c';
         public override string Tag { get; set; } = "Coin";
+
+        public override bool Pick(PlayerState playerState)
+        {
+            playerState.Coins++;
+            return false;
+        }
     }
 }

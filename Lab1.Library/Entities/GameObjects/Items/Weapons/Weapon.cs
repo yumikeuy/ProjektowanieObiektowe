@@ -9,7 +9,6 @@ namespace Lab1.Library.Entities.GameObjects.Items.Weapons
 {
     public abstract class Weapon(Point pos) : Item(pos)
     {
-        public abstract bool IsTwoHanded { get; set; }
         public abstract int Damage { get; set; }
         public override string Tag { get; set; } = "Weapon";
     }
