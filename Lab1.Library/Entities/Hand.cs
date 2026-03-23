@@ -11,7 +11,8 @@ namespace Lab1.Library.Entities
 {
     public class Hand : IPrintable
     {
-        private Item? _item
+        private Item? _item;
+        public bool? IsTwoHanded => _item?.IsTwoHanded;
         public Point PrintAt { get; set; } = new(0, 0);
 
         public Hand(Point printAt)

@@ -23,7 +23,7 @@ namespace Lab1.Library.Entities
             if (item == null) return false;
 
             var itemsFromHands = _hands.AddOrSwap(item);
-            if (itemsFromHands == null) return true;
+            if (itemsFromHands.Count == 0) return true;
             
             if(_inventory.TryAdd(itemsFromHands)) return true;
 

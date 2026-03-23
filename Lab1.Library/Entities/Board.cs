@@ -83,7 +83,7 @@ namespace Lab1.Library.Entities
             var currentPos = player.Pos;
 
             if(!IsNextTo(currentPos, pos) || !IsInside(pos)) return false;
-            if (GetAt(pos) is Wall) return false;
+            if (!GetAt(pos).CanBeGoneThrough) return false;
                 
             player.Move(pos);
             

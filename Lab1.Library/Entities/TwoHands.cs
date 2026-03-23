@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -13,7 +14,6 @@ namespace Lab1.Library.Entities
     {
         private (Hand left, Hand right) hands;
         private Hand current;
-
         public TwoHands()
         {
             hands = (new Hand(), new Hand());
@@ -21,7 +21,6 @@ namespace Lab1.Library.Entities
         }
 
         public Point PrintAt { get; set; } = new Point(0, 0);
-
         public void Print()
         {
             hands.left.Print();
@@ -44,50 +43,72 @@ namespace Lab1.Library.Entities
         public bool TryAdd(Item item)
         {
             if (item.IsTwoHanded)
-            {
-                bool l = hands.left.TryAdd(item);
-                bool r = hands.right.TryAdd(item);
-                if (!l || !r)
-                {
-                    if (l) hands.left.Remove();
-                    if (r) hands.right.Remove();
-                    return false;
-                }
-                else 
-                    return true;
-            }
-            else 
-                return current.TryAdd(item);
+                return TryAdd([item, item]);
+            
+            return current.TryAdd(item);
         }
         public bool TryAdd(List<Item> items)
         {
-            throw new NotImplementedException();
+            if(items.Count > 2 || items.Count == 0) 
+                return false;
+
+            if (items.Count == 1)
+                return TryAdd(items[0]);
+ 
+            bool l = hands.left.TryAdd(items[0]);
+            bool r = hands.right.TryAdd(items[1]);
+            if (!l || !r)
+            {
+                if (l) hands.left.Remove();
+                if (r) hands.right.Remove();
+                return false;
+            }
+            else
+                return true;
+
         }
         public List<Item> AddOrSwap(Item item)
         {
-            throw new NotImplementedException();
+            if (item.IsTwoHanded)
+            {
+                List<Item> returnItems = [];
+
+                Item? left = hands.left.Remove();
+                Item? right = hands.right.Remove();
+                if(left != null) returnItems.Add(left);
+                if(right != null) returnItems.Add(right);
+
+                if (TryAdd(item)) return returnItems;
+                else throw new Exception("Poorly managed Swaping the two-handed item");
+            }
+            else
+            {
+                List<Item> returnItems = [];
+
+                Item? returnItem = current.Remove();
+                if(returnItem != null) returnItems.Add(returnItem);
+
+                if (TryAdd(item)) return returnItems;
+                else throw new Exception("Poorly managed Swaping the one-handed item");
+            }
         }
-        public List<Item> AddOrSwap(List<Item> items)
+        public List<Item>? AddOrSwap(List<Item> items)
         {
-            throw new NotImplementedException();
+            if (items.Count > 2 || items.Count == 0) 
+                return null;
+
+            if (items.Count == 2 && items[0].IsTwoHanded || items[1].IsTwoHanded)
+                return null;
+
+            List<Item> returnItems = [];
+            foreach(var i in items)
+                returnItems.AddRange(AddOrSwap(i));
+
+            return returnItems;
         }
         public Item? Remove()
         {
-            throw new NotImplementedException();
-        }
-
-        public bool RemoveItem(Inventory inventory)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool RemoveItem()
-        {
-            throw new NotImplementedException();
-        }
-        public bool RemoveItems(Inventory inventory)
-        {
-            throw new NotImplementedException();
+            return current.Remove();
         }
     }
 }

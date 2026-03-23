@@ -15,6 +15,7 @@ namespace Lab1.Library.Entities
         public abstract string Tag { get; set; }
         public virtual Point PrintAt { get; set; } = pos;
         public virtual bool IsEmpty { get; set; } = false;
+        public virtual bool CanBeGoneThrough { get; set; } = true;
         public virtual void Print() => Console.Write(Char);
         public virtual bool Pick(PlayerState playerState)
         {
