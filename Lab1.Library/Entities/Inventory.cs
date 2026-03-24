@@ -65,14 +65,14 @@ namespace Lab1.Library.Entities
         public IPrintable Text()
         {
             Printable p = new();
-            p.AddText(new("Inventory : ", PrintAt));
+            p.AddText(new TextPos("Inventory : ", PrintAt));
             var clear = "                         ";
             int i = 0;
             foreach (var item in _items)
-                p.AddText(new($"{++i}. " + item.Description + clear, new(PrintAt.X, PrintAt.Y + i)));
+                p.AddText(new TextPos($"{++i}. " + item.Description + clear, new(PrintAt.X, PrintAt.Y + i)));
 
             for (int j = i + 1; j <= _inventorySize + i; j++)
-                p.AddText(new(clear, new(PrintAt.X, PrintAt.Y + j)));
+                p.AddText(new TextPos(clear, new(PrintAt.X, PrintAt.Y + j)));
 
             return p;
         }

@@ -11,7 +11,7 @@ namespace Lab1.Library.Services
 {
     public class Printable : IPrintable
     {
-        private ICollection<TextPos> _data = [];
+        private ICollection<ITextPos> _data = [];
         public Point LastPosition => _data.Last().PrintAt;
 
         public void Print()
@@ -20,19 +20,19 @@ namespace Lab1.Library.Services
             foreach (var txt in _data)
             {
                 Console.SetCursorPosition(txt.PrintAt.X, txt.PrintAt.Y);
-                Console.Write(txt);
+                Console.Write(txt.Text);
             }
             Console.SetCursorPosition(Left, Top);
         }
-        public void AddText(TextPos txt)
+        public void AddText(ITextPos txt)
         {
             _data.Add(txt);
         }
-        public void RemoveText(TextPos txt)
+        public void RemoveText(ITextPos txt)
         {
             _data.Remove(txt);
         }
-        public override string ToString()
+        public string GetText()
         {
             string res = string.Empty;
 
@@ -50,7 +50,7 @@ namespace Lab1.Library.Services
 
             return this;
         }
-        public ICollection<TextPos> GetData()
+        public ICollection<ITextPos> GetData()
         {
             return _data;
         }

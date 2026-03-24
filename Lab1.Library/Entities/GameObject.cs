@@ -20,7 +20,7 @@ namespace Lab1.Library.Entities
         public virtual IPrintable Text()
         {
             Printable p = new();
-            p.AddText(new(Char.ToString(), new(Pos.X, Pos.Y)));
+            p.AddText(new TextPos(Char.ToString(), new(Pos.X, Pos.Y)));
             return p;
         }
         public virtual bool Pick(IPlayerState playerState)
@@ -31,5 +31,7 @@ namespace Lab1.Library.Entities
         {
             return false;
         }
+        public GameObject() : this(new(0, 0)) { }
+
     }
 }

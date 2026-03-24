@@ -8,10 +8,10 @@ using Lab1.Library.Interfaces;
 
 namespace Lab1.Library.Services
 {
-    public class TextPos
+    public class TextPos : ITextPos
     {
         public string Text { get; set; } = string.Empty;
-        public Point PrintAt { get; set; }
+        public Point PrintAt { get; }
 
         public TextPos(string text, Point printAt)
         {
@@ -21,18 +21,6 @@ namespace Lab1.Library.Services
         public TextPos(Point printAt)
         {
             PrintAt = printAt;
-        }
-
-        public static TextPos operator +(TextPos left, TextPos right)
-        {
-            if (left.PrintAt != right.PrintAt) return left;
-            left.Text += right.Text;
-            return left;
-        }
-
-        public override string ToString()
-        {
-            return Text;
         }
     }
 }

@@ -13,10 +13,10 @@ namespace Lab1.Library.Interfaces
         public Point LastPosition { get; }
 
         public void Print();
-        public void AddText(TextPos txt);
-        public void RemoveText(TextPos txt);
-        public string ToString();
+        public void AddText(ITextPos txt);
+        public void RemoveText(ITextPos txt);
+        public string GetText();
         public IPrintable Add(IPrintable printable);
-        public ICollection<TextPos> GetData();
+        public ICollection<ITextPos> GetData();
     }
 }

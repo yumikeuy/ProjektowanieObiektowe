@@ -32,6 +32,12 @@ namespace Lab1.Library.Entities
             _player = player;
             BoardDefaultInit(player.Pos);
         }
+        public Board(IGameObject[,] data)
+        {
+            _data = data;
+            _width = data.GetLength(0);
+            _height = data.GetLength(1);
+        }
         public void BoardDefaultInit(Point playerStartPos)
         {
             var randomizer = new Random();
@@ -85,15 +91,15 @@ namespace Lab1.Library.Entities
                     else if (j == -1 || j == _width)
                         line.Text += "|";
                     else
-                        line.Text += _data[j, i].Text().ToString();
+                        line.Text += _data[j, i].Text().GetText();
                 }
                 lines.AddText(line);
             }
 
             if (_data[_player.Pos.X, _player.Pos.Y].Pickable())
-                lines.AddText(new("Press \"E\" to pick up.", new(PrintAt.X, PrintAt.Y + _height + 1)));
+                lines.AddText(new TextPos("Press \"E\" to pick up.", new(PrintAt.X, PrintAt.Y + _height + 1)));
             else
-                lines.AddText(new("                       ", new(PrintAt.X, PrintAt.Y + _height + 1)));
+                lines.AddText(new TextPos("                       ", new(PrintAt.X, PrintAt.Y + _height + 1)));
 
             return lines;
         }

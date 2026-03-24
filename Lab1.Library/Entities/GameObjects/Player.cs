@@ -19,7 +19,7 @@ namespace Lab1.Library.Entities.GameObjects
         public override IPrintable Text()
         {
             Printable p = new();
-            p.AddText(new(Char.ToString(), new(Pos.X + 2, Pos.Y + 1)));
+            p.AddText(new TextPos(Char.ToString(), new(Pos.X + 2, Pos.Y + 1)));
             return p;
         }
         public void Move(Point pos)
