@@ -7,7 +7,7 @@ using Lab1.Library.Interfaces;
 
 namespace Lab1.Library.Services
 {
-    public class BoardBuilder : IBoardBuilder
+    public class DefaultBoardBuilder : IBoardBuilder
     {
         private IBoard _board;
 
@@ -17,7 +17,7 @@ namespace Lab1.Library.Services
         private bool isInitialized = false;
         private bool isBuilded = false;
 
-        public BoardBuilder(IBoardInitializer initializer, IBoardModificator modificator)
+        public DefaultBoardBuilder(IBoardInitializer initializer, IBoardModificator modificator)
         {
             _initializer = initializer;
             _modificator = modificator;

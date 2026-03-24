@@ -31,5 +31,7 @@ namespace Lab1.Library.Entities
         {
             return false;
         }
+        public GameObject() : this(new(0, 0)) { }
+
     }
 }

@@ -32,6 +32,12 @@ namespace Lab1.Library.Entities
             _player = player;
             BoardDefaultInit(player.Pos);
         }
+        public Board(IGameObject[,] data)
+        {
+            _data = data;
+            _width = data.GetLength(0);
+            _height = data.GetLength(1);
+        }
         public void BoardDefaultInit(Point playerStartPos)
         {
             var randomizer = new Random();
