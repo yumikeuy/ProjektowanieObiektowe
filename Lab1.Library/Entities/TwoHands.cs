@@ -16,15 +16,16 @@ namespace Lab1.Library.Entities
         private Hand current;
         public TwoHands()
         {
-            hands = (new Hand(), new Hand());
+            hands = (new Hand(Hands.Left), new Hand(Hands.Right));
             current = hands.right;
         }
-
+        private bool isCurrentTwoHanded = false;
         public Point PrintAt { get; set; } = new Point(0, 0);
-        public void Print()
+        public Printable Text()
         {
-            hands.left.Print();
-            hands.right.Print();
+            hands.left.PrintAt = PrintAt;
+            hands.right.PrintAt = new(PrintAt.X, PrintAt.Y + 1);
+            return hands.left.Text() + hands.right.Text();
         }
 
         public void SelectHand(Hands hand)
@@ -43,7 +44,15 @@ namespace Lab1.Library.Entities
         public bool TryAdd(Item item)
         {
             if (item.IsTwoHanded)
-                return TryAdd([item, item]);
+            {
+                if(TryAdd([item, item]))
+                {
+                    isCurrentTwoHanded = true;
+                    return true;
+                }
+                return false;
+            }
+                
             
             return current.TryAdd(item);
         }
@@ -84,9 +93,9 @@ namespace Lab1.Library.Entities
             else
             {
                 List<Item> returnItems = [];
-
-                Item? returnItem = current.Remove();
-                if(returnItem != null) returnItems.Add(returnItem);
+                Item? removedItem = Remove();
+                if(removedItem != null)
+                    returnItems.Add(removedItem);
 
                 if (TryAdd(item)) return returnItems;
                 else throw new Exception("Poorly managed Swaping the one-handed item");
@@ -108,7 +117,20 @@ namespace Lab1.Library.Entities
         }
         public Item? Remove()
         {
-            return current.Remove();
+            Item? removedItem;
+
+            if (isCurrentTwoHanded)
+            {
+                hands.right.Remove();
+                removedItem = hands.left.Remove();
+            }
+            else
+            {
+                removedItem = current.Remove();
+            }
+
+            isCurrentTwoHanded = false;
+            return removedItem;
         }
     }
 }

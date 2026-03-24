@@ -14,15 +14,13 @@ namespace Lab1.Library.Entities.GameObjects
         public override char Char { get; set; } = '@';
 
         public override string Tag { get; set; } = "Player";
-        public PlayerState State { get; set; } = new();
-        public override void Print()
+        public PlayerState State { get; set; } = new(new(45, 1));
+        public override Printable Text()
         {
-            (int left, int top) = Console.GetCursorPosition();
-            Console.SetCursorPosition(Pos.X, Pos.Y);
-            Console.Write(Char);
-            Console.SetCursorPosition(left, top);
+            Printable p = new();
+            p.AddText(new(Char.ToString(), new(Pos.X + 2, Pos.Y + 1)));
+            return p;
         }
-
         public void Move(Point pos)
         {
             Pos = pos;

@@ -12,14 +12,17 @@ namespace Lab1.Library.Entities
     public class Hand : IPrintable
     {
         private Item? _item;
-        public bool? IsTwoHanded => _item?.IsTwoHanded;
         public Point PrintAt { get; set; } = new(0, 0);
+        public Hands LeftOrRight { get; set; }
 
         public Hand(Point printAt)
         {
             PrintAt = printAt;
         }
-
+        public Hand(Hands leftOrRight)
+        {
+            LeftOrRight = leftOrRight;
+        }
         public Hand() { }
 
         public bool TryAdd(Item item)
@@ -36,9 +39,13 @@ namespace Lab1.Library.Entities
             return tmp;
         }
 
-        public void Print()
+        public Printable Text()
         {
-
+            var clear = "                                     ";
+            Printable p = new();
+            var itemText = _item == null ? clear : _item.Description;
+            p.AddText(new($"{LeftOrRight} Hand: " + itemText, PrintAt));
+            return p;
         }
     }
 }

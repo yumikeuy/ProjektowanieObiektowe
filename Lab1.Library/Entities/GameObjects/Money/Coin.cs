@@ -15,7 +15,7 @@ namespace Lab1.Library.Entities.GameObjects.Money
         public override bool Pick(PlayerState playerState)
         {
             playerState.Coins++;
-            return false;
+            return true;
         }
     }
 }

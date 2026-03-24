@@ -12,7 +12,7 @@ namespace Lab1.Console
     {
         public void Print(IPrintable printable)
         {
-            printable.Print();
+            printable.Text().Print();
         }
 
         public void PrepareConsole()

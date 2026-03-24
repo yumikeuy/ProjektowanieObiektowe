@@ -15,26 +15,31 @@ namespace Lab1.Library.Entities
 {
     public class Board : IPrintable
     {
-        public const int width = 40;
-        public const int height = 20;
+        public int Width { get; }
+        public int Height { get; } 
 
-        private GameObject[,] data = new GameObject[width, height];
+        private GameObject[,] data;
 
-        public Point PlayerStartPos { get; set; }
         public Point PrintAt { get; set; } = new Point(1, 1);
+        public Player Player { get; set; }
 
-        public Board()
+        public Board(int width, int height, Player player)
         {
-            BoardDefaultInit();
+            Width = width;
+            Height = height;
+            data = new GameObject[Width, Height];
+            Player = player;
+            BoardDefaultInit(player.Pos);
         }
-        public void BoardDefaultInit()
+        public void BoardDefaultInit(Point playerStartPos)
         {
             var randomizer = new Random();
 
-            for (int i = 0; i < height; i++)
+            for (int i = 0; i < Height; i++)
             {
-                for (int j = 0; j < width; j++)
+                for (int j = 0; j < Width; j++)
                 {
+                    if (i == playerStartPos.X && j == playerStartPos.Y) continue;
                     int r = randomizer.Next(1, 100);
                     switch (r)
                     {
@@ -60,22 +65,36 @@ namespace Lab1.Library.Entities
                 }
             }
         }
-        public void Print()
+        public Printable Text()
         {
-            System.Console.SetCursorPosition(PrintAt.X, PrintAt.Y - 1);
-            for (int i = -1; i <= height; i++)
+            Printable lines = new();
+            for (int i = -1; i <= Height; i++)
             {
-                for(int j = -1; j <= width; j++)
+                var line = new TextPos(new(PrintAt.X, PrintAt.Y + i));
+                for(int j = -1; j <= Width; j++)
                 {
-                    if (i == -1 || i == height)
-                        System.Console.Write('-');
-                    else if(j == -1 || j == width)
-                        System.Console.Write('|');
+                    if (i == Player.Pos.Y && j == Player.Pos.X)
+                    {
+                        lines.AddText(line);
+                        line = new(new(j + 3, i + 1));
+                        continue;
+                    }
+                    if (i == -1 || i == Height)
+                        line.Text += '-';
+                    else if (j == -1 || j == Width)
+                        line.Text += "|";
                     else
-                        data[j, i].Print();
+                        line.Text += data[j, i].Text().ToString();
                 }
-                System.Console.SetCursorPosition(PrintAt.X, PrintAt.Y + i + 1);
+                lines.AddText(line);
             }
+
+            if (data[Player.Pos.X, Player.Pos.Y].Pickable())
+                lines.AddText(new("Press \"E\" to pick up.", new(PrintAt.X, PrintAt.Y + Height + 1)));
+            else
+                lines.AddText(new("                       ", new(PrintAt.X, PrintAt.Y + Height + 1)));
+
+            return lines;
         }
 
         public bool TryMovePlayer(Player player, Point pos)
@@ -126,7 +145,7 @@ namespace Lab1.Library.Entities
 
         private bool IsInside(Point pos)
         {
-            return pos.X >= 0 && pos.Y >= 0 && pos.X < width && pos.Y < height;
+            return pos.X >= 0 && pos.Y >= 0 && pos.X < Width && pos.Y < Height;
         }
         private bool IsNextTo(Point playerPos, Point pos)
         {

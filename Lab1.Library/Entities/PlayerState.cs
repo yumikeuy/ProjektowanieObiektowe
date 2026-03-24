@@ -25,64 +25,49 @@ namespace Lab1.Library.Entities
         public int Coins { get; set; }
         public int Gold { get; set; }
 
-        public Point PrintAt { get; set; } = new Point(Board.width + 5, 1);
+        public Point PrintAt { get; set; }
+        private Point currentPrintPos;
 
-        public void Print()
+        public Printable Text()
         {
-            System.Console.SetCursorPosition(PrintAt.X, PrintAt.Y);
+            currentPrintPos = PrintAt;
+            Printable p = new();
+            
+            AddLine(p, "Player State:");
+            AddLine(p, "==============================================");
 
-            WriteLineCustom("Player State:");
-            WriteLineCustom("==============================================");
+            AddLine(p, "");
+            AddLine(p, $"Damage\t\t{Damage}");
+            AddLine(p, $"Health\t\t{Health}");
+            AddLine(p, $"Happiness\t\t{Happiness}");
+            AddLine(p, $"Agility\t\t{Agility}");
+            AddLine(p, $"Agressiveness\t{Agressiveness}");
+            AddLine(p, $"Iq\t\t\t{Iq}");
+            AddLine(p, "");
+            AddLine(p, "----------------------------------------------");
+            AddLine(p, "");
+            AddLine(p, $"Coins\t\t{Coins}");
+            AddLine(p, $"Gold\t\t{Gold}");
+            AddLine(p, "");
+            AddLine(p, "----------------------------------------------");
 
-            WriteLineCustom("");
-            WriteLineCustom($"Damage\t\t{Damage}");
-            WriteLineCustom($"Health\t\t{Health}");
-            WriteLineCustom($"Happiness\t\t{Happiness}");
-            WriteLineCustom($"Agility\t\t{Agility}");
-            WriteLineCustom($"Agressiveness\t{Agressiveness}");
-            WriteLineCustom($"Iq\t\t\t{Iq}");
-            WriteLineCustom("");
+            _hands.PrintAt = currentPrintPos;
+            p += _hands.Text();
+            currentPrintPos = p.LastPosition;
+            currentPrintPos.Y++;
 
-            WriteLineCustom("----------------------------------");
+            AddLine(p, "----------------------------------------------");
 
-            WriteLineCustom("");
-            WriteLineCustom($"Coins\t\t{Coins}");
-            WriteLineCustom($"Gold\t\t{Gold}");
-            WriteLineCustom("");
+            _inventory.PrintAt = currentPrintPos;
+            p += _inventory.Text();
+            currentPrintPos = p.LastPosition;
+            currentPrintPos.Y++;
 
-            WriteLineCustom("----------------------------------");
-
-            _hands.Print();
-
-            WriteLineCustom("----------------------------------");
-
-            ClearConsoleAt();
-            _inventory.Print();
-
-            WriteLineCustom("----------------------------------");
+            return p;
         }
-
-        private void ClearConsoleAt()
+        private void AddLine(Printable p, string str)
         {
-            if (!_inventory.HasChanged) return;
-
-            (int, int) p = System.Console.GetCursorPosition();
-            for (int i = 0; i < 10; i++) 
-            {
-                for(int j = 0; j < 100; j++)
-                {
-                    System.Console.Write(' ');
-                }
-                System.Console.SetCursorPosition(p.Item1, p.Item2 + i);
-            }
-            System.Console.SetCursorPosition(p.Item1, p.Item2);
-            _inventory.HasChanged = false;
-        }
-        private void WriteLineCustom(string str)
-        {
-            var pos = System.Console.GetCursorPosition();
-            Console.Write(str);
-            System.Console.SetCursorPosition(pos.Left, pos.Top + 1);
+            p.AddText(new(str, new(currentPrintPos.X, currentPrintPos.Y++)));
         }
 
         public bool TryAdd(Item item)
@@ -122,8 +107,9 @@ namespace Lab1.Library.Entities
             Coins = 0;
             Gold = 0;
         }
-        public PlayerState()
+        public PlayerState(Point pos)
         {
+            PrintAt = pos;
             _inventory = new Inventory();
             _hands = new TwoHands();
             _handInvTransfer = new HandInventoryTransfer(_hands, _inventory);

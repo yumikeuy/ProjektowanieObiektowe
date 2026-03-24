@@ -10,5 +10,6 @@ namespace Lab1.Library.Interfaces
     public interface IPickable
     {
         public bool Pick(PlayerState playerState);
+        public bool Pickable();
     }
 }

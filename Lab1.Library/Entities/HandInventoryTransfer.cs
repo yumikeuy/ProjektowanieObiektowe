@@ -49,3 +49,9 @@ namespace Lab1.Library.Entities
         }
     }
 }
+//TODO
+// Interfaces
+// Printing
+// Program.cs
+// Zad 2
+// other TODOs

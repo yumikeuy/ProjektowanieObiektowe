@@ -16,6 +16,7 @@ namespace Lab1.Library.Entities
 
         public List<Item> Items { get; set; } = [];
         public Point PrintAt { get; set; } = new(0, 0);
+        private Point currentPrintPos;
 
         public bool HasChanged { get; set; } = false;
 
@@ -65,9 +66,19 @@ namespace Lab1.Library.Entities
             _inventorySize = invSize;
         }
 
-        public void Print()
+        public Printable Text()
         {
-            //TODO
+            Printable p = new();
+            p.AddText(new("Inventory : ", PrintAt));
+            var clear = "                                                        ";
+            int i = 0;
+            foreach (var item in Items)
+                p.AddText(new($"{++i}. " + item.Description + clear, new(PrintAt.X, PrintAt.Y + i)));
+
+            for (int j = i + 1; j <= _inventorySize + i; j++)
+                p.AddText(new(clear, new(PrintAt.X, PrintAt.Y + j)));
+
+            return p;
         }
     }
 }

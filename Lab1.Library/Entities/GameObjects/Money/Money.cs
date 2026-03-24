@@ -10,5 +10,9 @@ namespace Lab1.Library.Entities.GameObjects.Money
 {
     public abstract class Money(Point pos) : GameObject(pos), IPickable
     {
+        public override bool Pickable()
+        {
+            return true;
+        }
     }
 }

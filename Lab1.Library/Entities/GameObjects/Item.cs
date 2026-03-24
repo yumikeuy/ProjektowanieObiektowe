@@ -18,5 +18,9 @@ namespace Lab1.Library.Entities.GameObjects
         {
             return playerState.TryAdd(this);
         }
+        public override bool Pickable()
+        {
+            return true;
+        }
     }
 }
