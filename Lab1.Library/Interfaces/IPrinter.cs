@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Lab1.Library.Entities;
 
 namespace Lab1.Library.Interfaces
 {
-    public interface IPickable
+    public interface IPrinter
     {
-        public bool Pick(IPlayerState playerState);
-        public bool Pickable();
+        public void Print(ITextConvertible printable);
+        public void PrepareConsole();
     }
 }

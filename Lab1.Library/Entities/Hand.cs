@@ -9,11 +9,11 @@ using Lab1.Library.Interfaces;
 
 namespace Lab1.Library.Entities
 {
-    public class Hand : IPrintable
+    public class Hand : ITextConvertible, IHand
     {
-        private Item? _item;
+        private IItem? _item;
         public Point PrintAt { get; set; } = new(0, 0);
-        public Hands LeftOrRight { get; set; }
+        private Hands leftOrRight;
 
         public Hand(Point printAt)
         {
@@ -21,18 +21,18 @@ namespace Lab1.Library.Entities
         }
         public Hand(Hands leftOrRight)
         {
-            LeftOrRight = leftOrRight;
+            this.leftOrRight = leftOrRight;
         }
         public Hand() { }
 
-        public bool TryAdd(Item item)
+        public bool TryAdd(IItem item)
         {
             if(_item != null) return false;
             _item = item;
             return true;
         }
 
-        public Item? Remove()
+        public IItem? Remove()
         {
             var tmp = _item;
             _item = null;
@@ -44,7 +44,7 @@ namespace Lab1.Library.Entities
             var clear = "                                     ";
             Printable p = new();
             var itemText = _item == null ? clear : _item.Description;
-            p.AddText(new($"{LeftOrRight} Hand: " + itemText, PrintAt));
+            p.AddText(new($"{leftOrRight} Hand: " + itemText, PrintAt));
             return p;
         }
     }

@@ -9,12 +9,12 @@ using Lab1.Library.Interfaces;
 
 namespace Lab1.Library.Entities.GameObjects
 {
-    public class Player(Point pos) : GameObject(pos), IPlayer
+    public class Player(Point pos, int boardWidth) : GameObject(pos), IPlayer
     {
         public override char Char { get; set; } = '@';
 
         public override string Tag { get; set; } = "Player";
-        public PlayerState State { get; set; } = new(new(45, 1));
+        public IPlayerState State { get; set; } = new PlayerState(new(boardWidth + 5, 1));
         public override Printable Text()
         {
             Printable p = new();

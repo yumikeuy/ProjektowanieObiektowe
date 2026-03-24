@@ -4,14 +4,15 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Lab1.Library.Interfaces;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace Lab1.Library.Entities
 {
-    public class Printable
+    public class Printable : IPrintable<Printable> 
     {
-        private List<TextPos> _data = [];
-        public Point LastPosition => _data[_data.Count - 1].PrintAt;
+        private ICollection<TextPos> _data = [];
+        public Point LastPosition => _data.Last().PrintAt;
 
         public void Print()
         {
@@ -43,10 +44,9 @@ namespace Lab1.Library.Entities
 
         public static Printable operator +(Printable left, Printable right)
         {
-            left._data.AddRange(right._data);
+            foreach(var txt in right._data)
+                left._data.Add(txt);
             return left;
         }
-
-
     }
 }

@@ -7,9 +7,9 @@ using Lab1.Library.Entities;
 
 namespace Lab1.Library.Interfaces
 {
-    public interface IPickable
+    public interface IHandInventoryTransfer
     {
-        public bool Pick(IPlayerState playerState);
-        public bool Pickable();
+        public bool TransferFromInventoryToHands(int itemIndex);
+        public bool TransferFromHandsToInventory();
     }
 }

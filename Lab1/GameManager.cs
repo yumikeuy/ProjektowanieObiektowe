@@ -10,15 +10,15 @@ using Lab1.Library.Interfaces;
 
 namespace Lab1.Console
 {
-    public class GameManager
+    public class GameManager : IGameManager
     {
-        private Printer _printer;
-        private Board _board;
-        private Player _player;
+        private IPrinter _printer;
+        private IBoard _board;
+        private IPlayer _player;
 
         private bool stopLoop = false;
 
-        public GameManager(Printer printer, Board board, Player player)
+        public GameManager(IPrinter printer, IBoard board, IPlayer player)
         {
             _printer = printer;
             _board = board;
@@ -95,44 +95,44 @@ namespace Lab1.Console
             stopLoop = true;
         }
 
-        public void TryMoveUp()
+        private void TryMoveUp()
         {
             _board.TryMovePlayer(_player, new(_player.Pos.X, _player.Pos.Y - 1));
         }
-        public void TryMoveLeft()
+        private void TryMoveLeft()
         {
             _board.TryMovePlayer(_player, new(_player.Pos.X - 1, _player.Pos.Y));
         }
-        public void TryMoveDown()
+        private void TryMoveDown()
         {
             _board.TryMovePlayer(_player, new(_player.Pos.X, _player.Pos.Y + 1));
         }
-        public void TryMoveRight()
+        private void TryMoveRight()
         {
             _board.TryMovePlayer(_player, new(_player.Pos.X + 1, _player.Pos.Y));
         }
 
-        public bool TryPickUpItem()
+        private bool TryPickUpItem()
         {
             return _board.TryPickUp(_player);                
         }
-        public bool TryDropItem()
+        private bool TryDropItem()
         {
             return _board.TryDrop(_player);
         }
-        public bool TryTakeItemToHand(int i)
+        private bool TryTakeItemToHand(int i)
         {
             return _player.State.TryTakeItemToHand(i);
         }
-        public bool TryHideItem()
+        private bool TryHideItem()
         {
             return _player.State.TryHideItem();
         }
-        public void SelectLeftHand()
+        private void SelectLeftHand()
         {
             _player.State.SelectHand(Hands.Left);
         }
-        public void SelectRightHand()
+        private void SelectRightHand()
         {
             _player.State.SelectHand(Hands.Right);
         }

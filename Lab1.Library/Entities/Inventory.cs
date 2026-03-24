@@ -6,53 +6,48 @@ using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 using Lab1.Library.Entities.GameObjects;
-using Lab1.Library.Entities.GameObjects.Items.Weapons;
 using Lab1.Library.Interfaces;
 
 namespace Lab1.Library.Entities
 {
-    public class Inventory : IPrintable
+    public class Inventory : IInventory
     {
-
-        public List<Item> Items { get; set; } = [];
-        public Point PrintAt { get; set; } = new(0, 0);
-        private Point currentPrintPos;
-
-        public bool HasChanged { get; set; } = false;
-
+        private ICollection<IItem> _items = [];
         private int _inventorySize = 5;
-        private int _count => Items.Count;
+        public Point PrintAt { get; set; } = new(0, 0);
+
         private bool IsInventoryFull() => IsInventoryFull(1);
-        private bool IsInventoryFull(int newItems) => _count + newItems > _inventorySize;
+        private bool IsInventoryFull(int newItems) => _items.Count + newItems > _inventorySize;
 
-
-        public bool TryAdd(Item item)
+        public bool TryAdd(IItem item)
         {
             if (!IsInventoryFull())
             {
-                Items.Add(item);
-                HasChanged = true;
+                _items.Add(item);
                 return true;
             }
 
             return false;
         }
-        public bool TryAdd(List<Item> items)
+        public bool TryAdd(ICollection<IItem> items)
         {
             if (!IsInventoryFull(items.Count))
             {
-                Items.AddRange(items);
-                HasChanged = true;
+                foreach(var item in items) 
+                    _items.Add(item);
+
                 return true;
             }
 
             return false;
         }
-        public Item? TryRemove(int itemIndex)
+        public IItem? TryRemove(int itemIndex)
         {
-            if (Items.Count <= itemIndex) return null;
-            var item = Items[itemIndex];
-            Items.RemoveAt(itemIndex);
+            if (_items.Count <= itemIndex) return null;
+            var item = _items.ToList()[itemIndex];
+            var itemList = _items.ToList();
+            itemList.RemoveAt(itemIndex);
+            _items = itemList;
             return item;
         }
 
@@ -70,9 +65,9 @@ namespace Lab1.Library.Entities
         {
             Printable p = new();
             p.AddText(new("Inventory : ", PrintAt));
-            var clear = "                                                        ";
+            var clear = "                         ";
             int i = 0;
-            foreach (var item in Items)
+            foreach (var item in _items)
                 p.AddText(new($"{++i}. " + item.Description + clear, new(PrintAt.X, PrintAt.Y + i)));
 
             for (int j = i + 1; j <= _inventorySize + i; j++)

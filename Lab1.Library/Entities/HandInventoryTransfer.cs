@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Lab1.Library.Interfaces;
 
 namespace Lab1.Library.Entities
 {
-    public class HandInventoryTransfer
+    public class HandInventoryTransfer : IHandInventoryTransfer
     {
-        private Inventory _inventory;
-        private TwoHands _hands;
-
-        public HandInventoryTransfer(TwoHands hands, Inventory inventory)
+        private IInventory _inventory;
+        private IHands _hands;
+        
+        public HandInventoryTransfer(IHands hands, IInventory inventory)
         {
             _hands = hands;
             _inventory = inventory;
@@ -51,7 +52,6 @@ namespace Lab1.Library.Entities
 }
 //TODO
 // Interfaces
-// Printing
-// Program.cs
+//Press "E"
+// 
 // Zad 2
-// other TODOs

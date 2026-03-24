@@ -8,9 +8,9 @@ using Lab1.Library.Interfaces;
 
 namespace Lab1.Console
 {
-    public class Printer
+    public class Printer : IPrinter
     {
-        public void Print(IPrintable printable)
+        public void Print(ITextConvertible printable)
         {
             printable.Text().Print();
         }

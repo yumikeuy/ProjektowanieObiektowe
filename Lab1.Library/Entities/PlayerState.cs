@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace Lab1.Library.Entities
 {
-    public class PlayerState : IPrintable
+    public class PlayerState : IPlayerState
     {
-        private Inventory _inventory;
-        private TwoHands _hands;
-        private HandInventoryTransfer _handInvTransfer;
+        private IInventory _inventory;
+        private IHands _hands;
+        private IHandInventoryTransfer _handInvTransfer;
 
         public int Damage { get; set; }
         public int Health { get; set; }
@@ -70,7 +70,7 @@ namespace Lab1.Library.Entities
             p.AddText(new(str, new(currentPrintPos.X, currentPrintPos.Y++)));
         }
 
-        public bool TryAdd(Item item)
+        public bool TryAdd(IItem item)
         {
             if (_inventory.TryAdd(item))
                 return true;
@@ -79,7 +79,7 @@ namespace Lab1.Library.Entities
 
             return false;
         }
-        public Item? Drop() 
+        public IItem? Drop() 
         {
             return _hands.Remove();
         }

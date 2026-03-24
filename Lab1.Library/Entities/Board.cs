@@ -13,53 +13,53 @@ using System.Threading.Tasks;
 
 namespace Lab1.Library.Entities
 {
-    public class Board : IPrintable
+    public class Board : IBoard
     {
-        public int Width { get; }
-        public int Height { get; } 
+        private readonly int _width;
+        private readonly int _height;
 
-        private GameObject[,] data;
+        private IGameObject[,] _data;
+        private IPlayer _player;
 
         public Point PrintAt { get; set; } = new Point(1, 1);
-        public Player Player { get; set; }
-
-        public Board(int width, int height, Player player)
+        
+        public Board(int width, int height, IPlayer player)
         {
-            Width = width;
-            Height = height;
-            data = new GameObject[Width, Height];
-            Player = player;
+            _width = width;
+            _height = height;
+            _data = new IGameObject[_width, _height];
+            _player = player;
             BoardDefaultInit(player.Pos);
         }
         public void BoardDefaultInit(Point playerStartPos)
         {
             var randomizer = new Random();
 
-            for (int i = 0; i < Height; i++)
+            for (int i = 0; i < _height; i++)
             {
-                for (int j = 0; j < Width; j++)
+                for (int j = 0; j < _width; j++)
                 {
-                    if (i == playerStartPos.X && j == playerStartPos.Y) continue;
+                    if (i == playerStartPos.X && j == playerStartPos.Y) _data[j, i] = new EmptyGameObject(new(j, i));
                     int r = randomizer.Next(1, 100);
                     switch (r)
                     {
                         case <= 10:
-                            data[j, i] = new Wall(new(j, i));
+                            _data[j, i] = new Wall(new(j, i));
                             break;
                         case <= 11:
-                            data[j, i] = new Coin(new(j, i));
+                            _data[j, i] = new Coin(new(j, i));
                             break;
                         case <= 12:
-                            data[j, i] = new Gold(new(j, i));
+                            _data[j, i] = new Gold(new(j, i));
                             break;
                         case <= 13:
-                            data[j, i] = new MachineGun(new(j, i));
+                            _data[j, i] = new MachineGun(new(j, i));
                             break;
                         case <= 14:
-                            data[j, i] = new ClassicBow(new(j, i));
+                            _data[j, i] = new ClassicBow(new(j, i));
                             break;
                         default:
-                            data[j, i] = new EmptyGameObject(new(j, i));
+                            _data[j, i] = new EmptyGameObject(new(j, i));
                             break;
                     }
                 }
@@ -68,36 +68,36 @@ namespace Lab1.Library.Entities
         public Printable Text()
         {
             Printable lines = new();
-            for (int i = -1; i <= Height; i++)
+            for (int i = -1; i <= _height; i++)
             {
                 var line = new TextPos(new(PrintAt.X, PrintAt.Y + i));
-                for(int j = -1; j <= Width; j++)
+                for(int j = -1; j <= _width; j++)
                 {
-                    if (i == Player.Pos.Y && j == Player.Pos.X)
+                    if (i == _player.Pos.Y && j == _player.Pos.X)
                     {
                         lines.AddText(line);
                         line = new(new(j + 3, i + 1));
                         continue;
                     }
-                    if (i == -1 || i == Height)
+                    if (i == -1 || i == _height)
                         line.Text += '-';
-                    else if (j == -1 || j == Width)
+                    else if (j == -1 || j == _width)
                         line.Text += "|";
                     else
-                        line.Text += data[j, i].Text().ToString();
+                        line.Text += _data[j, i].Text().ToString();
                 }
                 lines.AddText(line);
             }
 
-            if (data[Player.Pos.X, Player.Pos.Y].Pickable())
-                lines.AddText(new("Press \"E\" to pick up.", new(PrintAt.X, PrintAt.Y + Height + 1)));
+            if (_data[_player.Pos.X, _player.Pos.Y].Pickable())
+                lines.AddText(new("Press \"E\" to pick up.", new(PrintAt.X, PrintAt.Y + _height + 1)));
             else
-                lines.AddText(new("                       ", new(PrintAt.X, PrintAt.Y + Height + 1)));
+                lines.AddText(new("                       ", new(PrintAt.X, PrintAt.Y + _height + 1)));
 
             return lines;
         }
 
-        public bool TryMovePlayer(Player player, Point pos)
+        public bool TryMovePlayer(IPlayer player, Point pos)
         {
             var currentPos = player.Pos;
 
@@ -109,7 +109,7 @@ namespace Lab1.Library.Entities
             return true; 
         }
 
-        public bool TryPickUp(Player player)
+        public bool TryPickUp(IPlayer player)
         {
             if (GetAt(player.Pos).Pick(player.State))
             {
@@ -119,7 +119,7 @@ namespace Lab1.Library.Entities
 
             return false;
         }
-        public bool TryDrop(Player player)
+        public bool TryDrop(IPlayer player)
         {
             if (GetAt(player.Pos).IsEmpty)
             {
@@ -134,18 +134,18 @@ namespace Lab1.Library.Entities
             return false;
         }
 
-        public GameObject GetAt(Point pos)
+        private IGameObject GetAt(Point pos)
         {
-            return data[pos.X, pos.Y];
+            return _data[pos.X, pos.Y];
         }
-        private void SetAt(Point pos, GameObject gameObject)
+        private void SetAt(Point pos, IGameObject gameObject)
         {
-            data[pos.X, pos.Y] = gameObject;
+            _data[pos.X, pos.Y] = gameObject;
         }
 
         private bool IsInside(Point pos)
         {
-            return pos.X >= 0 && pos.Y >= 0 && pos.X < Width && pos.Y < Height;
+            return pos.X >= 0 && pos.Y >= 0 && pos.X < _width && pos.Y < _height;
         }
         private bool IsNextTo(Point playerPos, Point pos)
         {

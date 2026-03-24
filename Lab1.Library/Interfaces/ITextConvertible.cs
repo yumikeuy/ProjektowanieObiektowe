@@ -8,9 +8,9 @@ using Lab1.Library.Entities;
 
 namespace Lab1.Library.Interfaces
 {
-    public interface IPlayer : IGameObject
+    public interface ITextConvertible
     {
-        public IPlayerState State { get; set; }
-        public void Move(Point pos);
+        public Point PrintAt { get; set; }
+        public Printable Text();
     }
 }
