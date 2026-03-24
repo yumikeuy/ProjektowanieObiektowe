@@ -45,7 +45,7 @@ namespace Lab1.Library.Entities
             var clear = "                                     ";
             Printable p = new();
             var itemText = _item == null ? clear : _item.Description;
-            p.AddText(new($"{leftOrRight} Hand: " + itemText, PrintAt));
+            p.AddText(new TextPos($"{leftOrRight} Hand: " + itemText, PrintAt));
             return p;
         }
     }

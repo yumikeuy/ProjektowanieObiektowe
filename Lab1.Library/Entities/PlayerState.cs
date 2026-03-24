@@ -68,7 +68,7 @@ namespace Lab1.Library.Entities
         }
         private void AddLine(IPrintable p, string str)
         {
-            p.AddText(new(str, new(currentPrintPos.X, currentPrintPos.Y++)));
+            p.AddText(new TextPos(str, new(currentPrintPos.X, currentPrintPos.Y++)));
         } 
 
         public bool TryAdd(IItem item)

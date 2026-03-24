@@ -28,10 +28,10 @@ C:\Users\Admin\misha\PW\PO\ProjektowanieObiektowe\Lab1\obj\Debug\net8.0\Lab1.Con
 C:\Users\Admin\misha\PW\PO\ProjektowanieObiektowe\Lab1\obj\Debug\net8.0\Lab1.Console.AssemblyInfoInputs.cache
 C:\Users\Admin\misha\PW\PO\ProjektowanieObiektowe\Lab1\obj\Debug\net8.0\Lab1.Console.AssemblyInfo.cs
 C:\Users\Admin\misha\PW\PO\ProjektowanieObiektowe\Lab1\obj\Debug\net8.0\Lab1.Console.csproj.CoreCompileInputs.cache
-C:\Users\Admin\misha\PW\PO\ProjektowanieObiektowe\Lab1\obj\Debug\net8.0\Lab1.Console.sourcelink.json
 C:\Users\Admin\misha\PW\PO\ProjektowanieObiektowe\Lab1\obj\Debug\net8.0\Lab1.Con.07AC8444.Up2Date
 C:\Users\Admin\misha\PW\PO\ProjektowanieObiektowe\Lab1\obj\Debug\net8.0\Lab1.Console.dll
 C:\Users\Admin\misha\PW\PO\ProjektowanieObiektowe\Lab1\obj\Debug\net8.0\refint\Lab1.Console.dll
 C:\Users\Admin\misha\PW\PO\ProjektowanieObiektowe\Lab1\obj\Debug\net8.0\Lab1.Console.pdb
 C:\Users\Admin\misha\PW\PO\ProjektowanieObiektowe\Lab1\obj\Debug\net8.0\Lab1.Console.genruntimeconfig.cache
 C:\Users\Admin\misha\PW\PO\ProjektowanieObiektowe\Lab1\obj\Debug\net8.0\ref\Lab1.Console.dll
+C:\Users\Admin\misha\PW\PO\ProjektowanieObiektowe\Lab1\obj\Debug\net8.0\Lab1.Console.sourcelink.json
