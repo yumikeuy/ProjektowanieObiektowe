@@ -8,7 +8,8 @@ namespace Lab1.Library.Interfaces
 {
     public interface IPrinter
     {
-        public void Print(ITextConvertible printable);
+        public void Add(ITextConvertible printable);
+        public void Print();
         public void PrepareConsole();
     }
 }

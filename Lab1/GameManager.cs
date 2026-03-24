@@ -28,9 +28,9 @@ namespace Lab1.Console
         public void StartGame()
         {
             _printer.PrepareConsole();
-            _printer.Print(_board);
-            _printer.Print(_player.State);
-
+            _printer.Add(_board);
+            _printer.Add(_player.State);
+            _printer.Add(_player);
             StartGameLoop();
         }
 
@@ -38,9 +38,7 @@ namespace Lab1.Console
         {
             while (!stopLoop)
             {
-                _printer.Print(_board);
-                _printer.Print(_player.State);
-                _printer.Print(_player);
+                _printer.Print();
 
                 if (System.Console.KeyAvailable)
                 {
