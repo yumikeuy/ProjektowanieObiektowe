@@ -14,13 +14,16 @@ namespace Lab1.Library.Entities
     {
         private (IHand left, IHand right) hands;
         private IHand current;
+
+        public Point PrintAt { get; set; } = new Point(0, 0);
+        private bool isCurrentTwoHanded = false;
+
         public TwoHands()
         {
             hands = (new Hand(Hands.Left), new Hand(Hands.Right));
             current = hands.right;
         }
-        private bool isCurrentTwoHanded = false;
-        public Point PrintAt { get; set; } = new Point(0, 0);
+        
         public Printable Text()
         {
             hands.left.PrintAt = PrintAt;
@@ -40,7 +43,6 @@ namespace Lab1.Library.Entities
                     break;
             }
         }
-
         public bool TryAdd(IItem item)
         {
             if (item.IsTwoHanded)

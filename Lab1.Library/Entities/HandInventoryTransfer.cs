@@ -50,8 +50,4 @@ namespace Lab1.Library.Entities
         }
     }
 }
-//TODO
-// Interfaces
-//Press "E"
-// 
-// Zad 2
+
