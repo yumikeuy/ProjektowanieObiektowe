@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Lab1.Library.Interfaces;
 
 namespace Lab1.Library.Entities.GameObjects.Money
 {
@@ -11,5 +12,11 @@ namespace Lab1.Library.Entities.GameObjects.Money
     {
         public override char Char { get; set; } = '$';
         public override string Tag { get; set; } = "Coin";
+
+        public override bool Pick(IPlayerState playerState)
+        {
+            playerState.Gold++;
+            return true;
+        }
     }
 }

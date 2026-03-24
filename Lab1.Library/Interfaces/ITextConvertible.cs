@@ -4,13 +4,13 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Lab1.Library.Entities;
+using Lab1.Library.Services;
 
 namespace Lab1.Library.Interfaces
 {
-    public interface IPlayer : IGameObject
+    public interface ITextConvertible
     {
-        public IPlayerState State { get; set; }
-        public void Move(Point pos);
+        public Point PrintAt { get; set; }
+        public IPrintable Text();
     }
 }

@@ -1,5 +1,4 @@
-﻿using Lab1.Library.Entities.GameObjects.Items.Armor;
-using Lab1.Library.Interfaces;
+﻿using Lab1.Library.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -12,5 +11,15 @@ namespace Lab1.Library.Entities.GameObjects
     public abstract class Item(Point pos) : GameObject(pos), IItem
     {
         public abstract string Description { get; set; }
+        public virtual bool IsTwoHanded { get; set; } = false;
+
+        public override bool Pick(IPlayerState playerState)
+        {
+            return playerState.TryAdd(this);
+        }
+        public override bool Pickable()
+        {
+            return true;
+        }
     }
 }

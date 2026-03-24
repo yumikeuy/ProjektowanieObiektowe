@@ -1,8 +1,8 @@
 ﻿using Lab1.Library.Entities.GameObjects;
-using Lab1.Library.Entities.GameObjects.Items.Armor;
 using Lab1.Library.Entities.GameObjects.Items.Weapons;
 using Lab1.Library.Entities.GameObjects.Money;
 using Lab1.Library.Interfaces;
+using Lab1.Library.Services;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -14,130 +14,140 @@ using System.Threading.Tasks;
 
 namespace Lab1.Library.Entities
 {
-    public class Board : IPrintable
+    public class Board : IBoard
     {
-        public const int width = 40;
-        public const int height = 20;
-        public Point PlayerStartPos { get; set; }
+        private readonly int _width;
+        private readonly int _height;
+
+        private IGameObject[,] _data;
+        private IPlayer _player;
+
         public Point PrintAt { get; set; } = new Point(1, 1);
-        public GameObject[,] Data { get; set; } = new GameObject[width, height];
-
-        public Board(out Player player)
+        
+        public Board(int width, int height, IPlayer player)
         {
-            BoardDefaultInit(out player);
+            _width = width;
+            _height = height;
+            _data = new IGameObject[_width, _height];
+            _player = player;
+            BoardDefaultInit(player.Pos);
         }
-
-        public void Print()
-        {
-            System.Console.SetCursorPosition(PrintAt.X, PrintAt.Y - 1);
-            for (int i = -1; i <= height; i++)
-            {
-                for(int j = -1; j <= width; j++)
-                {
-                    if (i == -1 || i == height)
-                        System.Console.Write('-');
-                    else if(j == -1 || j == width)
-                        System.Console.Write('|');
-                    else
-                        Data[j, i].Print();
-                }
-                System.Console.SetCursorPosition(PrintAt.X, PrintAt.Y + i + 1);
-            }
-        }
-
-        public void BoardDefaultInit(out Player player)
+        public void BoardDefaultInit(Point playerStartPos)
         {
             var randomizer = new Random();
-            PlayerStartPos = new(randomizer.Next(0, width), randomizer.Next(0, height));
-            player = new Player(PlayerStartPos);
-            SetCell(PlayerStartPos, player);
 
-            for (int i = 0; i < height; i++)
+            for (int i = 0; i < _height; i++)
             {
-                for (int j = 0; j < width; j++)
+                for (int j = 0; j < _width; j++)
                 {
+                    if (i == playerStartPos.X && j == playerStartPos.Y) _data[j, i] = new EmptyGameObject(new(j, i));
                     int r = randomizer.Next(1, 100);
-                    if (PlayerStartPos.X == j && PlayerStartPos.Y == i)
+                    switch (r)
                     {
-                        continue;
-                    }
-                    if(r <= 10)
-                    {
-                        Data[j, i] = new Wall(new(j, i));
-                    }
-                    else if(r <= 11)
-                    {
-                        Data[j, i] = new Coin(new(j, i));
-                    }
-                    else if(r <= 12)
-                    {
-                        Data[j, i] = new Gold(new(j, i));
-                    }
-                    else if (r <= 13)
-                    {
-                        Data[j, i] = new MachineGun(new(j, i));
-                    }
-                    else if (r <= 14)
-                    {
-                        Data[j, i] = new ClassicBow(new(j, i));
-                    }
-                    else
-                    {
-                        Data[j, i] = new EmptyGameObject(new(j, i));
+                        case <= 10:
+                            _data[j, i] = new Wall(new(j, i));
+                            break;
+                        case <= 11:
+                            _data[j, i] = new Coin(new(j, i));
+                            break;
+                        case <= 12:
+                            _data[j, i] = new Gold(new(j, i));
+                            break;
+                        case <= 13:
+                            _data[j, i] = new MachineGun(new(j, i));
+                            break;
+                        case <= 14:
+                            _data[j, i] = new ClassicBow(new(j, i));
+                            break;
+                        default:
+                            _data[j, i] = new EmptyGameObject(new(j, i));
+                            break;
                     }
                 }
             }
         }
+        public IPrintable Text()
+        {
+            Printable lines = new();
+            for (int i = -1; i <= _height; i++)
+            {
+                var line = new TextPos(new(PrintAt.X, PrintAt.Y + i));
+                for(int j = -1; j <= _width; j++)
+                {
+                    if (i == _player.Pos.Y && j == _player.Pos.X)
+                    {
+                        lines.AddText(line);
+                        line = new(new(j + 3, i + 1));
+                        continue;
+                    }
+                    if (i == -1 || i == _height)
+                        line.Text += '-';
+                    else if (j == -1 || j == _width)
+                        line.Text += "|";
+                    else
+                        line.Text += _data[j, i].Text().ToString();
+                }
+                lines.AddText(line);
+            }
 
-        public bool TryMovePlayer(Player player, Point pos)
+            if (_data[_player.Pos.X, _player.Pos.Y].Pickable())
+                lines.AddText(new("Press \"E\" to pick up.", new(PrintAt.X, PrintAt.Y + _height + 1)));
+            else
+                lines.AddText(new("                       ", new(PrintAt.X, PrintAt.Y + _height + 1)));
+
+            return lines;
+        }
+
+        public bool TryMovePlayer(IPlayer player, Point pos)
         {
             var currentPos = player.Pos;
 
             if(!IsNextTo(currentPos, pos) || !IsInside(pos)) return false;
-            if (Cell(pos) is Wall) return false;
+            if (!GetAt(pos).CanBeGoneThrough) return false;
                 
-            var nextObj = Cell(pos);
-
-            if (player.State.CurrentItem is null)
-                SetCell(currentPos, new EmptyGameObject(currentPos));
-            else
-               SetCell(currentPos, player.State.CurrentItem);
-
-            player.State.CurrentItem = null;
-
-            MovePlayer(player, pos);
-
-            if(nextObj is Coin)
-                player.State.Coins++;
-            else if (nextObj is Gold)
-                player.State.Gold++;
-            else if(nextObj is Item newItem) 
-                player.State.CurrentItem = newItem;
+            player.Move(pos);
             
             return true; 
         }
 
-        private void MovePlayer(Player player, Point pos)
+        public bool TryPickUp(IPlayer player)
         {
-            SetCell(pos, player);
-            player.Pos = pos;
+            if (GetAt(player.Pos).Pick(player.State))
+            {
+                SetAt(player.Pos, new EmptyGameObject(player.Pos));
+                return true;
+            }
+
+            return false;
+        }
+        public bool TryDrop(IPlayer player)
+        {
+            if (GetAt(player.Pos).IsEmpty)
+            {
+                var item = player.State.Drop();
+                if (item != null)
+                {
+                    SetAt(player.Pos, item);
+                    return true;
+                }
+            }
+
+            return false;
         }
 
-        public GameObject Cell(Point pos)
+        private IGameObject GetAt(Point pos)
         {
-            return Data[pos.X, pos.Y];
+            return _data[pos.X, pos.Y];
         }
-
-        public void SetCell(Point pos, GameObject gameObject)
+        private void SetAt(Point pos, IGameObject gameObject)
         {
-            Data[pos.X, pos.Y] = gameObject;
+            _data[pos.X, pos.Y] = gameObject;
         }
 
         private bool IsInside(Point pos)
         {
-            return pos.X >= 0 && pos.Y >= 0 && pos.X < width && pos.Y < height;
+            return pos.X >= 0 && pos.Y >= 0 && pos.X < _width && pos.Y < _height;
         }
-
         private bool IsNextTo(Point playerPos, Point pos)
         {
             return ((Math.Abs(playerPos.X - pos.X) <= 1 && playerPos.Y == pos.Y) ||
