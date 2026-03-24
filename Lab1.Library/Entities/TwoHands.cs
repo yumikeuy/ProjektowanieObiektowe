@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Lab1.Library.Entities.GameObjects;
 using Lab1.Library.Interfaces;
+using Lab1.Library.Services;
 
 namespace Lab1.Library.Entities
 {
@@ -24,11 +25,11 @@ namespace Lab1.Library.Entities
             current = hands.right;
         }
         
-        public Printable Text()
+        public IPrintable Text()
         {
             hands.left.PrintAt = PrintAt;
             hands.right.PrintAt = new(PrintAt.X, PrintAt.Y + 1);
-            return hands.left.Text() + hands.right.Text();
+            return hands.left.Text().Add(hands.right.Text());
         }
 
         public void SelectHand(Hands hand)

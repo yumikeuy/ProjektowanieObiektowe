@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Lab1.Library.Entities.GameObjects;
 using Lab1.Library.Interfaces;
+using Lab1.Library.Services;
 
 namespace Lab1.Library.Entities
 {
@@ -39,7 +40,7 @@ namespace Lab1.Library.Entities
             return tmp;
         }
 
-        public Printable Text()
+        public IPrintable Text()
         {
             var clear = "                                     ";
             Printable p = new();

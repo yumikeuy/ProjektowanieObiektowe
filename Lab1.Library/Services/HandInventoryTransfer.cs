@@ -5,13 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Lab1.Library.Interfaces;
 
-namespace Lab1.Library.Entities
+namespace Lab1.Library.Services
 {
     public class HandInventoryTransfer : IHandInventoryTransfer
     {
         private IInventory _inventory;
         private IHands _hands;
-        
+
         public HandInventoryTransfer(IHands hands, IInventory inventory)
         {
             _hands = hands;
@@ -25,12 +25,12 @@ namespace Lab1.Library.Entities
 
             var itemsFromHands = _hands.AddOrSwap(item);
             if (itemsFromHands.Count == 0) return true;
-            
-            if(_inventory.TryAdd(itemsFromHands)) return true;
 
-            var items = _hands.AddOrSwap(itemsFromHands) 
+            if (_inventory.TryAdd(itemsFromHands)) return true;
+
+            var items = _hands.AddOrSwap(itemsFromHands)
                 ?? throw new Exception("Poorly managed Hands-Inventory Transfer.");
-            if(!_inventory.TryAdd(items))
+            if (!_inventory.TryAdd(items))
                 throw new Exception("Poorly managed Hands-Inventory Transfer.");
 
             return false;

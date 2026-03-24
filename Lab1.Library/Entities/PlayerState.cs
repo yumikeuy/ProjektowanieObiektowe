@@ -1,6 +1,7 @@
 ﻿using Lab1.Library.Entities.GameObjects;
 using Lab1.Library.Entities.GameObjects.Items.Weapons;
 using Lab1.Library.Interfaces;
+using Lab1.Library.Services;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -28,7 +29,7 @@ namespace Lab1.Library.Entities
         public Point PrintAt { get; set; }
         private Point currentPrintPos;
 
-        public Printable Text()
+        public IPrintable Text()
         {
             currentPrintPos = PrintAt;
             Printable p = new();
@@ -52,23 +53,23 @@ namespace Lab1.Library.Entities
             AddLine(p, "----------------------------------------------");
 
             _hands.PrintAt = currentPrintPos;
-            p += _hands.Text();
+            p.Add(_hands.Text());
             currentPrintPos = p.LastPosition;
             currentPrintPos.Y++;
 
             AddLine(p, "----------------------------------------------");
 
             _inventory.PrintAt = currentPrintPos;
-            p += _inventory.Text();
+            p.Add(_inventory.Text());
             currentPrintPos = p.LastPosition;
             currentPrintPos.Y++;
 
             return p;
         }
-        private void AddLine(Printable p, string str)
+        private void AddLine(IPrintable p, string str)
         {
             p.AddText(new(str, new(currentPrintPos.X, currentPrintPos.Y++)));
-        }
+        } 
 
         public bool TryAdd(IItem item)
         {

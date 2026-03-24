@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Lab1.Library.Interfaces;
 
-namespace Lab1.Library.Entities
+namespace Lab1.Library.Services
 {
     public class TextPos
     {
@@ -23,7 +23,7 @@ namespace Lab1.Library.Entities
             PrintAt = printAt;
         }
 
-        public static TextPos operator+(TextPos left, TextPos right)
+        public static TextPos operator +(TextPos left, TextPos right)
         {
             if (left.PrintAt != right.PrintAt) return left;
             left.Text += right.Text;

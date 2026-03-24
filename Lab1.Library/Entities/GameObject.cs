@@ -1,4 +1,5 @@
 ﻿using Lab1.Library.Interfaces;
+using Lab1.Library.Services;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -16,7 +17,7 @@ namespace Lab1.Library.Entities
         public virtual bool IsEmpty { get; set; } = false;
         public virtual bool CanBeGoneThrough { get; set; } = true;
         public virtual Point PrintAt { get; set; } = pos;
-        public virtual Printable Text()
+        public virtual IPrintable Text()
         {
             Printable p = new();
             p.AddText(new(Char.ToString(), new(Pos.X, Pos.Y)));

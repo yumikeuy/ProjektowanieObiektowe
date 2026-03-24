@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 using Lab1.Library.Interfaces;
 using static System.Net.Mime.MediaTypeNames;
 
-namespace Lab1.Library.Entities
+namespace Lab1.Library.Services
 {
-    public class Printable : IPrintable<Printable> 
+    public class Printable : IPrintable
     {
         private ICollection<TextPos> _data = [];
         public Point LastPosition => _data.Last().PrintAt;
@@ -36,17 +36,23 @@ namespace Lab1.Library.Entities
         {
             string res = string.Empty;
 
-            foreach(var txt in _data)
+            foreach (var txt in _data)
                 res += txt.Text;
 
             return res;
         }
-
-        public static Printable operator +(Printable left, Printable right)
+        public IPrintable Add(IPrintable printable)
         {
-            foreach(var txt in right._data)
-                left._data.Add(txt);
-            return left;
+            foreach(var txt in printable.GetData())
+            {
+                _data.Add(txt);
+            }
+
+            return this;
+        }
+        public ICollection<TextPos> GetData()
+        {
+            return _data;
         }
     }
 }

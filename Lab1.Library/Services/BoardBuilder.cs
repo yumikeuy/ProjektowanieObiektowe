@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Lab1.Library.Interfaces;
 
-namespace Lab1.Library.Entities
+namespace Lab1.Library.Services
 {
     public class BoardBuilder : IBoardBuilder
     {

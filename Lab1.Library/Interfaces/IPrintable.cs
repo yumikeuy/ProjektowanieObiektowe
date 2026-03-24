@@ -4,11 +4,11 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Lab1.Library.Entities;
+using Lab1.Library.Services;
 
 namespace Lab1.Library.Interfaces
 {
-    public interface IPrintable<T> where T : IPrintable<T>
+    public interface IPrintable
     {
         public Point LastPosition { get; }
 
@@ -16,6 +16,7 @@ namespace Lab1.Library.Interfaces
         public void AddText(TextPos txt);
         public void RemoveText(TextPos txt);
         public string ToString();
-        public static abstract T operator +(T left, T right);
+        public IPrintable Add(IPrintable printable);
+        public ICollection<TextPos> GetData();
     }
 }

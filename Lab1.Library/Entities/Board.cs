@@ -2,6 +2,7 @@
 using Lab1.Library.Entities.GameObjects.Items.Weapons;
 using Lab1.Library.Entities.GameObjects.Money;
 using Lab1.Library.Interfaces;
+using Lab1.Library.Services;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -65,7 +66,7 @@ namespace Lab1.Library.Entities
                 }
             }
         }
-        public Printable Text()
+        public IPrintable Text()
         {
             Printable lines = new();
             for (int i = -1; i <= _height; i++)

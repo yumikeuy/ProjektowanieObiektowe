@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Lab1.Library.Entities.GameObjects;
 using Lab1.Library.Interfaces;
+using Lab1.Library.Services;
 
 namespace Lab1.Library.Entities
 {
@@ -61,7 +62,7 @@ namespace Lab1.Library.Entities
             _inventorySize = invSize;
         }
 
-        public Printable Text()
+        public IPrintable Text()
         {
             Printable p = new();
             p.AddText(new("Inventory : ", PrintAt));

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Lab1.Library.Interfaces;
+using Lab1.Library.Services;
 
 namespace Lab1.Library.Entities.GameObjects
 {
@@ -15,7 +16,7 @@ namespace Lab1.Library.Entities.GameObjects
 
         public override string Tag { get; set; } = "Player";
         public IPlayerState State { get; set; } = new PlayerState(new(boardWidth + 5, 1));
-        public override Printable Text()
+        public override IPrintable Text()
         {
             Printable p = new();
             p.AddText(new(Char.ToString(), new(Pos.X + 2, Pos.Y + 1)));
