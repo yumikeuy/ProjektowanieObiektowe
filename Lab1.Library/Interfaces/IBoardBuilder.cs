@@ -13,8 +13,9 @@ namespace Lab1.Library.Interfaces
         public IBoardBuilder AddCorridors();
         public IBoardBuilder AddRooms();
         public IBoardBuilder AddCentralRoom();
-        public IBoardBuilder AddItems();
-        public IBoardBuilder AddWeapons();
+        public IBoardBuilder AddItems(int ammount);
+        public IBoardBuilder AddWeapons(int amount);
+        public IBoardBuilder AddMoney(int amount);
         public IBoard GetResult();
     }
 }

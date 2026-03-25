@@ -98,7 +98,7 @@ namespace Lab1.Library.Entities
             return false;
         }
 
-        public ICollection<Point> GetSpawnPoints()
+        public ICollection<Point> GetEmptyCells()
         {
             var sps = new List<Point>();
 
@@ -110,8 +110,8 @@ namespace Lab1.Library.Entities
         }
         public Point GetSpawnPoint()
         {
-            var sps = GetSpawnPoints();
-            var randomIndex = Random.Shared.Next(GetSpawnPoints().Count);
+            var sps = GetEmptyCells();
+            var randomIndex = Random.Shared.Next(GetEmptyCells().Count);
 
             return sps.ElementAt(randomIndex);
         }

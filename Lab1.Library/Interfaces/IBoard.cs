@@ -15,7 +15,7 @@ namespace Lab1.Library.Interfaces
         public bool TryMovePlayer(IPlayer player, Point pos);
         public bool TryPickUp(IPlayer player);
         public bool TryDrop(IPlayer player);
-        public ICollection<Point> GetSpawnPoints();
+        public ICollection<Point> GetEmptyCells();
         public Point GetSpawnPoint();
         public IGameObject GetAt(Point pos);
         public void SetAt(Point pos, IGameObject gameObject);

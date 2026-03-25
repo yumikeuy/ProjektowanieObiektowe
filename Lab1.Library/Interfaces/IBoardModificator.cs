@@ -11,7 +11,8 @@ namespace Lab1.Library.Interfaces
         public IBoardModificator AddCorridors(IBoard board);
         public IBoardModificator AddRooms(IBoard board);
         public IBoardModificator AddCentralRoom(IBoard board);
-        public IBoardModificator AddItems(IBoard board);
-        public IBoardModificator AddWeapons(IBoard board);
+        public IBoardModificator AddItems(IBoard board, int amount);
+        public IBoardModificator AddWeapons(IBoard board, int amount);
+        public IBoardModificator AddMoney(IBoard board, int amount);
     }
 }
