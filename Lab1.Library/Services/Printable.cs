@@ -17,11 +17,13 @@ namespace Lab1.Library.Services
         public void Print()
         {
             var (Left, Top) = Console.GetCursorPosition();
+
             foreach (var txt in _data)
             {
                 Console.SetCursorPosition(txt.PrintAt.X, txt.PrintAt.Y);
                 Console.Write(txt.Text);
             }
+            
             Console.SetCursorPosition(Left, Top);
         }
         public void AddText(ITextPos txt)
@@ -53,6 +55,14 @@ namespace Lab1.Library.Services
         public ICollection<ITextPos> GetData()
         {
             return _data;
+        }
+
+        private bool IsNearEdge()
+        {
+            bool nearRight = Console.CursorLeft >= Console.WindowWidth - 1;
+            bool nearBottom = Console.CursorTop >= Console.WindowHeight - 1;
+
+            return nearRight || nearBottom;
         }
     }
 }

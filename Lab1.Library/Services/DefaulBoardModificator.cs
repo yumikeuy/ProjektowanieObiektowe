@@ -17,14 +17,14 @@ namespace Lab1.Library.Services
         private const int gridWidth = 8;
         private const int gridHeight = 10;
 
-        private const int minCorridors = 3;
-        private const int maxCorridors = 3;
+        private const int minCorridors = 20;
+        private const int maxCorridors = 25;
         private const int minCorridorLenght = 10;
         private const int maxCorridorLendth = 18;
         private const int straightCorridorBooster = 20;
 
         private const int minRooms = 1;
-        private const int maxRooms = 1;
+        private const int maxRooms = 2;
         private const int minRoomHeigth = 2;
         private const int maxRoomHeigth = 4;
         private const int minRoomWidth = 2;
@@ -34,20 +34,18 @@ namespace Lab1.Library.Services
         private const int centralRoomHeight = 3;
         public IBoardModificator AddCorridors(IBoard board)
         {
-            int gridRectNum = board.Width / gridWidth * board.Height / gridHeight;
-            var corridorsNumber = Random.Shared.Next(gridRectNum * minCorridors, gridRectNum * maxCorridors);
-            for(int i = 0; i < corridorsNumber; i++)
-            {
-                var pos = GetRandomPoint(board, i);
-                var prevPos = pos;
-                var corridorLenght = Random.Shared.Next(minCorridorLenght, maxCorridorLendth);
-                while(corridorLenght > 0)
-                {
-                    board.SetAt(pos, new EmptyGameObject());
-                    pos = GetNextPoint(board, pos, ref prevPos);
-                    corridorLenght--;
-                }
-            }
+            var corridorsNumber = Random.Shared.Next(minCorridors, maxCorridors);
+            (int[] x, int[] y) = GetRandomPoints(board, corridorsNumber);
+
+            foreach (var y0 in y)
+                for (int j = 0; j < board.Width; j++)
+                    if (!board.GetAt(new(j, y0)).CanBeGoneThrough)
+                        board.SetAt(new(j, y0), new EmptyGameObject());
+
+            foreach (var x0 in x)
+                for (int j = 0; j < board.Height; j++)
+                    if (!board.GetAt(new(x0, j)).CanBeGoneThrough)
+                        board.SetAt(new(x0, j), new EmptyGameObject());
 
             return this;
         }
@@ -107,6 +105,22 @@ namespace Lab1.Library.Services
             var x = (Random.Shared.Next(gridWidth) + gridWidth * grid % board.Width) % board.Width;
             var y = (Random.Shared.Next(gridHeight) + gridHeight * gridWidth * grid / board.Width) % board.Height;
             return new(x, y);
+        }
+        private (int[], int[]) GetRandomPoints(IBoard board, int amount)
+        {
+            (HashSet<int> x, HashSet<int> y) = (new HashSet<int>(), new HashSet<int>());
+            for(int i = 0; i < amount / 2; i++)
+            {
+                var x0 = Random.Shared.Next(board.Width);
+                if (!x.Contains(x0 - 1) && !x.Contains(x0 + 1))
+                    x.Add(x0);
+
+                var y0 = Random.Shared.Next(board.Height);
+                if (!y.Contains(y0 - 1) && !y.Contains(y0 + 1))
+                    y.Add(y0);
+
+            }
+            return (x.ToArray(), y.ToArray());
         }
         private Point GetNextPoint(IBoard board, Point pos, ref Point prevPos)
         {
@@ -183,7 +197,8 @@ namespace Lab1.Library.Services
             for(int i = -roomWidth; i <= roomWidth; i++)
                 for(int j = -roomHeight; j <= roomHeight; j++)
                     if(IsInside(board, new(pos.X + i, pos.Y + j)))
-                        board.SetAt(new(pos.X + i, pos.Y + j), new EmptyGameObject());
+                        if(!board.GetAt(new(pos.X + i, pos.Y + j)).CanBeGoneThrough)
+                            board.SetAt(new(pos.X + i, pos.Y + j), new EmptyGameObject());
         }
     }
 }

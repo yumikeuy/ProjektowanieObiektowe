@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Lab1.Library.Entities;
 using Lab1.Library.Interfaces;
 
-namespace Lab1.Console
+namespace Lab1.Library.Services
 {
     public class Printer : IPrinter
     {

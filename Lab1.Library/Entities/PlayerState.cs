@@ -38,7 +38,7 @@ namespace Lab1.Library.Entities
             Printable p = new();
             
             AddLine(p, "Player State:");
-            AddLine(p, "==============================================");
+            AddLine(p, "==========================");
 
             AddLine(p, "");
             AddLine(p, $"Damage\t\t{Damage}");
@@ -48,19 +48,19 @@ namespace Lab1.Library.Entities
             AddLine(p, $"Agressiveness\t{Agressiveness}");
             AddLine(p, $"Iq\t\t\t{Iq}");
             AddLine(p, "");
-            AddLine(p, "----------------------------------------------");
+            AddLine(p, "--------------------------");
             AddLine(p, "");
             AddLine(p, $"Coins\t\t{Coins}");
             AddLine(p, $"Gold\t\t{Gold}");
             AddLine(p, "");
-            AddLine(p, "----------------------------------------------");
+            AddLine(p, "--------------------------");
 
             _hands.PrintAt = currentPrintPos;
             p.Add(_hands.Text());
             currentPrintPos = p.LastPosition;
             currentPrintPos.Y++;
 
-            AddLine(p, "----------------------------------------------");
+            AddLine(p, "--------------------------");
 
             _inventory.PrintAt = currentPrintPos;
             p.Add(_inventory.Text());
