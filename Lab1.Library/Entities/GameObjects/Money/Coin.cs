@@ -8,10 +8,9 @@ using Lab1.Library.Interfaces;
 
 namespace Lab1.Library.Entities.GameObjects.Money
 {
-    public class Coin(Point pos) : Money(pos)
+    public class Coin : Money
     {
         public override char Char { get; set; } = 'c';
-        public override string Tag { get; set; } = "Coin";
 
         public override bool Pick(IPlayerState playerState)
         {

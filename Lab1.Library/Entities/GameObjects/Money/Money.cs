@@ -8,7 +8,7 @@ using Lab1.Library.Interfaces;
 
 namespace Lab1.Library.Entities.GameObjects.Money
 {
-    public abstract class Money(Point pos) : GameObject(pos), IPickable
+    public abstract class Money : GameObject, IPickable
     {
         public override bool Pickable()
         {

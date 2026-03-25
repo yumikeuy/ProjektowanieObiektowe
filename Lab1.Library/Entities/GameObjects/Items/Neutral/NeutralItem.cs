@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Lab1.Library.Entities.GameObjects.Items.Neutral
 {
-    public abstract class NeutralItem(Point pos) : Item(pos)
+    public abstract class NeutralItem : Item
     {
     }
 }

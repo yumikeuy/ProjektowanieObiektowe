@@ -19,6 +19,8 @@ namespace Lab1.Library.Interfaces
         public int Coins { get; set; }
         public int Gold { get; set; }
 
+        public bool IsOnItem { get; set; }
+
         public bool TryAdd(IItem item);
         public IItem? Drop();
         public void SelectHand(Hands hand);

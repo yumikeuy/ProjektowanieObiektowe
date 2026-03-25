@@ -1,21 +1,64 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Lab1.Library.Entities.GameObjects;
 using Lab1.Library.Interfaces;
 
 namespace Lab1.Library.Services
 {
     public class DefaulBoardModificator : IBoardModificator
     {
+        private const int gridWidth = 8;
+        private const int gridHeight = 10;
+
+        private const int minCorridors = 1;
+        private const int maxCorridors = 1;
+        private const int minCorridorLenght = 40;
+        private const int maxCorridorLendth = 50;
+        private const int straightCorridorBooster = 20;
+
+        private const int minRooms = 1;
+        private const int maxRooms = 1;
+        private const int minRoomHeigth = 2;
+        private const int maxRoomHeigth = 4;
+        private const int minRoomWidth = 2;
+        private const int maxRoomWidth = 6;
+
         public IBoardModificator AddCorridors(IBoard board)
         {
-            throw new NotImplementedException();
+            int gridRectNum = board.Width / gridWidth * board.Height / gridHeight;
+            var corridorsNumber = Random.Shared.Next(gridRectNum * minCorridors, gridRectNum * maxCorridors);
+            for(int i = 0; i < corridorsNumber; i++)
+            {
+                var pos = GetRandomPoint(board, i);
+                var prevPos = pos;
+                var corridorLenght = Random.Shared.Next(minCorridorLenght, maxCorridorLendth);
+                while(corridorLenght > 0)
+                {
+                    board.SetAt(pos, new EmptyGameObject());
+                    pos = GetNextPoint(board, pos, ref prevPos);
+                    corridorLenght--;
+                }
+            }
+
+            return this;
         }
         public IBoardModificator AddRooms(IBoard board)
         {
-            throw new NotImplementedException();
+            int gridRectNum = board.Width / gridWidth * board.Height / gridHeight;
+            var roomsNumber = Random.Shared.Next(gridRectNum * minRooms, gridRectNum * maxRooms);
+            for (int i = 0; i < roomsNumber; i++)
+            {
+                var pos = GetRandomPoint(board, i);
+                var roomHeight = Random.Shared.Next(minRoomHeigth, maxRoomHeigth);
+                var roomWidth = Random.Shared.Next(minRoomWidth, maxRoomWidth);
+                AddRoom(board, pos, roomWidth, roomHeight);
+            }
+
+            return this;
         }
         public IBoardModificator AddCentralRoom(IBoard board)
         {
@@ -28,6 +71,90 @@ namespace Lab1.Library.Services
         public IBoardModificator AddWeapons(IBoard board)
         {
             throw new NotImplementedException();
+        }
+
+        private Point GetRandomPoint(IBoard board, int grid)
+        {
+            var x = (Random.Shared.Next(gridWidth) + gridWidth * grid % board.Width) % board.Width;
+            var y = (Random.Shared.Next(gridHeight) + gridHeight * gridWidth * grid / board.Width) % board.Height;
+            return new(x, y);
+        }
+        private Point GetNextPoint(IBoard board, Point pos, ref Point prevPos)
+        {
+            List<Point> nearPoints = [];
+            List<Point> nonEmptyPoints = [];
+            List<Point> notNearEmptyPoints = [];
+
+            CheckAndAddPoint(board, new(pos.X, pos.Y + 1), prevPos, nearPoints, nonEmptyPoints, notNearEmptyPoints);
+            CheckAndAddPoint(board, new(pos.X, pos.Y - 1), prevPos, nearPoints, nonEmptyPoints, notNearEmptyPoints);
+            CheckAndAddPoint(board, new(pos.X + 1, pos.Y), prevPos, nearPoints, nonEmptyPoints, notNearEmptyPoints);
+            CheckAndAddPoint(board, new(pos.X - 1, pos.Y), prevPos, nearPoints, nonEmptyPoints, notNearEmptyPoints);
+
+            prevPos = pos;
+
+            if (notNearEmptyPoints.Count != 0)
+                return notNearEmptyPoints[Random.Shared.Next(notNearEmptyPoints.Count)];
+
+            if (nonEmptyPoints.Count != 0)
+                return nonEmptyPoints[Random.Shared.Next(nonEmptyPoints.Count)];
+            
+            return nearPoints[Random.Shared.Next(nearPoints.Count)];
+        }
+
+        private bool IsInside(IBoard board, Point pos)
+        {
+            return pos.X >= 0 && pos.Y >= 0 && pos.X < board.Width && pos.Y < board.Height;
+        }
+
+        private void CheckAndAddPoint(IBoard board, Point pos, Point prevPos, 
+            ICollection<Point> nearPoints, ICollection<Point> nonEmptyPoints, ICollection<Point> notNearEmptyPoints)
+        {
+            
+            if (IsInside(board, pos) && pos != prevPos)
+            {
+                AddWithStraightBooster(pos, prevPos, nearPoints);
+
+                if (!board.GetAt(pos).IsEmpty)
+                {
+                    AddWithStraightBooster(pos, prevPos, nonEmptyPoints);
+
+                    if (!NearEmpty(board, pos))
+                    {
+                        AddWithStraightBooster(pos, prevPos, notNearEmptyPoints);
+                    }
+                }
+            }
+        }
+
+        private void AddWithStraightBooster(Point pos, Point prevPos, ICollection<Point> points)
+        {
+            if (Math.Abs(prevPos.X - pos.X) == 2 || Math.Abs(prevPos.Y - pos.Y) == 2)
+                for (int i = 0; i < straightCorridorBooster; i++)
+                    points.Add(pos);
+            points.Add(pos);
+        }
+
+        private bool NearEmpty(IBoard board, Point pos)
+        {
+            int countEmpty = 0;
+
+            if (IsInside(board, new(pos.X, pos.Y + 1)) && board.GetAt(new(pos.X, pos.Y + 1)).IsEmpty) countEmpty++;
+            if (IsInside(board, new(pos.X, pos.Y - 1)) && board.GetAt(new(pos.X, pos.Y - 1)).IsEmpty) countEmpty++;
+            if (IsInside(board, new(pos.X + 1, pos.Y)) && board.GetAt(new(pos.X + 1, pos.Y)).IsEmpty) countEmpty++;
+            if (IsInside(board, new(pos.X - 1, pos.Y)) && board.GetAt(new(pos.X - 1, pos.Y)).IsEmpty) countEmpty++;
+
+            return countEmpty > 1;
+        }
+
+        private void AddRoom(IBoard board, Point pos, int roomWidth, int roomHeight)
+        {
+            roomHeight /= 2;
+            roomWidth /= 2;
+
+            for(int i = -roomWidth; i <= roomWidth; i++)
+                for(int j = -roomHeight; j <= roomHeight; j++)
+                    if(IsInside(board, new(pos.X + i, pos.Y + j)))
+                        board.SetAt(new(pos.X + i, pos.Y + j), new EmptyGameObject());
         }
     }
 }

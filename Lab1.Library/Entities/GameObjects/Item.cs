@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Lab1.Library.Entities.GameObjects
 {
-    public abstract class Item(Point pos) : GameObject(pos), IItem
+    public abstract class Item : GameObject, IItem
     {
         public abstract string Description { get; set; }
         public virtual bool IsTwoHanded { get; set; } = false;

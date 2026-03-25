@@ -28,6 +28,9 @@ namespace Lab1.Library.Entities
 
         public Point PrintAt { get; set; }
         private Point currentPrintPos;
+        private Point pressELinePrintAt;
+
+        public bool IsOnItem { get; set; } = false;
 
         public IPrintable Text()
         {
@@ -63,6 +66,11 @@ namespace Lab1.Library.Entities
             p.Add(_inventory.Text());
             currentPrintPos = p.LastPosition;
             currentPrintPos.Y++;
+
+            if (IsOnItem)
+                p.Add(new PressELine(pressELinePrintAt).Text());
+            else
+                p.Add(new EmptyLine(pressELinePrintAt, 25).Text());
 
             return p;
         }
@@ -108,9 +116,10 @@ namespace Lab1.Library.Entities
             Coins = 0;
             Gold = 0;
         }
-        public PlayerState(Point pos)
+        public PlayerState(int boardWidth, int boardHeight)
         {
-            PrintAt = pos;
+            PrintAt = new(boardWidth + 5, 1);
+            pressELinePrintAt = new(1, boardHeight + 2);
             _inventory = new Inventory();
             _hands = new TwoHands();
             _handInvTransfer = new HandInventoryTransfer(_hands, _inventory);

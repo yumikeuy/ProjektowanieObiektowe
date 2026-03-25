@@ -10,8 +10,14 @@ namespace Lab1.Library.Interfaces
 {
     public interface IBoard : ITextConvertible
     {
+        public int Width { get; }
+        public int Height { get; }
         public bool TryMovePlayer(IPlayer player, Point pos);
         public bool TryPickUp(IPlayer player);
         public bool TryDrop(IPlayer player);
+        public ICollection<Point> GetSpawnPoints();
+        public Point GetSpawnPoint();
+        public IGameObject GetAt(Point pos);
+        public void SetAt(Point pos, IGameObject gameObject);
     }
 }

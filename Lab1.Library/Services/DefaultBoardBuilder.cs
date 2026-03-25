@@ -24,21 +24,21 @@ namespace Lab1.Library.Services
             _board = null!;
         }
 
-        public IBoardBuilder InitializeEmpty(int width, int height, IPlayer player)
+        public IBoardBuilder InitializeEmpty(int width, int height)
         {
-            _board = _initializer.InitializeEmpty(width, height, player);
+            _board = _initializer.InitializeEmpty(width, height);
             isInitialized = true;
             return this;
         }
-        public IBoardBuilder InitializeFull(int width, int height, IPlayer player)
+        public IBoardBuilder InitializeFull(int width, int height)
         {
-            _board = _initializer.InitializeFull(width, height, player);
+            _board = _initializer.InitializeFull(width, height);
             isInitialized = true;
             return this;
         }
-        public IBoardBuilder DefaultInitialize(int width, int height, IPlayer player)
+        public IBoardBuilder DefaultInitialize(int width, int height)
         {
-            _board = _initializer.DefaultInitialize(width, height, player);
+            _board = _initializer.DefaultInitialize(width, height);
             isInitialized = true;
             return this;
         }

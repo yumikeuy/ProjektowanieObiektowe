@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Lab1.Library.Entities.GameObjects.Items.Weapons
 {
-    public class MachineGun(Point pos) : Weapon(pos)
+    public class MachineGun : Weapon
     {
         public override char Char { get; set; } = '*';
         public override bool IsTwoHanded { get; set; } = true;

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Lab1.Library.Entities.GameObjects.Items.Weapons
 {
-    public class ClassicBow(Point pos) : Weapon(pos)
+    public class ClassicBow : Weapon
     {
         public override char Char { get; set; } = 'D';
         public override bool IsTwoHanded { get; set; } = false;

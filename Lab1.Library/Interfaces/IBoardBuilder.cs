@@ -8,8 +8,8 @@ namespace Lab1.Library.Interfaces
 {
     public interface IBoardBuilder
     {
-        public IBoardBuilder InitializeEmpty(int width, int height, IPlayer player);
-        public IBoardBuilder InitializeFull(int width, int height, IPlayer player);
+        public IBoardBuilder InitializeEmpty(int width, int height);
+        public IBoardBuilder InitializeFull(int width, int height);
         public IBoardBuilder AddCorridors();
         public IBoardBuilder AddRooms();
         public IBoardBuilder AddCentralRoom();

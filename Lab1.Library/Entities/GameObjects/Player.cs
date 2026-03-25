@@ -10,12 +10,12 @@ using Lab1.Library.Services;
 
 namespace Lab1.Library.Entities.GameObjects
 {
-    public class Player(Point pos, int boardWidth) : GameObject(pos), IPlayer
+    public class Player(Point pos, int boardWidth, int boardHeight) : GameObject(pos), IPlayer
     {
         public override char Char { get; set; } = '@';
+        public Point Pos { get; set; } = pos;
 
-        public override string Tag { get; set; } = "Player";
-        public IPlayerState State { get; set; } = new PlayerState(new(boardWidth + 5, 1));
+        public IPlayerState State { get; set; } = new PlayerState(boardWidth, boardHeight);
         public override IPrintable Text()
         {
             Printable p = new();

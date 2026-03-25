@@ -16,91 +16,43 @@ namespace Lab1.Library.Entities
 {
     public class Board : IBoard
     {
-        private readonly int _width;
-        private readonly int _height;
+        public int Width { get; }
+        public int Height { get; }
 
         private IGameObject[,] _data;
-        private IPlayer _player;
 
         public Point PrintAt { get; set; } = new Point(1, 1);
         
-        public Board(int width, int height, IPlayer player)
+        public Board(int width, int height)
         {
-            _width = width;
-            _height = height;
-            _data = new IGameObject[_width, _height];
-            _player = player;
-            BoardDefaultInit(player.Pos);
+            Width = width;
+            Height = height;
+            _data = new IGameObject[Width, Height];
         }
-        public Board(IGameObject[,] data, IPlayer player)
+        public Board(IGameObject[,] data)
         {
             _data = data;
-            _width = data.GetLength(0);
-            _height = data.GetLength(1);
-            _player = player;
+            Width = data.GetLength(0);
+            Height = data.GetLength(1);
         }
-        public void BoardDefaultInit(Point playerStartPos)
-        {
-            var randomizer = new Random();
-
-            for (int i = 0; i < _height; i++)
-            {
-                for (int j = 0; j < _width; j++)
-                {
-                    if (i == playerStartPos.X && j == playerStartPos.Y) _data[j, i] = new EmptyGameObject(new(j, i));
-                    int r = randomizer.Next(1, 100);
-                    switch (r)
-                    {
-                        case <= 10:
-                            _data[j, i] = new Wall(new(j, i));
-                            break;
-                        case <= 11:
-                            _data[j, i] = new Coin(new(j, i));
-                            break;
-                        case <= 12:
-                            _data[j, i] = new Gold(new(j, i));
-                            break;
-                        case <= 13:
-                            _data[j, i] = new MachineGun(new(j, i));
-                            break;
-                        case <= 14:
-                            _data[j, i] = new ClassicBow(new(j, i));
-                            break;
-                        default:
-                            _data[j, i] = new EmptyGameObject(new(j, i));
-                            break;
-                    }
-                }
-            }
-        }
+        
         public IPrintable Text()
         {
             Printable lines = new();
-            for (int i = -1; i <= _height; i++)
+            for (int i = -1; i <= Height; i++)
             {
                 var line = new TextPos(new(PrintAt.X, PrintAt.Y + i));
-                for(int j = -1; j <= _width; j++)
+                for(int j = -1; j <= Width; j++)
                 {
-                    if (i == _player.Pos.Y && j == _player.Pos.X)
-                    {
-                        lines.AddText(line);
-                        line = new(new(j + 3, i + 1));
-                        continue;
-                    }
-                    if (i == -1 || i == _height)
+                    if (i == -1 || i == Height)
                         line.Text += '-';
-                    else if (j == -1 || j == _width)
+                    else if (j == -1 || j == Width)
                         line.Text += "|";
                     else
                         line.Text += _data[j, i].Text().GetText();
                 }
                 lines.AddText(line);
             }
-
-            if (_data[_player.Pos.X, _player.Pos.Y].Pickable())
-                lines.AddText(new TextPos("Press \"E\" to pick up.", new(PrintAt.X, PrintAt.Y + _height + 1)));
-            else
-                lines.AddText(new TextPos("                       ", new(PrintAt.X, PrintAt.Y + _height + 1)));
 
             return lines;
         }
@@ -113,7 +65,9 @@ namespace Lab1.Library.Entities
             if (!GetAt(pos).CanBeGoneThrough) return false;
                 
             player.Move(pos);
-            
+
+            CheckForPickable(player);
+
             return true; 
         }
 
@@ -121,7 +75,8 @@ namespace Lab1.Library.Entities
         {
             if (GetAt(player.Pos).Pick(player.State))
             {
-                SetAt(player.Pos, new EmptyGameObject(player.Pos));
+                SetAt(player.Pos, new EmptyGameObject());
+                CheckForPickable(player);
                 return true;
             }
 
@@ -135,6 +90,7 @@ namespace Lab1.Library.Entities
                 if (item != null)
                 {
                     SetAt(player.Pos, item);
+                    CheckForPickable(player);
                     return true;
                 }
             }
@@ -142,23 +98,48 @@ namespace Lab1.Library.Entities
             return false;
         }
 
-        private IGameObject GetAt(Point pos)
+        public ICollection<Point> GetSpawnPoints()
+        {
+            var sps = new List<Point>();
+
+            for (int i = 0; i < Height; i++)
+                for (int j = 0; j < Width; j++)
+                    if (_data[j, i].CanBeGoneThrough) sps.Add(new(j, i));
+
+            return sps;
+        }
+        public Point GetSpawnPoint()
+        {
+            var sps = GetSpawnPoints();
+            var randomIndex = Random.Shared.Next(GetSpawnPoints().Count);
+
+            return sps.ElementAt(randomIndex);
+        }
+
+        public IGameObject GetAt(Point pos)
         {
             return _data[pos.X, pos.Y];
         }
-        private void SetAt(Point pos, IGameObject gameObject)
+        public void SetAt(Point pos, IGameObject gameObject)
         {
             _data[pos.X, pos.Y] = gameObject;
         }
 
         private bool IsInside(Point pos)
         {
-            return pos.X >= 0 && pos.Y >= 0 && pos.X < _width && pos.Y < _height;
+            return pos.X >= 0 && pos.Y >= 0 && pos.X < Width && pos.Y < Height;
         }
         private bool IsNextTo(Point playerPos, Point pos)
         {
             return ((Math.Abs(playerPos.X - pos.X) <= 1 && playerPos.Y == pos.Y) ||
                     (Math.Abs(playerPos.Y - pos.Y) <= 1 && playerPos.X == pos.X));
+        }
+        private void CheckForPickable(IPlayer player)
+        {
+            if (_data[player.Pos.X, player.Pos.Y].Pickable())
+                player.State.IsOnItem = true;
+            else
+                player.State.IsOnItem = false;
         }
     }
 }

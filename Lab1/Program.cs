@@ -8,34 +8,16 @@ using Lab1.Library.Services;
 int boardWidth = 40;
 int boardHeight = 20;
 
-//Random rand = new();
-//Point pos = new(rand.Next(0, boardWidth), rand.Next(0, boardHeight));
-
-//IPlayer player = new Player(pos, boardWidth);
-//IBoard board = new Board(boardWidth, boardHeight, player);
-//IPrinter printer = new Printer();
-//IGameManager gameManager = new GameManager(printer, board, player);
-
-//gameManager.StartGame();
-
-////
-
-Random rand = new();
-
-Point pos = new(rand.Next(0, boardWidth), rand.Next(0, boardHeight));
-
-IPlayer player = new Player(pos, boardWidth);
-
 var boardBuilder = new DefaultBoardBuilder(new DefaultBoardInitializer(), new DefaulBoardModificator());
 
-boardBuilder.DefaultInitialize(boardWidth, boardHeight, player);
-    //.AddCorridors()
-    //.AddRooms()
+boardBuilder.InitializeFull(boardWidth, boardHeight)
+    .AddRooms()
+    .AddCorridors();
     //.AddItems()
 
-IBoard board_ = boardBuilder.GetResult();
+IBoard board = boardBuilder.GetResult();
 
-IPrinter printer = new Printer();
+IPlayer player = new Player(board.GetSpawnPoint(), boardWidth, boardHeight);
 
-IGameManager gameManager_ = new GameManager(printer, board_, player);
-gameManager_.StartGame();
+IGameManager gameManager = new GameManager(new Printer(), board, player);
+gameManager.StartGame();

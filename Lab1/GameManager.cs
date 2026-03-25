@@ -36,14 +36,16 @@ namespace Lab1.Console
 
         private void StartGameLoop()
         {
+            var hasChanged = true;
             while (!stopLoop)
             {
-                _printer.Print();
+                if(hasChanged) _printer.Print();
+                hasChanged = false;
 
                 if (System.Console.KeyAvailable)
                 {
                     var key = System.Console.ReadKey(true).Key;
-
+                    hasChanged = true;
                     switch (key)
                     {
                         case ConsoleKey.W:
@@ -80,6 +82,7 @@ namespace Lab1.Console
                             TryDropItem();
                             continue;
                         default:
+                            hasChanged = false;
                             continue;
                     }
                 }

@@ -13,34 +13,34 @@ namespace Lab1.Library.Services
 {
     public class DefaultBoardInitializer : IBoardInitializer
     {
-        public IBoard InitializeEmpty(int width, int height, IPlayer player)
+        public IBoard InitializeEmpty(int width, int height)
         {
             var data = new IGameObject[width, height];
             for (int i = 0; i < height; i++)
                 for (int j = 0; j < width; j++)
-                    data[i, j] = new EmptyGameObject(new(i, j));
+                    data[j, i] = new EmptyGameObject();
 
-            return new Board(data, player);
+            return new Board(data);
         }
-        public IBoard InitializeFull(int width, int height, IPlayer player)
+        public IBoard InitializeFull(int width, int height)
         {
             var data = new IGameObject[width, height];
             for (int i = 0; i < height; i++)
                 for (int j = 0; j < width; j++)
-                    data[i, j] = new Wall(new(i, j));
+                    data[j, i] = new Wall();
 
-            return new Board(data, player);
+            return new Board(data);
         }
-        public IBoard InitializeWith<T>(int width, int height, IPlayer player) where T : IGameObject, new()
+        public IBoard InitializeWith<T>(int width, int height) where T : IGameObject, new()
         {
             var data = new IGameObject[width, height];
             for (int i = 0; i < height; i++)
                 for (int j = 0; j < width; j++)
-                    data[i, j] = new T();
+                    data[j, i] = new T();
 
-            return new Board(data, player);
+            return new Board(data);
         }
-        public IBoard DefaultInitialize(int width, int height, IPlayer player)
+        public IBoard DefaultInitialize(int width, int height)
         {
             var data = new IGameObject[width, height];
             var randomizer = new Random();
@@ -49,38 +49,32 @@ namespace Lab1.Library.Services
             {
                 for (int j = 0; j < width; j++)
                 {
-                    if (i == player.Pos.X && j == player.Pos.Y)
-                    {
-                        data[j, i] = new EmptyGameObject(new(j, i));
-                        continue;
-                    }
-
                     int r = randomizer.Next(1, 100);
                     switch (r)
                     {
                         case <= 10:
-                            data[j, i] = new Wall(new(j, i));
+                            data[j, i] = new Wall();
                             break;
                         case <= 11:
-                            data[j, i] = new Coin(new(j, i));
+                            data[j, i] = new Coin();
                             break;
                         case <= 12:
-                            data[j, i] = new Gold(new(j, i));
+                            data[j, i] = new Gold();
                             break;
                         case <= 13:
-                            data[j, i] = new MachineGun(new(j, i));
+                            data[j, i] = new MachineGun();
                             break;
                         case <= 14:
-                            data[j, i] = new ClassicBow(new(j, i));
+                            data[j, i] = new ClassicBow();
                             break;
                         default:
-                            data[j, i] = new EmptyGameObject(new(j, i));
+                            data[j, i] = new EmptyGameObject();
                             break;
                     }
                 }
             }
 
-            return new Board(data, player);
+            return new Board(data);
         }
     }
 }
