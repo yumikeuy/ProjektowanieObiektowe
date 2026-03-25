@@ -13,34 +13,34 @@ namespace Lab1.Library.Services
 {
     public class DefaultBoardInitializer : IBoardInitializer
     {
-        public IBoard InitializeEmpty(int width, int height)
+        public IBoard InitializeEmpty(int width, int height, IPlayer player)
         {
             var data = new IGameObject[width, height];
             for (int i = 0; i < height; i++)
                 for (int j = 0; j < width; j++)
                     data[i, j] = new EmptyGameObject(new(i, j));
 
-            return new Board(data);
+            return new Board(data, player);
         }
-        public IBoard InitializeFull(int width, int height)
+        public IBoard InitializeFull(int width, int height, IPlayer player)
         {
             var data = new IGameObject[width, height];
             for (int i = 0; i < height; i++)
                 for (int j = 0; j < width; j++)
                     data[i, j] = new Wall(new(i, j));
 
-            return new Board(data);
+            return new Board(data, player);
         }
-        public IBoard InitializeWith<T>(int width, int height) where T : IGameObject, new()
+        public IBoard InitializeWith<T>(int width, int height, IPlayer player) where T : IGameObject, new()
         {
             var data = new IGameObject[width, height];
             for (int i = 0; i < height; i++)
                 for (int j = 0; j < width; j++)
                     data[i, j] = new T();
 
-            return new Board(data);
+            return new Board(data, player);
         }
-        public IBoard DefaultInitialize(int width, int height)
+        public IBoard DefaultInitialize(int width, int height, IPlayer player)
         {
             var data = new IGameObject[width, height];
             var randomizer = new Random();
@@ -49,6 +49,12 @@ namespace Lab1.Library.Services
             {
                 for (int j = 0; j < width; j++)
                 {
+                    if (i == player.Pos.X && j == player.Pos.Y)
+                    {
+                        data[j, i] = new EmptyGameObject(new(j, i));
+                        continue;
+                    }
+
                     int r = randomizer.Next(1, 100);
                     switch (r)
                     {
@@ -74,7 +80,12 @@ namespace Lab1.Library.Services
                 }
             }
 
-            return new Board(data);
+            return new Board(data, player);
         }
     }
 }
+// TODO
+// Board without player
+// Printing restrictions
+// Board Modificator
+// Controllers (how to play)

@@ -21,17 +21,24 @@ namespace Lab1.Library.Services
         {
             _initializer = initializer;
             _modificator = modificator;
+            _board = null!;
         }
 
-        public IBoardBuilder InitializeEmpty(int width, int height)
+        public IBoardBuilder InitializeEmpty(int width, int height, IPlayer player)
         {
-            _board = _initializer.InitializeEmpty(width, height);
+            _board = _initializer.InitializeEmpty(width, height, player);
             isInitialized = true;
             return this;
         }
-        public IBoardBuilder InitializeFull(int width, int height)
+        public IBoardBuilder InitializeFull(int width, int height, IPlayer player)
         {
-            _board = _initializer.InitializeFull(width, height);
+            _board = _initializer.InitializeFull(width, height, player);
+            isInitialized = true;
+            return this;
+        }
+        public IBoardBuilder DefaultInitialize(int width, int height, IPlayer player)
+        {
+            _board = _initializer.DefaultInitialize(width, height, player);
             isInitialized = true;
             return this;
         }
@@ -70,15 +77,9 @@ namespace Lab1.Library.Services
             _modificator.AddWeapons(_board);
             return this;
         }
-        public void Build()
-        {
-            if (!isInitialized) throw new Exception("Board hasn't been initialized yet.");
-
-            isBuilded = true;
-        }
         public IBoard GetResult()
         {
-            if (!isBuilded) throw new Exception("Board hasn't been built yet.");
+            if (!isInitialized) throw new Exception("Board hasn't been built yet.");
             return _board;
         }
     }

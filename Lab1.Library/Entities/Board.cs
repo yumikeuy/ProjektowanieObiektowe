@@ -32,11 +32,12 @@ namespace Lab1.Library.Entities
             _player = player;
             BoardDefaultInit(player.Pos);
         }
-        public Board(IGameObject[,] data)
+        public Board(IGameObject[,] data, IPlayer player)
         {
             _data = data;
             _width = data.GetLength(0);
             _height = data.GetLength(1);
+            _player = player;
         }
         public void BoardDefaultInit(Point playerStartPos)
         {
