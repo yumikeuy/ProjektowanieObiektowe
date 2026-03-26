@@ -11,6 +11,6 @@ namespace Lab1.Library.Interfaces
         public ICollection<char> Chars { get; set; }
         public ICollection<ConsoleKey> Keys { get; set; }
         public string Description { get; set; }
-        public Action<IGameState, ConsoleKey> Action { get; set; }
+        public Action<IInputEvent> Action { get; set; }
     }
 }

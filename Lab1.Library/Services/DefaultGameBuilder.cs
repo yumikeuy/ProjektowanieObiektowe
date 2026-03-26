@@ -10,7 +10,8 @@ using Lab1.Library.Entities.GameObjects;
 
 namespace Lab1.Library.Services
 {
-    public class DefaultGameBuilder(int width, int height, int playerStateWidth, IBoardBuilder boardBuilder, IInstructionsBuilder instructionsBuilder) : IGameBuilder
+    public class DefaultGameBuilder(int width, int height, int playerStateWidth, 
+        IBoardBuilder boardBuilder, IInstructionsBuilder instructionsBuilder) : IGameBuilder
     {
         private readonly int _width = width;
         private readonly int _height = height;
@@ -20,7 +21,7 @@ namespace Lab1.Library.Services
 
         private IGameState _gameState = new GameState();
 
-
+        // IGameBuilder
         public IGameBuilder InitializeEmpty()
         {
             _boardBuilder.InitializeEmpty(_width, _height);

@@ -12,7 +12,7 @@ namespace Lab1.Library.Entities.GameInstructions
         public ICollection<char> Chars { get; set; } = ['E'];
         public ICollection<ConsoleKey> Keys { get; set; } = [ConsoleKey.E];
         public string Description { get; set; } = "Press \"E\" to pick up the item";
-        public Action<IGameState, ConsoleKey> Action { get; set; } = (gs, k) => gs.Board.TryPickUp(gs.Player);
+        public Action<IInputEvent> Action { get; set; } = (ie) => ie.GameState.Board.TryPickUp(ie.GameState.Player);
 
     }
 }

@@ -12,6 +12,6 @@ namespace Lab1.Library.Entities.GameInstructions
         public ICollection<char> Chars { get; set; } = [];
         public ICollection<ConsoleKey> Keys { get; set; } = [ConsoleKey.Escape];
         public string Description { get; set; } = "Press \"Escape\" to exit the game";
-        public Action<IGameState, ConsoleKey> Action { get; set; } = (gs, k) => gs.IsActive = false;
+        public Action<IInputEvent> Action { get; set; } = (ie) => ie.GameState.IsActive = false;
     }
 }

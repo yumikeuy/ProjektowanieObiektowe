@@ -12,6 +12,6 @@ namespace Lab1.Library.Entities.GameInstructions
         public ICollection<char> Chars { get; set; } = ['0'];
         public ICollection<ConsoleKey> Keys { get; set; } = [ConsoleKey.D0];
         public string Description { get; set; } = "Press \"0\" to put item to inventory";
-        public Action<IGameState, ConsoleKey> Action { get; set; } = (gs, k) => gs.Player.State.TryHideItem();
+        public Action<IInputEvent> Action { get; set; } = (ie) => ie.GameState.Player.State.TryHideItem();
     }
 }

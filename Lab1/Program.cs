@@ -23,29 +23,12 @@ gameBuilder.InitializeFull()
     .AddWeapons(weaponsAmount)
     .AddMoney(moneyCount);
 
-IGameState gameState = gameBuilder.GetResult();
+var gameState = gameBuilder.GetResult();
 
-IGameManager gameManager = new GameManager(gameState);
+var gameManager = new GameManager(gameState);
 
 gameManager.StartGame();
 
-//var boardBuilder = new DefaultBoardBuilder(new DefaultBoardInitializer(), new DefaulBoardModificator());
-
-//boardBuilder.InitializeFull(boardWidth, boardHeight)
-//    .AddRooms()
-//    .AddCorridors()
-//    .AddCentralRoom()
-//    .AddItems(itemsAmount)
-//    .AddWeapons(weaponsAmount)
-//    .AddMoney(moneyCount);
-
-//IBoard board = boardBuilder.GetResult();
-
-
-//IPlayer player = new Player(board.GetSpawnPoint(), boardWidth, boardHeight);
-
-//IGameManager gameManager = new GameManager(new Printer(), board, player);
-//gameManager.StartGame();
 
 
 

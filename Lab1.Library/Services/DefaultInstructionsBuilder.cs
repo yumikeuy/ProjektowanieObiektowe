@@ -20,11 +20,11 @@ namespace Lab1.Library.Services
         }
         public IInstructionsBuilder AddItems()
         {
-            //_instructions.Add(new PickUpInstruction());
+            _instructions.Add(new PickUpInstruction());
             _instructions.Add(new HideItemToInventory());
             _instructions.Add(new DropItemInstruction());
             _instructions.Add(new SelectHandInstruction());
-            _instructions.Add(new TakeFromInventoryInstruction());
+            //_instructions.Add(new TakeFromInventoryInstruction());
 
             return this;
         }

@@ -12,6 +12,6 @@ namespace Lab1.Library.Entities.GameInstructions
         public ICollection<char> Chars { get; set; } = ['Q'];
         public ICollection<ConsoleKey> Keys { get; set; } = [ConsoleKey.Q];
         public string Description { get; set; } = "Press \"Q\" to drop item from current hand";
-        public Action<IGameState, ConsoleKey> Action { get; set; } = (gs, k) => gs.Board.TryDrop(gs.Player);
+        public Action<IInputEvent> Action { get; set; } = (ie) => ie.GameState.Board.TryDrop(ie.GameState.Player);
     }
 }

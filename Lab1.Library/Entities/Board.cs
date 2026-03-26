@@ -21,21 +21,15 @@ namespace Lab1.Library.Entities
 
         private IGameObject[,] _data;
 
-        public Point PrintAt { get; set; } = new Point(1, 1);
-        
-        public Board(int width, int height)
-        {
-            Width = width;
-            Height = height;
-            _data = new IGameObject[Width, Height];
-        }
         public Board(IGameObject[,] data)
         {
             _data = data;
             Width = data.GetLength(0);
             Height = data.GetLength(1);
         }
-        
+
+        // IPrtintable
+        public Point PrintAt { get; set; } = new Point(1, 1);
         public IPrintable Text()
         {
             Printable lines = new();
@@ -57,6 +51,7 @@ namespace Lab1.Library.Entities
             return lines;
         }
 
+        // IBoard
         public bool TryMovePlayer(IPlayer player, Point pos)
         {
             var currentPos = player.Pos;
@@ -70,7 +65,6 @@ namespace Lab1.Library.Entities
 
             return true; 
         }
-
         public bool TryPickUp(IPlayer player)
         {
             if (GetAt(player.Pos).Pick(player.State))
@@ -97,7 +91,6 @@ namespace Lab1.Library.Entities
 
             return false;
         }
-
         public ICollection<Point> GetEmptyCells()
         {
             var sps = new List<Point>();
@@ -115,7 +108,6 @@ namespace Lab1.Library.Entities
 
             return sps.ElementAt(randomIndex);
         }
-
         public IGameObject GetAt(Point pos)
         {
             return _data[pos.X, pos.Y];
@@ -125,6 +117,7 @@ namespace Lab1.Library.Entities
             _data[pos.X, pos.Y] = gameObject;
         }
 
+        // private
         private bool IsInside(Point pos)
         {
             return pos.X >= 0 && pos.Y >= 0 && pos.X < Width && pos.Y < Height;

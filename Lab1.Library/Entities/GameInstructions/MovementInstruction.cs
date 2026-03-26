@@ -12,9 +12,10 @@ namespace Lab1.Library.Entities.GameInstructions
         public ICollection<char> Chars { get; set; } = ['W', 'A', 'S', 'D'];
         public ICollection<ConsoleKey> Keys { get; set; } = [ConsoleKey.W, ConsoleKey.A, ConsoleKey.S, ConsoleKey.D];
         public string Description { get; set; } = "Press \"W\", \"A\", \"S\", \"D\" to move";
-        public Action<IGameState, ConsoleKey> Action { get; set; } = (gs, k) =>
+        public Action<IInputEvent> Action { get; set; } = (ie) =>
         {
-            switch (k)
+            var gs = ie.GameState;
+            switch (ie.Key)
             {
                 case ConsoleKey.W:
                     gs.Board.TryMovePlayer(gs.Player, new(gs.Player.Pos.X, gs.Player.Pos.Y - 1));
