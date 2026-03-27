@@ -7,12 +7,16 @@ using Lab1.Library.Interfaces;
 
 namespace Lab1.Library.Entities.GameInstructions
 {
-    public class PickUpInstruction : IActionInstruction
+    public class PickUpInstruction : ActionInstruction
     {
-        public ICollection<char> Chars { get; set; } = ['E'];
-        public ICollection<ConsoleKey> Keys { get; set; } = [ConsoleKey.E];
-        public string Description { get; set; } = "Press \"E\" to pick up the item";
-        public Action<IInputEvent> Action { get; set; } = (ie) => ie.GameState.Board.TryPickUp(ie.GameState.Player);
+        public override ICollection<char> Chars { get; set; } = ['E'];
+        public override ICollection<ConsoleKey> Keys { get; set; } = [ConsoleKey.E];
+        public override string Description { get; set; } = "Press \"E\" to pick up the item";
+        public override void Execute(IInputEvent inputEvent)
+        {
+            inputEvent.GameState.Board.TryPickUp(inputEvent.GameState.Player);
+            base.Execute(inputEvent);
+        }
 
     }
 }

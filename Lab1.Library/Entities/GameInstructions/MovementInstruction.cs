@@ -7,15 +7,15 @@ using Lab1.Library.Interfaces;
 
 namespace Lab1.Library.Entities.GameInstructions
 {
-    public class MovementInstruction : IActionInstruction
+    public class MovementInstruction : ActionInstruction
     {
-        public ICollection<char> Chars { get; set; } = ['W', 'A', 'S', 'D'];
-        public ICollection<ConsoleKey> Keys { get; set; } = [ConsoleKey.W, ConsoleKey.A, ConsoleKey.S, ConsoleKey.D];
-        public string Description { get; set; } = "Press \"W\", \"A\", \"S\", \"D\" to move";
-        public Action<IInputEvent> Action { get; set; } = (ie) =>
+        public override ICollection<char> Chars { get; set; } = ['W', 'A', 'S', 'D'];
+        public override ICollection<ConsoleKey> Keys { get; set; } = [ConsoleKey.W, ConsoleKey.A, ConsoleKey.S, ConsoleKey.D];
+        public override string Description { get; set; } = "Press \"W\", \"A\", \"S\", \"D\" to move";
+        public override void Execute(IInputEvent inputEvent)
         {
-            var gs = ie.GameState;
-            switch (ie.Key)
+            var gs = inputEvent.GameState;
+            switch (inputEvent.Key)
             {
                 case ConsoleKey.W:
                     gs.Board.TryMovePlayer(gs.Player, new(gs.Player.Pos.X, gs.Player.Pos.Y - 1));
@@ -30,7 +30,9 @@ namespace Lab1.Library.Entities.GameInstructions
                     gs.Board.TryMovePlayer(gs.Player, new(gs.Player.Pos.X + 1, gs.Player.Pos.Y));
                     break;
             }
-        };
+
+            base.Execute(inputEvent);
+        }
 
     }
 }

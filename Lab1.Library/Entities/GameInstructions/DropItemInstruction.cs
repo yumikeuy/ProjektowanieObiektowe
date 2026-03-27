@@ -7,11 +7,15 @@ using Lab1.Library.Interfaces;
 
 namespace Lab1.Library.Entities.GameInstructions
 {
-    public class DropItemInstruction : IActionInstruction
+    public class DropItemInstruction : ActionInstruction
     {
-        public ICollection<char> Chars { get; set; } = ['Q'];
-        public ICollection<ConsoleKey> Keys { get; set; } = [ConsoleKey.Q];
-        public string Description { get; set; } = "Press \"Q\" to drop item from current hand";
-        public Action<IInputEvent> Action { get; set; } = (ie) => ie.GameState.Board.TryDrop(ie.GameState.Player);
+        public override ICollection<char> Chars { get; set; } = ['Q'];
+        public override ICollection<ConsoleKey> Keys { get; set; } = [ConsoleKey.Q];
+        public override string Description { get; set; } = "Press \"Q\" to drop item from current hand";
+        public override void Execute(IInputEvent inpuEvent)
+        {
+            inpuEvent.GameState.Board.TryDrop(inpuEvent.GameState.Player);
+            base.Execute(inpuEvent);
+        }
     }
 }

@@ -11,7 +11,7 @@ namespace Lab1.Library.Entities.GameInstructions
 {
     public class Instructions(Point printAt) : IInstructions
     {
-        private HashSet<IActionInstruction> _instructions { get; set; } = [];
+        private InputHandler _handler = null!;
         public Point PrintAt { get; set; } = printAt;
         public IPrintable Text()
         {
@@ -19,29 +19,36 @@ namespace Lab1.Library.Entities.GameInstructions
             p.AddText(new TextPos("Controls: ", PrintAt));
             p.Add(new EmptyLine(new(PrintAt.X, PrintAt.Y + 1), 10).Text());
             int i = 1;
-            foreach(var instruction in _instructions)
+            var handler = _handler;
+            while(handler != null)
             {
-                p.AddText(new TextPos(instruction.Description, new(PrintAt.X, PrintAt.Y + i++)));
-                p.Add(new EmptyLine(new(PrintAt.X, PrintAt.Y + i++), 10).Text());
+                foreach (var instruction in handler.GetInstructions())
+                {
+                    p.AddText(new TextPos(instruction.Description, new(PrintAt.X, PrintAt.Y + i++)));
+                    p.Add(new EmptyLine(new(PrintAt.X, PrintAt.Y + i++), 10).Text());
+                }
+                handler = handler.GetNext();
             }
-
 
             return p;
         }
 
-        public void Add(IActionInstruction instruction)
+        public void AddHandler(InputHandler handler)
         {
-            _instructions.Add(instruction);
+            if(_handler == null)
+                _handler = handler;
+            else
+                _handler.SetNext(handler);
         }
 
-        public HashSet<IActionInstruction> GetActions()
+        public InputHandler GetHandler()
         {
-            return _instructions;
+            return _handler;
         }
 
         public void ExecuteAction(IGameState gameState, ConsoleKey key)
         {
-            _instructions.First(i => i.Keys.Contains(key)).Action(gameState, key);
+            _handler.Handle(new InputEvent(gameState, key));
         }
     }
 }

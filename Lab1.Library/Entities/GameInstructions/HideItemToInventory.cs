@@ -7,11 +7,15 @@ using Lab1.Library.Interfaces;
 
 namespace Lab1.Library.Entities.GameInstructions
 {
-    public class HideItemToInventory : IActionInstruction
+    public class HideItemToInventory : ActionInstruction
     {
-        public ICollection<char> Chars { get; set; } = ['0'];
-        public ICollection<ConsoleKey> Keys { get; set; } = [ConsoleKey.D0];
-        public string Description { get; set; } = "Press \"0\" to put item to inventory";
-        public Action<IInputEvent> Action { get; set; } = (ie) => ie.GameState.Player.State.TryHideItem();
+        public override ICollection<char> Chars { get; set; } = ['0'];
+        public override ICollection<ConsoleKey> Keys { get; set; } = [ConsoleKey.D0];
+        public override string Description { get; set; } = "Press \"0\" to put item to inventory";
+        public override void Execute(IInputEvent inpuEvent)
+        {
+            inpuEvent.GameState.Player.State.TryHideItem();
+            base.Execute(inpuEvent);
+        }
     }
 }

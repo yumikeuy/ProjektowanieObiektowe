@@ -15,11 +15,5 @@ namespace Lab1.Library.Services
         {
             _instructions.Add(new StopGameInstruction());
         }
-
-        public override void Handle(IInputEvent inputEvent)
-        {
-            _instructions.FirstOrDefault(i => i.Keys.Contains(inputEvent.Key)).Action();
-            base.Handle(actionInstruction);
-        }
     }
 }

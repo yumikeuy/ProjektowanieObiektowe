@@ -15,17 +15,12 @@ namespace Lab1.Library.Services
         public IInstructionsBuilder Initialize(Point printAt)
         {
             _instructions = new Instructions(printAt);
-            _instructions.Add(new MovementInstruction());
+            _instructions.AddHandler(new MovementHandler());
             return this;
         }
         public IInstructionsBuilder AddItems()
         {
-            _instructions.Add(new PickUpInstruction());
-            _instructions.Add(new HideItemToInventory());
-            _instructions.Add(new DropItemInstruction());
-            _instructions.Add(new SelectHandInstruction());
-            //_instructions.Add(new TakeFromInventoryInstruction());
-
+            _instructions.AddHandler(new ItemsInputHandler());
             return this;
         }
         public IInstructions GetResult()
