@@ -1,6 +1,6 @@
 Oto profesjonalny plik README.md dla Twojego projektu, przygotowany bez użycia emotikon:
 
-# Project Title: Console Pattern Game
+# Project Title: Console Desing Pattern Game
 
 Gra konsolowa napisana w języku C\#, stworzona jako pokaz praktycznego zastosowania wzorców projektowych oraz zasad programowania obiektowego (OOP) i SOLID. Projekt nie posiada zewnętrznych zależności i opiera się wyłącznie na standardowych bibliotekach środowiska .NET.
 
@@ -45,22 +45,17 @@ Projekt został zaprojektowany zgodnie z pięcioma zasadami SOLID:
 ## Uruchomienie projektu
 
 1.  Sklonuj repozytorium:
-    git clone [https://github.com/twoj-uzytkownik/nazwa-projektu.git](https://www.google.com/search?q=https://github.com/twoj-uzytkownik/nazwa-projektu.git)
+    git clone [https://github.com/yumikeuy/ProjektowanieObiektowe.git](https://www.google.com/search?q=https://github.com/yumikeuy/ProjektowanieObiektowe.git)
 
 2.  Przejdź do folderu projektu:
-    cd nazwa-projektu
+    cd ProjektowanieObiektowe
 
 3.  Skompiluj i uruchom aplikację:
     dotnet run
 
 ## Struktura katalogów
 
-  * /src/Core - Główne serce gry i pętla logiczna.
+  * /src/Library - Główne serce gry.
   * /src/Entities - Modele postaci, przeciwników i obiektów.
-  * /src/Patterns - Implementacje konkretnych wzorców projektowych.
   * /src/Interfaces - Kontrakty i abstrakcje wykorzystywane w całym systemie.
-  * /src/UI - Obsługa wyświetlania tekstu w konsoli i pobierania danych od użytkownika.
-
-## Licencja
-
-Projekt jest udostępniony na licencji MIT. Możesz go dowolnie modyfikować i wykorzystywać w celach edukacyjnych.
+  * /src/Console - Obsługa wyświetlania tekstu w konsoli i pobierania danych od użytkownika.
