@@ -1,4 +1,4 @@
-﻿using Lab1.Library.Interfaces;
+﻿using Lab1.Library.Interfaces.Entities;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -10,7 +10,7 @@ namespace Lab1.Library.Entities.GameObjects
 {
     public abstract class Item : GameObject, IItem
     {
-        public abstract string Description { get; set; }
+        public virtual string Description { get; set; } = string.Empty;
         public virtual bool IsTwoHanded { get; set; } = false;
 
         public override bool Pick(IPlayerState playerState)
@@ -21,5 +21,8 @@ namespace Lab1.Library.Entities.GameObjects
         {
             return true;
         }
+
+        public virtual void Activate(IPlayerState playerState) { }
+        public virtual void Deactivate(IPlayerState playerState) { }
     }
 }

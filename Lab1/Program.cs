@@ -4,13 +4,14 @@ using Lab1.Library.Entities;
 using Lab1.Library.Entities.GameObjects;
 using Lab1.Library.Interfaces;
 using Lab1.Library.Services;
+using Lab1.Library.Services.GameBuilders;
 
-int boardWidth = 40;
-int boardHeight = 20;
-int playerStateWidth = 30;
-int itemsAmount = 20;
-int weaponsAmount = 10;
-int moneyCount = 5;
+const int boardWidth = 40;
+const int boardHeight = 20;
+const int playerStateWidth = 45;
+const int itemsAmount = 20;
+const int weaponsAmount = 10;
+const int moneyCount = 5;
 
 var gameBuilder = new DefaultGameBuilder(boardWidth, boardHeight, playerStateWidth,
     new DefaultBoardBuilder(new DefaultBoardInitializer(), new DefaulBoardModificator()), new DefaultInstructionsBuilder());

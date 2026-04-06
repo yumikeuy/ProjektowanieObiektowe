@@ -1,5 +1,8 @@
-﻿using Lab1.Library.Interfaces;
+﻿using Lab1.Library.Interfaces.Entities;
+using Lab1.Library.Interfaces.Game;
+using Lab1.Library.Interfaces.Printing;
 using Lab1.Library.Services;
+using Lab1.Library.Services.Printing;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -11,7 +14,7 @@ namespace Lab1.Library.Entities
 {
     public abstract class GameObject : IGameObject
     {
-        public abstract char Char { get; set; }
+        public virtual char Char { get; set; } = ' ';
         public virtual bool IsEmpty { get; set; } = false;
         public virtual bool CanBeGoneThrough { get; set; } = true;
         public virtual Point PrintAt { get; set; } = new(0, 0);

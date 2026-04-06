@@ -9,9 +9,14 @@ namespace Lab1.Library.Entities.GameObjects.Items.Weapons
 {
     public class MachineGun : Weapon
     {
+        public const int damage = 10;
         public override char Char { get; set; } = '*';
         public override bool IsTwoHanded { get; set; } = true;
-        public override int Damage { get; set; } = 10;
         public override string Description { get; set; } = "Enormous MachineGun";
+
+        public MachineGun()
+        {
+            base.Damage = damage;
+        }
     }
 }
