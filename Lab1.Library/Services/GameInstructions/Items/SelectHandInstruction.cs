@@ -5,8 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Lab1.Library.Entities.Inventory;
 using Lab1.Library.Interfaces.Game;
+using Lab1.Library.Services.GameInstructions;
 
-namespace Lab1.Library.Entities.GameInstructions
+namespace Lab1.Library.Services.GameInstructions.Items
 {
     public class SelectHandInstruction : ActionInstruction
     {

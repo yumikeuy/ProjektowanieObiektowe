@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Lab1.Library.Interfaces.Game;
 
-namespace Lab1.Library.Entities.GameInstructions
+namespace Lab1.Library.Services.GameInstructions
 {
     public abstract class ActionInstruction
     {

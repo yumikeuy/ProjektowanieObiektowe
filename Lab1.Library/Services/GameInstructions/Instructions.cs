@@ -12,7 +12,7 @@ using Lab1.Library.Services;
 using Lab1.Library.Services.InputHandlers;
 using Lab1.Library.Services.Printing;
 
-namespace Lab1.Library.Entities.GameInstructions
+namespace Lab1.Library.Services.GameInstructions
 {
     public class Instructions(Point printAt) : IInstructions
     {
@@ -25,7 +25,7 @@ namespace Lab1.Library.Entities.GameInstructions
             p.Add(new EmptyLine(new(PrintAt.X, PrintAt.Y + 1), 10).Text());
             int i = 1;
             var handler = _handler;
-            while(handler != null)
+            while (handler != null)
             {
                 foreach (var instruction in handler.GetInstructions())
                 {
@@ -40,7 +40,7 @@ namespace Lab1.Library.Entities.GameInstructions
 
         public void AddHandler(InputHandler handler)
         {
-            if(_handler == null)
+            if (_handler == null)
                 _handler = handler;
             else
                 _handler.SetNext(handler);
