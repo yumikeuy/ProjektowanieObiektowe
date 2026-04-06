@@ -12,6 +12,8 @@ namespace Lab1.Library.Services.InputHandlers
         public EnemiesHandler()
         {
             _instructions.Add(new NormalAttackInstruction());
+            _instructions.Add(new MagicAttackInstruction());
+            _instructions.Add(new StealthAttackInstruction());
         }
     }
 }
