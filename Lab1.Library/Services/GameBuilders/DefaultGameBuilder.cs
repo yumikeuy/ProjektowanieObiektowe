@@ -80,6 +80,15 @@ namespace Lab1.Library.Services.GameBuilders
 
             return this;
         }
+
+        public IGameBuilder AddEnemies(int amount)
+        {
+            _boardBuilder.AddEnemies(amount);
+            _instructionsBuilder.AddEnemies();
+
+            return this;
+        }
+
         public IGameState GetResult()
         {
             _gameState.Printer = new Printer();

@@ -35,6 +35,12 @@ namespace Lab1.Library.Services.GameBuilders
             addedItems = true;
             return this;
         }
+        public IInstructionsBuilder AddEnemies()
+        {
+            if (!isInitialized) throw new InvalidOperationException("Instructions are not initialized");
+            _instructions.AddHandler(new EnemiesHandler());
+            return this;
+        }
         public IInstructions GetResult()
         {
             return _instructions;

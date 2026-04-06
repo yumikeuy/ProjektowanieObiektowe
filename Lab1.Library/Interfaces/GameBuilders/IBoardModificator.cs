@@ -15,5 +15,6 @@ namespace Lab1.Library.Interfaces.GameBuilders
         public IBoardModificator AddItems(IBoard board, int amount);
         public IBoardModificator AddWeapons(IBoard board, int amount);
         public IBoardModificator AddMoney(IBoard board, int amount);
+        public IBoardModificator AddEnemies(IBoard board, int amount);
     }
 }

@@ -17,6 +17,7 @@ namespace Lab1.Library.Interfaces.GameBuilders
         public IBoardBuilder AddItems(int ammount);
         public IBoardBuilder AddWeapons(int amount);
         public IBoardBuilder AddMoney(int amount);
+        public IBoardBuilder AddEnemies(int amount);
         public IBoard GetResult();
     }
 }

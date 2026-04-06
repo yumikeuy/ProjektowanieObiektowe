@@ -12,6 +12,7 @@ const int playerStateWidth = 45;
 const int itemsAmount = 20;
 const int weaponsAmount = 10;
 const int moneyCount = 5;
+const int enemiesCount = 5;
 
 var gameBuilder = new DefaultGameBuilder(boardWidth, boardHeight, playerStateWidth,
     new DefaultBoardBuilder(new DefaultBoardInitializer(), new DefaulBoardModificator()), new DefaultInstructionsBuilder());
@@ -22,7 +23,8 @@ gameBuilder.InitializeFull()
     .AddCentralRoom()
     .AddItems(itemsAmount)
     .AddWeapons(weaponsAmount)
-    .AddMoney(moneyCount);
+    .AddMoney(moneyCount)
+    .AddEnemies(enemiesCount);
 
 var gameState = gameBuilder.GetResult();
 

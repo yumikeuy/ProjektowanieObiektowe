@@ -90,6 +90,14 @@ namespace Lab1.Library.Services.GameBuilders
             _board.IntroductionText += IntroductionTexts.MoneyText;
             return this;
         }
+        public IBoardBuilder AddEnemies(int amount)
+        {
+            if (!isInitialized) throw new Exception("Board hasn't been initialized yet.");
+
+            _modificator.AddEnemies(_board, amount);
+            _board.IntroductionText += IntroductionTexts.EnemiesText;
+            return this;
+        }
         public IBoard GetResult()
         {
             if (!isInitialized) throw new Exception("Board hasn't been built yet.");

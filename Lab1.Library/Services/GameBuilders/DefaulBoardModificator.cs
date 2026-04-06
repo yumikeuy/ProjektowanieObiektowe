@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Lab1.Library.Entities.GameObjects;
+using Lab1.Library.Entities.GameObjects.Enemies;
 using Lab1.Library.Entities.GameObjects.Items.Neutral;
 using Lab1.Library.Entities.GameObjects.Items.Weapons;
 using Lab1.Library.Entities.GameObjects.Money;
@@ -21,8 +22,6 @@ namespace Lab1.Library.Services.GameBuilders
 
         private const int minCorridors = 20;
         private const int maxCorridors = 25;
-        private const int minCorridorLenght = 10;
-        private const int maxCorridorLendth = 18;
         private const int straightCorridorBooster = 20;
 
         private const int minRooms = 1;
@@ -98,6 +97,17 @@ namespace Lab1.Library.Services.GameBuilders
             if (empty.Count != 0)
                 for (int i = 0; i < amount; i++)
                     board.SetAt(empty.ElementAt(Random.Shared.Next(empty.Count)), new Gold());
+
+            return this;
+        }
+
+        public IBoardModificator AddEnemies(IBoard board, int amount)
+        {
+            var empty = board.GetEmptyCells();
+
+            if (empty.Count != 0)
+                for (int i = 0; i < amount; i++)
+                    board.SetAt(empty.ElementAt(Random.Shared.Next(empty.Count)), new Zombie());
 
             return this;
         }

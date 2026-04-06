@@ -12,6 +12,7 @@ namespace Lab1.Library.Interfaces.GameBuilders
     {
         public IInstructionsBuilder Initialize(Point printAt);
         public IInstructionsBuilder AddItems();
+        public IInstructionsBuilder AddEnemies();
         public IInstructions GetResult();
     }
 }
