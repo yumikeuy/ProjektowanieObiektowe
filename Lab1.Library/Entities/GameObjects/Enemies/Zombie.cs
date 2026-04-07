@@ -8,7 +8,8 @@ namespace Lab1.Library.Entities.GameObjects.Enemies
 {
     public class Zombie : Enemy
     {
-
-        //TODO
+        public override int Health { get; set; } = 15;
+        public override int Damage { get; set; } = 3;
+        public override int Armor { get; set; } = 3;
     }
 }

@@ -8,7 +8,7 @@ using Lab1.Library.Services.GameInstructions;
 
 namespace Lab1.Library.Services.GameInstructions.Attack
 {
-    public class NormalAttackInstruction : ActionInstruction
+    public class NormalAttackInstruction : AttackInstruction
     {
         public override ICollection<char> Chars { get; set; } = ['X'];
         public override ICollection<ConsoleKey> Keys { get; set; } = [ConsoleKey.X];

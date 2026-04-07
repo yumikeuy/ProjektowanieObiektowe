@@ -7,7 +7,7 @@ using Lab1.Library.Interfaces.Game;
 
 namespace Lab1.Library.Services.GameInstructions.Attack
 {
-    public class StealthAttackInstruction : ActionInstruction
+    public class StealthAttackInstruction : AttackInstruction
     {
         public override ICollection<char> Chars { get; set; } = ['B'];
         public override ICollection<ConsoleKey> Keys { get; set; } = [ConsoleKey.B];
