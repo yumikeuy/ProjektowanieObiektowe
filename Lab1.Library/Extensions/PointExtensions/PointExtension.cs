@@ -25,5 +25,9 @@ namespace Lab1.Library.Extensions.PointExtensions
         {
             return new(p.X, p.Y + 1);
         }
+        public static ICollection<Point> NearPoints(this Point p)
+        {
+            return [p.Up(), p.Down(), p.Left(), p.Right()];
+        }
     }
 }

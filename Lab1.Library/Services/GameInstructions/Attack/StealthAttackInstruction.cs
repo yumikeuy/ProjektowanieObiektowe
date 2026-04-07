@@ -12,11 +12,13 @@ namespace Lab1.Library.Services.GameInstructions.Attack
         public override ICollection<char> Chars { get; set; } = ['B'];
         public override ICollection<ConsoleKey> Keys { get; set; } = [ConsoleKey.B];
         public override string Description { get; set; } = "Press \"B\" to use stealth attack on an enemy";
-        public override void Execute(IInputEvent inpuEvent)
+        public override void Execute(IInputEvent inputEvent)
         {
-            //TODO
+            _damage = inputEvent.GameState.Player.State.Damage;
 
-            base.Execute(inpuEvent);
+
+
+            base.Execute(inputEvent);
             throw new NotImplementedException();
         }
     }

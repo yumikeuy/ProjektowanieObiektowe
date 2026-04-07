@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Lab1.Library.Interfaces.Entities;
+using Lab1.Library.Services.Visitors;
 
 namespace Lab1.Library.Entities.GameObjects.Items.Weapons
 {
@@ -18,6 +19,10 @@ namespace Lab1.Library.Entities.GameObjects.Items.Weapons
         public ClassicBow()
         {
             base.Damage = damage;
+        }
+        public override bool Accept(GameObjectVisitor visitor)
+        {
+            return visitor.Visit(this);
         }
     }
 }

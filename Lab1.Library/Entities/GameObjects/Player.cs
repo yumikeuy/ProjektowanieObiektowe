@@ -10,6 +10,7 @@ using Lab1.Library.Interfaces.Entities;
 using Lab1.Library.Interfaces.Printing;
 using Lab1.Library.Services;
 using Lab1.Library.Services.Printing;
+using Lab1.Library.Services.Visitors;
 
 namespace Lab1.Library.Entities.GameObjects
 {
@@ -26,5 +27,14 @@ namespace Lab1.Library.Entities.GameObjects
             p.AddText(new TextPos(Char.ToString(), new(Pos.X + PrintAt.X, Pos.Y + PrintAt.Y)));
             return p;
         }
+        public override bool Accept(GameObjectVisitor visitor)
+        {
+            return visitor.Visit(this);
+        }
+        public void TakeDamage(int damage)
+        {
+            State.Health -= damage;
+        }
+
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Lab1.Library.Services.Visitors;
 
 namespace Lab1.Library.Entities.GameObjects.Enemies
 {
@@ -11,5 +12,9 @@ namespace Lab1.Library.Entities.GameObjects.Enemies
         public override int Health { get; set; } = 15;
         public override int Damage { get; set; } = 3;
         public override int Armor { get; set; } = 3;
+        public override bool Accept(GameObjectVisitor visitor)
+        {
+            return visitor.Visit(this);
+        }
     }
 }

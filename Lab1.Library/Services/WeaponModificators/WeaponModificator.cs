@@ -14,8 +14,6 @@ namespace Lab1.Library.Services.WeaponModificators
         protected Weapon _weapon;
 
         public override char Char => _weapon.Char;
-        public override bool CanBeGoneThrough => _weapon.CanBeGoneThrough;
-        public override bool IsEmpty => _weapon.IsEmpty;
         public override Point PrintAt => _weapon.PrintAt;
         public override string Description => _weapon.Description;
         public override bool IsTwoHanded => _weapon.IsTwoHanded;

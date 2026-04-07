@@ -25,7 +25,7 @@ namespace Lab1.Library.Services.Printing
                     Console.SetCursorPosition(txt.PrintAt.X, txt.PrintAt.Y);
                     Console.Write(txt.Text);
                 }
-                catch (Exception e) { }
+                catch (Exception e) { e.GetType(); }
             }
 
             Console.SetCursorPosition(Left, Top);

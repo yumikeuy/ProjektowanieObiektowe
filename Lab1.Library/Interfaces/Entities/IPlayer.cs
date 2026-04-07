@@ -13,5 +13,6 @@ namespace Lab1.Library.Interfaces.Entities
     {
         public IPlayerState State { get; set; }
         public Point Pos { get; set; }
+        public void TakeDamage(int damage);
     }
 }
