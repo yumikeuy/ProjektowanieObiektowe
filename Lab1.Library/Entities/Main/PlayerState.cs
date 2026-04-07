@@ -96,16 +96,12 @@ namespace Lab1.Library.Entities.Main
         {
             _hands.SelectHand(hand);
         }
-        public bool TryTakeItemToHand(int i)
+        public IHandInventoryTransfer GetInventoryTransfer()
         {
-            return _handInvTransfer.TransferFromInventoryToHands(i);
-        }
-        public bool TryHideItem()
-        {
-            return _handInvTransfer.TransferFromHandsToInventory();
+            return _handInvTransfer;
         }
 
-        public void StateDefaultInit()
+        private void StateDefaultInit()
         {
             Damage = 0;
             Health = 100;

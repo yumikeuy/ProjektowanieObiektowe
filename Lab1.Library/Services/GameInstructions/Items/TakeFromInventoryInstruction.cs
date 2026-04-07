@@ -15,7 +15,7 @@ namespace Lab1.Library.Services.GameInstructions.Items
         public override string Description { get; set; } = "Press k to take the k-th item";
         public override void Execute(IInputEvent inputEvent)
         {
-            inputEvent.GameState.Player.State.TryTakeItemToHand(inputEvent.Key - ConsoleKey.D1);
+            inputEvent.GameState.Player.State.GetInventoryTransfer().TransferFromInventoryToHands(inputEvent.Key - ConsoleKey.D1);
             base.Execute(inputEvent);
         }
     }

@@ -15,7 +15,7 @@ namespace Lab1.Library.Services.GameInstructions.Items
         public override string Description { get; set; } = "Press \"0\" to put item to inventory";
         public override void Execute(IInputEvent inpuEvent)
         {
-            inpuEvent.GameState.Player.State.TryHideItem();
+            inpuEvent.GameState.Player.State.GetInventoryTransfer().TransferFromHandsToInventory();
             base.Execute(inpuEvent);
         }
     }

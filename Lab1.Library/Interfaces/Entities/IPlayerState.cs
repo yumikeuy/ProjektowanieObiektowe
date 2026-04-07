@@ -23,7 +23,6 @@ namespace Lab1.Library.Interfaces.Entities
         public bool TryAdd(IItem item);
         public IItem? Drop();
         public void SelectHand(Hands hand);
-        public bool TryTakeItemToHand(int i);
-        public bool TryHideItem();
+        public IHandInventoryTransfer GetInventoryTransfer();
     }
 }
