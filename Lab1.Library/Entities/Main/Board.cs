@@ -57,16 +57,6 @@ namespace Lab1.Library.Entities.Main
         }
 
         // IBoard
-        public bool TryPickUp(IPlayer player)
-        {
-            if (GetAt(player.Pos).Pick(player.State))
-            {
-                SetAt(player.Pos, new EmptyGameObject());
-                return true;
-            }
-
-            return false;
-        }
         public ICollection<Point> GetEmptyCells()
         {
             var sps = new List<Point>();

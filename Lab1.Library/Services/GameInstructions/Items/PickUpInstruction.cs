@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Lab1.Library.Entities.GameObjects;
 using Lab1.Library.Interfaces.Game;
 using Lab1.Library.Services.GameInstructions;
+using Lab1.Library.Services.Validators.ItemsValidators;
 
 namespace Lab1.Library.Services.GameInstructions.Items
 {
@@ -15,7 +17,15 @@ namespace Lab1.Library.Services.GameInstructions.Items
         public override string Description { get; set; } = "Press \"E\" to pick up the item";
         public override void Execute(IInputEvent inputEvent)
         {
-            inputEvent.GameState.Board.TryPickUp(inputEvent.GameState.Player);
+            var player = inputEvent.GameState.Player;
+            var board = inputEvent.GameState.Board;
+
+            if (PickUpItemValidator.IsValid(board, player.Pos))
+            {
+                board.GetAt(player.Pos).Pick(player.State);
+                board.SetAt(player.Pos, new EmptyGameObject());
+            }
+
             base.Execute(inputEvent);
         }
 

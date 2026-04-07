@@ -15,7 +15,6 @@ namespace Lab1.Library.Interfaces.Entities
         public int Width { get; }
         public int Height { get; }
         public string IntroductionText { get; set; }
-        public bool TryPickUp(IPlayer player);
         public ICollection<Point> GetEmptyCells();
         public Point GetSpawnPoint();
         public IGameObject GetAt(Point pos);
