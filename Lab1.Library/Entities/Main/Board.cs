@@ -6,6 +6,7 @@ using Lab1.Library.Interfaces.Game;
 using Lab1.Library.Interfaces.Printing;
 using Lab1.Library.Services;
 using Lab1.Library.Services.Printing;
+using Lab1.Library.Services.Validators.ItemsValidators;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -62,20 +63,6 @@ namespace Lab1.Library.Entities.Main
             {
                 SetAt(player.Pos, new EmptyGameObject());
                 return true;
-            }
-
-            return false;
-        }
-        public bool TryDrop(IPlayer player)
-        {
-            if (GetAt(player.Pos).IsEmpty)
-            {
-                var item = player.State.Drop();
-                if (item != null)
-                {
-                    SetAt(player.Pos, item);
-                    return true;
-                }
             }
 
             return false;
