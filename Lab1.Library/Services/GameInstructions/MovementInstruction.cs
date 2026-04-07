@@ -22,17 +22,20 @@ namespace Lab1.Library.Services.GameInstructions
             var player = inputEvent.GameState.Player;
             var pos = player.Pos;
 
-            Point newPos = inputEvent.Key switch
+            (Point newPos, char orientation) = inputEvent.Key switch
             {
-                ConsoleKey.W => pos.Up(),
-                ConsoleKey.A => pos.Left(),
-                ConsoleKey.S => pos.Down(),
-                ConsoleKey.D => pos.Right(),
-                _ => new(-1, -1)
+                ConsoleKey.W => (pos.Up(), 'U'),
+                ConsoleKey.A => (pos.Left(), 'L'),
+                ConsoleKey.S => (pos.Down(), 'D'),
+                ConsoleKey.D => (pos.Right(), 'R'),
+                _ => (new(-1, -1), 'N')
             };
 
             if (MovementValidator.IsValid(board, newPos))
+            {
                 player.Pos = newPos;
+                player.State.Orientation = orientation;
+            }
 
             base.Execute(inputEvent);
         }

@@ -35,7 +35,7 @@ namespace Lab1.Library.Entities.Main
         private Point currentPrintPos;
         private readonly int separatorLength = 40;
 
-        public char Orientation { get; set; } = 'S';
+        public char Orientation { get; set; } = 'D';
 
         public IPrintable Text()
         {
