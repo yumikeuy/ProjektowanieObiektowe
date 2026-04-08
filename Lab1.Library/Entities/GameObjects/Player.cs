@@ -36,7 +36,10 @@ namespace Lab1.Library.Entities.GameObjects
         }
         public void TakeDamage(int damage)
         {
-            State.Health -= damage;
+            var actualDamage = damage - State.Armor;
+            if (actualDamage < 0) return;
+            State.Health -= actualDamage;
+            State.Armor = 0;
             if (State.Health < 0) Die();
         }
 

@@ -11,16 +11,16 @@ namespace Lab1.Library.Services.WeaponModificators
 {
     public class HappyModificator(Weapon weapon) : WeaponModificator(weapon)
     {
-        private const int happinessBonus = 25;
+        private const int happinessBonus = 1;
         public override string Description => base.Description + " (Happy)";
         public override void Activate(IPlayerState playerState)
         {
-            playerState.Happiness += happinessBonus;
+            playerState.Luck += happinessBonus;
             base.Activate(playerState);
         }
         public override void Deactivate(IPlayerState playerState)
         {
-            playerState.Happiness -= happinessBonus;
+            playerState.Luck -= happinessBonus;
             base.Deactivate(playerState);
         }        
     }

@@ -24,12 +24,13 @@ namespace Lab1.Library.Entities.Main
 
         public int Damage { get; set; }
         public int Health { get; set; }
-        public int Happiness { get; set; }
+        public int Luck { get; set; }
         public int Agility { get; set; }
         public int Agressiveness { get; set; }
         public int Iq { get; set; }
         public int Coins { get; set; }
         public int Gold { get; set; }
+        public int Armor { get; set; }
 
         public Point PrintAt { get; set; }
         private Point currentPrintPos;
@@ -48,7 +49,7 @@ namespace Lab1.Library.Entities.Main
             AddLine(p, "");
             AddLine(p, $"Damage           {Damage}");
             AddLine(p, $"Health           {Health}");
-            AddLine(p, $"Happiness        {Happiness}");
+            AddLine(p, $"Happiness        {Luck}");
             AddLine(p, $"Agility          {Agility}");
             AddLine(p, $"Agressiveness    {Agressiveness}");
             AddLine(p, $"Iq               {Iq}");
@@ -109,12 +110,13 @@ namespace Lab1.Library.Entities.Main
         {
             Damage = 0;
             Health = 100;
-            Happiness = 50;
-            Agility = 50;
-            Agressiveness = 50;
-            Iq = 50;
+            Luck = 1;
+            Agility = 1;
+            Agressiveness = 1;
+            Iq = 1;
             Coins = 0;
             Gold = 0;
+            Armor = 0;
         }
         public PlayerState(int boardWidth)
         {

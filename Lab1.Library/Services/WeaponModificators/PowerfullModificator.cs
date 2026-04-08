@@ -8,11 +8,11 @@ using Lab1.Library.Interfaces.Entities;
 
 namespace Lab1.Library.Services.WeaponModificators
 {
-    public class HeavyModificator : WeaponModificator
+    public class PowerfullModificator : WeaponModificator
     {
-        private const int damageBonus = 25;
+        private const int damageBonus = 5;
 
-        public HeavyModificator(Weapon weapon) : base(weapon)
+        public PowerfullModificator(Weapon weapon) : base(weapon)
         {
             Damage += damageBonus;
         }

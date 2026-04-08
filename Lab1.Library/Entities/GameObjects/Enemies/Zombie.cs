@@ -10,8 +10,8 @@ namespace Lab1.Library.Entities.GameObjects.Enemies
 {
     public class Zombie(Point pos) : Enemy(pos)
     {
-        public override int Health { get; set; } = 15;
-        public override int Damage { get; set; } = 3;
+        public override int Health { get; set; } = 1005;
+        public override int Damage { get; set; } = 15;
         public override int Armor { get; set; } = 1;
         public override bool AcceptGameObjectVisitor(GameObjectVisitor visitor)
         {

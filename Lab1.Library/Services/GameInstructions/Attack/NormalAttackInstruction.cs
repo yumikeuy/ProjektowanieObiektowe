@@ -17,14 +17,7 @@ namespace Lab1.Library.Services.GameInstructions.Attack
         public override string Description { get; set; } = "Press \"X\" to use normal attack on an enemy";
         public override void Execute(IInputEvent inputEvent)
         {
-            var attackVisitor = new NormalAttackVisitor();
-            var item = inputEvent.GameState.Player.State.GetCurrentItem();
-
-            if (item != null)
-            {
-                item.AcceptItemVisitor(attackVisitor);
-                _damage = attackVisitor.CalculatedDamage;
-            }
+            _attackVisitor = new NormalAttackVisitor(inputEvent.GameState.Player.State);
 
             base.Execute(inputEvent);
         }
