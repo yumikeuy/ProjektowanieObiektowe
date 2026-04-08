@@ -10,6 +10,7 @@ using Lab1.Library.Interfaces.GameBuilders;
 using Lab1.Library.Interfaces.Game;
 using Lab1.Library.Entities.Game;
 using Lab1.Library.Services.Printing;
+using Lab1.Library.Entities.GameObjects.Main;
 
 
 namespace Lab1.Library.Services.GameBuilders

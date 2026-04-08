@@ -10,7 +10,7 @@ using Lab1.Library.Entities.GameObjects.Items.Weapons.Light;
 using Lab1.Library.Entities.GameObjects.Items.Weapons.Magic;
 using Lab1.Library.Entities.GameObjects.Items.Weapons;
 using Lab1.Library.Entities.GameObjects.Money;
-using Lab1.Library.Entities.GameObjects;
+using Lab1.Library.Entities.GameObjects.Items;
 
 namespace Lab1.Library.Services.Visitors.ItemVisitors
 {

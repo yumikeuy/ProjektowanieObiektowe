@@ -8,6 +8,7 @@ using Lab1.Library.Entities.GameObjects;
 using Lab1.Library.Entities.GameObjects.Items.Weapons;
 using Lab1.Library.Entities.GameObjects.Items.Weapons.Heavy;
 using Lab1.Library.Entities.GameObjects.Items.Weapons.Light;
+using Lab1.Library.Entities.GameObjects.Main;
 using Lab1.Library.Entities.GameObjects.Money;
 using Lab1.Library.Entities.Main;
 using Lab1.Library.Interfaces.Entities;

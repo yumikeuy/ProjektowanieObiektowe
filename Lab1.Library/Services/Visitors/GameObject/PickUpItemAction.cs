@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Lab1.Library.Entities.GameObjects;
+using Lab1.Library.Entities.GameObjects.Items;
 using Lab1.Library.Entities.GameObjects.Money;
 using Lab1.Library.Interfaces.Entities;
 

@@ -1,8 +1,7 @@
-﻿using Lab1.Library.Entities.GameObjects;
+﻿using Lab1.Library.Entities.GameObjects.Items;
 using Lab1.Library.Entities.GameObjects.Items.Weapons;
 using Lab1.Library.Entities.Inventory;
 using Lab1.Library.Entities.Printing;
-using Lab1.Library.Interfaces;
 using Lab1.Library.Interfaces.Entities;
 using Lab1.Library.Interfaces.Printing;
 using Lab1.Library.Services;

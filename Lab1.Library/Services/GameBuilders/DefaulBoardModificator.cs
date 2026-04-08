@@ -9,6 +9,7 @@ using Lab1.Library.Entities.GameObjects.Enemies;
 using Lab1.Library.Entities.GameObjects.Items.Neutral;
 using Lab1.Library.Entities.GameObjects.Items.Weapons;
 using Lab1.Library.Entities.GameObjects.Items.Weapons.Light;
+using Lab1.Library.Entities.GameObjects.Main;
 using Lab1.Library.Entities.GameObjects.Money;
 using Lab1.Library.Interfaces.Entities;
 using Lab1.Library.Interfaces.Game;

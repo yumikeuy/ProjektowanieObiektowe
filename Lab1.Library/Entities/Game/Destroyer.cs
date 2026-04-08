@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Lab1.Library.Entities.GameObjects;
+using Lab1.Library.Entities.GameObjects.Main;
 using Lab1.Library.Interfaces.Entities;
 using Lab1.Library.Interfaces.Game;
 
