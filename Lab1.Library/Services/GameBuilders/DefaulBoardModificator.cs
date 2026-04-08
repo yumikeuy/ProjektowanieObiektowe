@@ -19,10 +19,8 @@ using Lab1.Library.Services.WeaponModificators;
 
 namespace Lab1.Library.Services.GameBuilders
 {
-    public class DefaulBoardModificator(IDestroyer destroyer) : IBoardModificator
+    public class DefaulBoardModificator : IBoardModificator
     {
-        private IDestroyer _destroyer = destroyer;
-
         private const int gridWidth = 8;
         private const int gridHeight = 10;
 
@@ -107,16 +105,17 @@ namespace Lab1.Library.Services.GameBuilders
             return this;
         }
 
-        public IBoardModificator AddEnemies(IBoard board, int amount)
+        public IBoardModificator AddEnemies(IBoard board, IDestroyer destroyer, int amount)
         {
             var empty = board.GetEmptyCells();
 
             if (empty.Count != 0)
                 for (int i = 0; i < amount; i++)
                 {
-                    var newEnemie = new Zombie();
-                    _destroyer.Add(newEnemie);
-                    board.SetAt(empty.ElementAt(Random.Shared.Next(empty.Count)), newEnemie);
+                    var pos = empty.ElementAt(Random.Shared.Next(empty.Count));
+                    var newEnemie = new Zombie(pos);
+                    destroyer.Add(newEnemie);
+                    board.SetAt(pos, newEnemie);
                 }
                     
 

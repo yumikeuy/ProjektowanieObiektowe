@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Lab1.Library.Entities;
 using Lab1.Library.Interfaces.Entities;
+using Lab1.Library.Interfaces.Game;
 using Lab1.Library.Interfaces.GameBuilders;
 
 namespace Lab1.Library.Services.GameBuilders
@@ -90,11 +91,11 @@ namespace Lab1.Library.Services.GameBuilders
             _board.IntroductionText += IntroductionTexts.MoneyText;
             return this;
         }
-        public IBoardBuilder AddEnemies(int amount)
+        public IBoardBuilder AddEnemies(IDestroyer destroyer, int amount)
         {
             if (!isInitialized) throw new Exception("Board hasn't been initialized yet.");
 
-            _modificator.AddEnemies(_board, amount);
+            _modificator.AddEnemies(_board, destroyer, amount);
             _board.IntroductionText += IntroductionTexts.EnemiesText;
             return this;
         }

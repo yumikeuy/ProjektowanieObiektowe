@@ -10,6 +10,7 @@ namespace Lab1.Library.Interfaces.Game
     public interface IDestroyer
     {
         public void Add(IDestroyable entity);
+        public void AddBoard(IBoard board);
         public void CleanUp();
     }
 }

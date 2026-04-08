@@ -3,19 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Lab1.Library.Entities.GameObjects;
 using Lab1.Library.Interfaces.Entities;
 using Lab1.Library.Interfaces.Game;
 
 namespace Lab1.Library.Entities.Game
 {
-    public class Destroyer(IBoard board) : IDestroyer
+    public class Destroyer : IDestroyer
     {
-        private IBoard _board = board;
+        private IBoard? _board;
         private List<IDestroyable> _toRemove = new List<IDestroyable>();
 
         public void Add(IDestroyable entity)
         {
             entity.OnDestroyRequested += HandleDestroyRequest;
+        }
+        public void AddBoard(IBoard board)
+        {
+            _board = board;
         }
 
         private void HandleDestroyRequest(IDestroyable entity)
@@ -38,7 +43,9 @@ namespace Lab1.Library.Entities.Game
 
         private void DisposeEntity(IDestroyable entity)
         {
-            
+            if (_board == null) throw new InvalidOperationException("Destroyer's Board reference is null.");
+
+            _board.SetAt(entity.Pos, new EmptyGameObject());
         }
     }
 }
