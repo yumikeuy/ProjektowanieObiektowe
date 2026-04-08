@@ -47,7 +47,7 @@ namespace Lab1.Library.Entities.Inventory
                     break;
             }
         }
-        public bool TryAdd(IItem item)
+        public bool TryAdd(Item item)
         {
             if (item.IsTwoHanded)
             {
@@ -62,7 +62,7 @@ namespace Lab1.Library.Entities.Inventory
 
             return Add(current, item);
         }
-        public bool TryAdd(ICollection<IItem> items)
+        public bool TryAdd(ICollection<Item> items)
         {
             if (items.Count > 2 || items.Count == 0)
                 return false;
@@ -82,14 +82,14 @@ namespace Lab1.Library.Entities.Inventory
                 return true;
 
         }
-        public ICollection<IItem> AddOrSwap(IItem item)
+        public ICollection<Item> AddOrSwap(Item item)
         {
             if (item.IsTwoHanded)
             {
-                ICollection<IItem> returnItems = [];
+                ICollection<Item> returnItems = [];
 
-                IItem? left = Remove(hands.left);
-                IItem? right = Remove(hands.right);
+                Item? left = Remove(hands.left);
+                Item? right = Remove(hands.right);
                 if (left != null) returnItems.Add(left);
                 if (right != null) returnItems.Add(right);
 
@@ -98,8 +98,8 @@ namespace Lab1.Library.Entities.Inventory
             }
             else
             {
-                ICollection<IItem> returnItems = [];
-                IItem? removedItem = Remove();
+                ICollection<Item> returnItems = [];
+                Item? removedItem = Remove();
                 if (removedItem != null)
                     returnItems.Add(removedItem);
 
@@ -107,7 +107,7 @@ namespace Lab1.Library.Entities.Inventory
                 else throw new Exception("Poorly managed Swaping the one-handed item");
             }
         }
-        public ICollection<IItem>? AddOrSwap(ICollection<IItem> items)
+        public ICollection<Item>? AddOrSwap(ICollection<Item> items)
         {
             if (items.Count > 2 || items.Count == 0)
                 return null;
@@ -115,16 +115,16 @@ namespace Lab1.Library.Entities.Inventory
             if (items.Count == 2 && items.First().IsTwoHanded || items.Last().IsTwoHanded)
                 return null;
 
-            ICollection<IItem> returnItems = [];
+            ICollection<Item> returnItems = [];
             foreach (var i in items)
                 foreach (var item in AddOrSwap(i))
                     returnItems.Add(item);
 
             return returnItems;
         }
-        public IItem? Remove()
+        public Item? Remove()
         {
-            IItem? removedItem;
+            Item? removedItem;
 
             if (isCurrentTwoHanded)
             {
@@ -139,15 +139,19 @@ namespace Lab1.Library.Entities.Inventory
             isCurrentTwoHanded = false;
             return removedItem;
         }
+        public Item? GetCurrentItem()
+        {
+            return current.GetItem();
+        }
 
-        private IItem? Remove(IHand hand)
+        private Item? Remove(IHand hand)
         {
             var item = hand.Remove();
             item?.Deactivate(_playerState);
 
             return item;
         }
-        private bool Add(IHand hand, IItem item)
+        private bool Add(IHand hand, Item item)
         {
             if (hand.TryAdd(item))
             {

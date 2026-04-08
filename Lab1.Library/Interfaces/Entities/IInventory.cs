@@ -10,8 +10,8 @@ namespace Lab1.Library.Interfaces.Entities
 {
     public interface IInventory : ITextConvertible
     {
-        public bool TryAdd(IItem item);
-        public bool TryAdd(ICollection<IItem> items);
-        public IItem? TryRemove(int itemIndex);
+        public bool TryAdd(Item item);
+        public bool TryAdd(ICollection<Item> items);
+        public Item? TryRemove(int itemIndex);
     }
 }

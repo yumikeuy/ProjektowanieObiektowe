@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Lab1.Library.Entities;
 using Lab1.Library.Interfaces.Entities;
 using Lab1.Library.Interfaces.Printing;
-using Lab1.Library.Services.Visitors;
+using Lab1.Library.Services.Visitors.GameObject;
 
 namespace Lab1.Library.Interfaces.Game
 {
@@ -15,6 +15,6 @@ namespace Lab1.Library.Interfaces.Game
     {
         public char Char { get; set; }
 
-        public bool Accept(GameObjectVisitor visitor);
+        public bool AcceptGameObjectVisitor(GameObjectVisitor visitor);
     }
 }

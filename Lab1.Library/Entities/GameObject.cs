@@ -3,7 +3,7 @@ using Lab1.Library.Interfaces.Game;
 using Lab1.Library.Interfaces.Printing;
 using Lab1.Library.Services;
 using Lab1.Library.Services.Printing;
-using Lab1.Library.Services.Visitors;
+using Lab1.Library.Services.Visitors.GameObject;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -28,6 +28,6 @@ namespace Lab1.Library.Entities
         {
             PrintAt = printAt;
         }
-        public abstract bool Accept(GameObjectVisitor visitor);
+        public abstract bool AcceptGameObjectVisitor(GameObjectVisitor visitor);
     }
 }

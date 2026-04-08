@@ -8,18 +8,13 @@ using Lab1.Library.Interfaces.Entities;
 
 namespace Lab1.Library.Services.WeaponModificators
 {
-    public class HeavyModificator(Weapon weapon) : WeaponModificator(weapon)
+    public class HeavyModificator : WeaponModificator
     {
         private const int damageBonus = 25;
-        public override void Activate(IPlayerState playerState)
+
+        public HeavyModificator(Weapon weapon) : base(weapon)
         {
-            base.Activate(playerState);
-            playerState.Damage += damageBonus;
-        }
-        public override void Deactivate(IPlayerState playerState)
-        {
-            base.Deactivate(playerState);
-            playerState.Damage -= damageBonus;
+            Damage += damageBonus;
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Lab1.Library.Entities.GameObjects;
 using Lab1.Library.Entities.GameObjects.Enemies;
+using Lab1.Library.Services.Visitors.GameObject;
 
 namespace Lab1.Library.Services.Visitors
 {

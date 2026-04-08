@@ -79,7 +79,7 @@ namespace Lab1.Library.Entities.Main
             p.AddText(new TextPos(str, new(currentPrintPos.X, currentPrintPos.Y++)));
         }
 
-        public bool TryAdd(IItem item)
+        public bool TryAdd(Item item)
         {
             if (_inventory.TryAdd(item))
                 return true;
@@ -88,7 +88,7 @@ namespace Lab1.Library.Entities.Main
 
             return false;
         }
-        public IItem? Drop()
+        public Item? Drop()
         {
             return _hands.Remove();
         }
@@ -99,6 +99,10 @@ namespace Lab1.Library.Entities.Main
         public IHandInventoryTransfer GetInventoryTransfer()
         {
             return _handInvTransfer;
+        }
+        public Item? GetCurrentItem()
+        {
+            return _hands.GetCurrentItem();
         }
 
         private void StateDefaultInit()

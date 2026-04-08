@@ -7,7 +7,7 @@ using Lab1.Library.Entities.GameObjects;
 using Lab1.Library.Entities.GameObjects.Money;
 using Lab1.Library.Interfaces.Entities;
 
-namespace Lab1.Library.Services.Visitors
+namespace Lab1.Library.Services.Visitors.GameObject
 {
     public class PickUpItemAction(IPlayerState playerState) : GameObjectVisitor
     {

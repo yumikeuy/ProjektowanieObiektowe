@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Lab1.Library.Entities.GameObjects.Items.Weapons;
 using Lab1.Library.Interfaces.Entities;
+using Lab1.Library.Services.Visitors.ItemVisitors;
 
 namespace Lab1.Library.Services.WeaponModificators
 {
@@ -14,13 +15,13 @@ namespace Lab1.Library.Services.WeaponModificators
         public override string Description => base.Description + " (Happy)";
         public override void Activate(IPlayerState playerState)
         {
-            base.Activate(playerState);
             playerState.Happiness += happinessBonus;
+            base.Activate(playerState);
         }
         public override void Deactivate(IPlayerState playerState)
         {
-            base.Deactivate(playerState);
             playerState.Happiness -= happinessBonus;
-        }
+            base.Deactivate(playerState);
+        }        
     }
 }

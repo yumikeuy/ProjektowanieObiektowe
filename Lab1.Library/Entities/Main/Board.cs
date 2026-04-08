@@ -8,6 +8,7 @@ using Lab1.Library.Services;
 using Lab1.Library.Services.Printing;
 using Lab1.Library.Services.Validators.ItemsValidators;
 using Lab1.Library.Services.Visitors;
+using Lab1.Library.Services.Visitors.GameObject;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -64,7 +65,7 @@ namespace Lab1.Library.Entities.Main
 
             for (int i = 0; i < Height; i++)
                 for (int j = 0; j < Width; j++)
-                    if (_data[j, i].Accept(new CanBeGoneThrough())) sps.Add(new(j, i));
+                    if (!_data[j, i].AcceptGameObjectVisitor(new CantBeGoneThrough())) sps.Add(new(j, i));
 
             return sps;
         }

@@ -94,7 +94,9 @@ namespace Lab1.Library.Services.GameBuilders
             _gameState.Printer = new Printer();
             _gameState.Board = _boardBuilder.GetResult();
             _gameState.Instructions = _instructionsBuilder.GetResult();
+            _gameState.Destroyer = new Destroyer(_gameState.Board);
             _gameState.Player = new Player(_gameState.Board.GetZero(), _gameState.Board.GetSpawnPoint(), _width);
+            _gameState.Destroyer.Add(_gameState.Player);
             return _gameState;
         }
     }

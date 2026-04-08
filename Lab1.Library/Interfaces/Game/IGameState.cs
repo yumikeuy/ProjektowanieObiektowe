@@ -16,5 +16,6 @@ namespace Lab1.Library.Interfaces.Game
         public IInstructions Instructions { get; set; }
         public IBoard Board { get; set; }
         public IPrinter Printer { get; set; }
+        public IDestroyer Destroyer { get; set; }
     }
 }

@@ -11,14 +11,14 @@ namespace Lab1.Library.Services.GameInstructions.Attack
 {
     public abstract class AttackInstruction : ActionInstruction 
     {
-        protected int _damage;
+        protected int _damage = 0;
         public override void Execute(IInputEvent inputEvent)
         {
             var board = inputEvent.GameState.Board;
             var player = inputEvent.GameState.Player;
             if(NearEnemyValidator.IsValid(board, player, out var gameObject))
             {
-                if(gameObject.Accept(new TakeDamage(_damage)))
+                if(gameObject.AcceptGameObjectVisitor(new TakeDamage(_damage)))
                 {
                     //TODO
                 }

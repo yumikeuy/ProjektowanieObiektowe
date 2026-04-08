@@ -11,6 +11,7 @@ using Lab1.Library.Interfaces.Entities;
 using Lab1.Library.Interfaces.Game;
 using Lab1.Library.Services.Validators.BoardValidators;
 using Lab1.Library.Services.Visitors;
+using Lab1.Library.Services.Visitors.GameObject;
 
 namespace Lab1.Library.Services.Validators.AttackValidators
 {
@@ -28,7 +29,7 @@ namespace Lab1.Library.Services.Validators.AttackValidators
                 _ => new(-1, -1)
             };
 
-            if (IsInsideBoardValidator.IsValid(board, orientedPos) && board.GetAt(orientedPos).Accept(new IsEnemy()))
+            if (IsInsideBoardValidator.IsValid(board, orientedPos) && board.GetAt(orientedPos).AcceptGameObjectVisitor(new IsEnemy()))
             {
                 go = board.GetAt(orientedPos);
                 return true;
@@ -36,7 +37,7 @@ namespace Lab1.Library.Services.Validators.AttackValidators
 
             foreach(var p in pos.NearPoints())
             {
-                if(IsInsideBoardValidator.IsValid(board, p) && board.GetAt(p).Accept(new IsEnemy()))
+                if(IsInsideBoardValidator.IsValid(board, p) && board.GetAt(p).AcceptGameObjectVisitor(new IsEnemy()))
                 {
                     go = board.GetAt(p);
                     return true;

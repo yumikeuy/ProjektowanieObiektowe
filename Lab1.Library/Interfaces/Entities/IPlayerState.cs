@@ -22,9 +22,10 @@ namespace Lab1.Library.Interfaces.Entities
 
         public char Orientation { get; set; }
 
-        public bool TryAdd(IItem item);
-        public IItem? Drop();
+        public bool TryAdd(Item item);
+        public Item? Drop();
         public void SelectHand(Hands hand);
         public IHandInventoryTransfer GetInventoryTransfer();
+        public Item? GetCurrentItem();
     }
 }

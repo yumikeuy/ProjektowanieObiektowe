@@ -4,11 +4,11 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Lab1.Library.Services.Visitors;
+using Lab1.Library.Services.Visitors.GameObject;
 
-namespace Lab1.Library.Entities.GameObjects.Items.Weapons
+namespace Lab1.Library.Entities.GameObjects.Items.Weapons.Heavy
 {
-    public class MachineGun : Weapon
+    public class MachineGun : HeavyWeapon
     {
         public const int damage = 10;
         public override char Char { get; set; } = '*';
@@ -17,9 +17,9 @@ namespace Lab1.Library.Entities.GameObjects.Items.Weapons
 
         public MachineGun()
         {
-            base.Damage = damage;
+            Damage = damage;
         }
-        public override bool Accept(GameObjectVisitor visitor)
+        public override bool AcceptGameObjectVisitor(GameObjectVisitor visitor)
         {
             return visitor.Visit(this);
         }

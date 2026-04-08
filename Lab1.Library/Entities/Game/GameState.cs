@@ -18,6 +18,7 @@ namespace Lab1.Library.Entities.Game
         public IInstructions Instructions { get; set; } = null!;
         public IBoard Board { get; set; } = null!;
         public IPrinter Printer { get; set; } = null!;
+        public IDestroyer Destroyer { get; set; } = null!;
 
         public Point PrintAt { get; set; } = new(0, 0);
         public IPrintable Text()

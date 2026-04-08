@@ -14,7 +14,7 @@ namespace Lab1.Library.Entities.Inventory
 {
     public class Hand : ITextConvertible, IHand
     {
-        private IItem? _item;
+        private Item? _item;
         public Point PrintAt { get; set; } = new(0, 0);
         private Hands leftOrRight;
 
@@ -28,14 +28,14 @@ namespace Lab1.Library.Entities.Inventory
         }
         public Hand() { }
 
-        public bool TryAdd(IItem item)
+        public bool TryAdd(Item item)
         {
             if (_item != null) return false;
             _item = item;
             return true;
         }
 
-        public IItem? Remove()
+        public Item? Remove()
         {
             var tmp = _item;
             _item = null;
@@ -48,6 +48,11 @@ namespace Lab1.Library.Entities.Inventory
             var itemText = _item == null ? "" : _item.Description;
             p.AddText(new TextPos($"{leftOrRight} Hand: " + itemText, PrintAt));
             return p;
+        }
+
+        public Item? GetItem()
+        {
+            return _item;
         }
 
         public void ActivateItem(IPlayerState playerState)

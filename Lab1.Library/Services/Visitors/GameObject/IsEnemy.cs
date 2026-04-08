@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Lab1.Library.Entities.GameObjects;
 using Lab1.Library.Entities.GameObjects.Enemies;
 
-namespace Lab1.Library.Services.Visitors
+namespace Lab1.Library.Services.Visitors.GameObject
 {
     public class IsEnemy : GameObjectVisitor
     {

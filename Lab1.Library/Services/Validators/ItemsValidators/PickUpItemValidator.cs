@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Lab1.Library.Entities.GameObjects;
 using Lab1.Library.Interfaces.Entities;
 using Lab1.Library.Services.Visitors;
+using Lab1.Library.Services.Visitors.GameObject;
 
 namespace Lab1.Library.Services.Validators.ItemsValidators
 {
@@ -15,7 +16,7 @@ namespace Lab1.Library.Services.Validators.ItemsValidators
     {
         public static bool IsValid(IBoard board, Point pos, IPlayerState playerState)
         {
-            if (board.GetAt(pos).Accept(new PickUpItemAction(playerState)))
+            if (board.GetAt(pos).AcceptGameObjectVisitor(new PickUpItemAction(playerState)))
                 return true;
 
             return false;

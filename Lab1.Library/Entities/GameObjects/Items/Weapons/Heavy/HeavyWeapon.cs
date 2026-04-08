@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Lab1.Library.Interfaces.Entities;
 using Lab1.Library.Services.Visitors.GameObject;
+using Lab1.Library.Services.Visitors.ItemVisitors;
 
-namespace Lab1.Library.Entities.GameObjects.Money
+namespace Lab1.Library.Entities.GameObjects.Items.Weapons.Heavy
 {
-    public abstract class Money : GameObject
+    public abstract class HeavyWeapon : Weapon
     {
-        public override bool AcceptGameObjectVisitor(GameObjectVisitor visitor)
+        public override bool AcceptItemVisitor(ItemVisitor visitor)
         {
             return visitor.Visit(this);
         }
