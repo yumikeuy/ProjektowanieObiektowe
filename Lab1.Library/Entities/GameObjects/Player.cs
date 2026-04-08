@@ -27,7 +27,7 @@ namespace Lab1.Library.Entities.GameObjects
         {
             Printable p = new();
             if(!IsPendingDeletion)
-                p.AddText(new TextPos(Char.ToString(), new(Pos.X + PrintAt.X, Pos.Y + PrintAt.Y)));
+                p.AddText(new TextPos(Char.ToString(), Pos + PrintAt));
             return p;
         }
         public override bool AcceptGameObjectVisitor(GameObjectVisitor visitor)

@@ -42,7 +42,7 @@ namespace Lab1.Library.Entities.Main
             Printable lines = new();
             for (int i = -1; i <= Height; i++)
             {
-                var line = new TextPos(new(PrintAt.X, PrintAt.Y + i + 1));
+                var line = new TextPos(PrintAt.DownN(i + 1));
                 for (int j = -1; j <= Width; j++)
                 {
                     if (i == -1 || i == Height)
@@ -65,7 +65,7 @@ namespace Lab1.Library.Entities.Main
 
             for (int i = 0; i < Height; i++)
                 for (int j = 0; j < Width; j++)
-                    if (!_data[j, i].AcceptGameObjectVisitor(new CantBeGoneThrough())) sps.Add(new(j, i));
+                    if (!_data[j, i].AcceptGameObjectVisitor(new CantBeGoneThrough())) sps.Add((j, i));
 
             return sps;
         }
@@ -86,7 +86,7 @@ namespace Lab1.Library.Entities.Main
         }
         public Point GetZero()
         {
-            return new(PrintAt.X + 1, PrintAt.Y + 1);
+            return PrintAt + (1, 1);
         }
     }
 }

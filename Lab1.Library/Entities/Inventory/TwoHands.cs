@@ -31,7 +31,7 @@ namespace Lab1.Library.Entities.Inventory
         public IPrintable Text()
         {
             hands.left.PrintAt = PrintAt;
-            hands.right.PrintAt = new(PrintAt.X, PrintAt.Y + 1);
+            hands.right.PrintAt = PrintAt.Down;
             return hands.left.Text().Add(hands.right.Text());
         }
 

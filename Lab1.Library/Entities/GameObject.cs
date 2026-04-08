@@ -15,11 +15,11 @@ namespace Lab1.Library.Entities
     public abstract class GameObject : IGameObject
     {
         public virtual char Char { get; set; } = ' ';
-        public virtual Point PrintAt { get; set; } = new(0, 0);
+        public virtual Point PrintAt { get; set; } = (0, 0);
         public virtual IPrintable Text()
         {
             Printable p = new();
-            p.AddText(new TextPos(Char.ToString(), new(PrintAt.X, PrintAt.Y)));
+            p.AddText(new TextPos(Char.ToString(), PrintAt));
             return p;
         }
         public GameObject() { }

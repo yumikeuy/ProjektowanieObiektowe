@@ -44,13 +44,13 @@ namespace Lab1.Library.Services.GameBuilders
 
             foreach (var y0 in y)
                 for (int j = 0; j < board.Width; j++)
-                    if (board.GetAt(new(j, y0)).AcceptGameObjectVisitor(new CantBeGoneThrough()))
-                        board.SetAt(new(j, y0), new EmptyGameObject());
+                    if (board.GetAt((j, y0)).AcceptGameObjectVisitor(new CantBeGoneThrough()))
+                        board.SetAt((j, y0), new EmptyGameObject());
 
             foreach (var x0 in x)
                 for (int j = 0; j < board.Height; j++)
-                    if (board.GetAt(new(x0, j)).AcceptGameObjectVisitor(new CantBeGoneThrough()))
-                        board.SetAt(new(x0, j), new EmptyGameObject());
+                    if (board.GetAt((x0, j)).AcceptGameObjectVisitor(new CantBeGoneThrough()))
+                        board.SetAt((x0, j), new EmptyGameObject());
 
             return this;
         }
@@ -70,7 +70,7 @@ namespace Lab1.Library.Services.GameBuilders
         }
         public IBoardModificator AddCentralRoom(IBoard board)
         {
-            AddRoom(board, new(board.Width / 2, board.Height / 2), centralRoomWidth, centralRoomHeight);
+            AddRoom(board, new Point(board.Width, board.Height) / 2, centralRoomWidth, centralRoomHeight);
 
             return this;
         }
@@ -150,10 +150,8 @@ namespace Lab1.Library.Services.GameBuilders
             List<Point> nonEmptyPoints = [];
             List<Point> notNearEmptyPoints = [];
 
-            CheckAndAddPoint(board, new(pos.X, pos.Y + 1), prevPos, nearPoints, nonEmptyPoints, notNearEmptyPoints);
-            CheckAndAddPoint(board, new(pos.X, pos.Y - 1), prevPos, nearPoints, nonEmptyPoints, notNearEmptyPoints);
-            CheckAndAddPoint(board, new(pos.X + 1, pos.Y), prevPos, nearPoints, nonEmptyPoints, notNearEmptyPoints);
-            CheckAndAddPoint(board, new(pos.X - 1, pos.Y), prevPos, nearPoints, nonEmptyPoints, notNearEmptyPoints);
+            foreach(var p in pos.Neighbors)
+                CheckAndAddPoint(board, p, prevPos, nearPoints, nonEmptyPoints, notNearEmptyPoints);
 
             prevPos = pos;
 
@@ -168,7 +166,7 @@ namespace Lab1.Library.Services.GameBuilders
 
         private bool IsInside(IBoard board, Point pos)
         {
-            return pos.X >= 0 && pos.Y >= 0 && pos.X < board.Width && pos.Y < board.Height;
+            return pos >= (0, 0) && pos < (board.Width, board.Height);
         }
 
         private void CheckAndAddPoint(IBoard board, Point pos, Point prevPos,

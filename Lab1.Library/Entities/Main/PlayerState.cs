@@ -40,7 +40,7 @@ namespace Lab1.Library.Entities.Main
 
         public IPrintable Text()
         {
-            currentPrintPos = new(PrintAt);
+            currentPrintPos = PrintAt;
             Printable p = new();
 
             AddLine(p, "Player State:");
@@ -120,7 +120,7 @@ namespace Lab1.Library.Entities.Main
         }
         public PlayerState(int boardWidth)
         {
-            PrintAt = new(boardWidth + 5, 1);
+            PrintAt = (boardWidth + 5, 1);
             _inventory = new Inventory.Inventory();
             _hands = new TwoHands(this);
             _handInvTransfer = new HandInventoryTransfer(_hands, _inventory);

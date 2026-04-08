@@ -1,25 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Lab1.Library.Services
 {
-    public class Point
+    public struct Point
     {
         public int X { get; set; }
         public int Y { get; set; }
 
-        public Point Left => new(X - 1, Y);
-        public Point Right => new(X + 1, Y);
-        public Point Up => new(X, Y - 1);
-        public Point Down => new(X, Y + 1);
+        public Point Left => (X - 1, Y);
+        public Point Right => (X + 1, Y);
+        public Point Up => (X, Y - 1);
+        public Point Down => (X, Y + 1);
 
-        public Point LeftN(int i) => new(X + i, Y);
-        public Point RightN(int i) => new(X - i, Y);
-        public Point UpN(int i) => new(X, Y - i);
-        public Point DownN(int i) => new(X, Y + i);
+        public Point Abs => (Math.Abs(X), Math.Abs(Y));
+        public Point LeftN(int i) => (X + i, Y);
+        public Point RightN(int i) => (X - i, Y);
+        public Point UpN(int i) => (X, Y - i);
+        public Point DownN(int i) => (X, Y + i);
 
         public ICollection<Point> Neighbors => [Left, Right, Up, Down]; 
 
@@ -37,10 +39,50 @@ namespace Lab1.Library.Services
 
         public static Point operator+(Point left, Point right)
         {
-            return new(left.X + right.X, left.Y + left.Y);
+            return (left.X + right.X, left.Y + right.Y);
+        }
+        public static Point operator /(Point left, int a)
+        {
+            return (left.X / a, left.Y / a);
+        }
+        public static Point operator *(Point left, int a)
+        {
+            return (left.X * a, left.Y * a);
+        }
+        public static bool operator ==(Point left, Point right)
+        {
+            return left.X == right.X && left.Y == right.Y;
+        }
+        public static bool operator !=(Point left, Point right)
+        {
+            return !(left == right);
+        }
+        public static bool operator >(Point left, Point right)
+        {
+            return left.X > right.X && left.Y > right.Y;
+        }
+        public static bool operator <(Point left, Point right)
+        {
+            return left.X < right.X && left.Y < right.Y;
+        }
+        public static bool operator >=(Point left, Point right)
+        {
+            return left.X >= right.X && left.Y >= right.Y;
+        }
+        public static bool operator <=(Point left, Point right)
+        {
+            return left.X <= right.X && left.Y <= right.Y;
         }
 
-        // Tuples
+        public override bool Equals([NotNullWhen(true)] object? obj)
+        {
+            return base.Equals(obj);
+        }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+         
 
         public static implicit operator (int X, int Y)(Point point)
         {

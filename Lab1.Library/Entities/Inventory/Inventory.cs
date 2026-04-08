@@ -70,7 +70,7 @@ namespace Lab1.Library.Entities.Inventory
             p.AddText(new TextPos("Inventory : ", PrintAt));
             int i = 0;
             foreach (var item in _items)
-                p.AddText(new TextPos($"{++i}. " + item.Description, new(PrintAt.X, PrintAt.Y + i)));
+                p.AddText(new TextPos($"{++i}. " + item.Description, PrintAt.DownN(i)));
 
             return p;
         }
