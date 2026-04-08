@@ -14,7 +14,7 @@ namespace Lab1.Library.Services.GameInstructions
         public override string Description { get; set; } = "Press \"Escape\" to exit the game";
         public override void Execute(IInputEvent inputEvent)
         {
-            inputEvent.GameState.IsActive = false;
+            inputEvent.GameState.Stop("You exited the game.");
             base.Execute(inputEvent);
         }
     }

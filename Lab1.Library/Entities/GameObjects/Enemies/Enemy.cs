@@ -19,7 +19,7 @@ namespace Lab1.Library.Entities.GameObjects.Enemies
         public virtual Point Pos { get; set; } = pos;
 
         public event Action<IDestroyable>? OnDestroyRequested;
-        public bool IsPendingDeletion { get; private set; }
+        public bool IsPendingDeletion { get; private set; } = false;
 
         public virtual void TakeDamage(int damage)
         {
@@ -28,6 +28,7 @@ namespace Lab1.Library.Entities.GameObjects.Enemies
         }
         public override bool AcceptGameObjectVisitor(GameObjectVisitor visitor)
         {
+            if(IsPendingDeletion) return false;
             return visitor.Visit(this);
         }
         private void Die()

@@ -12,6 +12,6 @@ namespace Lab1.Library.Interfaces.Printing
         public void Print();
         public void PrepareConsole();
         public bool CheckForResize();
-        public void PrintIntro(string text);
+        public void PrintText(string text);
     }
 }

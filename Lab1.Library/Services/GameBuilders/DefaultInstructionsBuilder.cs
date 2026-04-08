@@ -23,6 +23,7 @@ namespace Lab1.Library.Services.GameBuilders
 
             _instructions = new Instructions(printAt);
             _instructions.AddHandler(new MovementHandler());
+            _instructions.AddHandler(new UIHandler());
 
             isInitialized = true;
             return this;

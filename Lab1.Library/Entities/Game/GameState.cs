@@ -13,12 +13,24 @@ namespace Lab1.Library.Entities.Game
 {
     public class GameState : IGameState
     {
-        public bool IsActive { get; set; } = false;
+        public bool IsActive { get; private set; } = false;
         public IPlayer Player { get; set; } = null!;
         public IInstructions Instructions { get; set; } = null!;
         public IBoard Board { get; set; } = null!;
         public IPrinter Printer { get; set; } = null!;
         public IDestroyer Destroyer { get; set; } = null!;
+        public string EndReason { get; private set; } = string.Empty;
+
+        public void Stop(string reason)
+        {
+            IsActive = false;
+            EndReason = reason;
+        }
+
+        public void Start()
+        {
+            IsActive = true;
+        }
 
         public Point PrintAt { get; set; } = new(0, 0);
         public IPrintable Text()

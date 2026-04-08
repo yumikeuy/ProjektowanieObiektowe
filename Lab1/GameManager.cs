@@ -23,9 +23,9 @@ namespace Lab1.Console
         {
             _gameState.Printer.PrepareConsole();
             _gameState.Printer.Add(_gameState);
-            _gameState.Printer.PrintIntro(_gameState.Board.IntroductionText);
+            _gameState.Printer.PrintText(_gameState.Board.IntroductionText);
             System.Console.ReadKey();
-            _gameState.IsActive = true;
+            _gameState.Start();
             StartGameLoop();
         }
 
@@ -46,8 +46,20 @@ namespace Lab1.Console
                     _gameState.Instructions.ExecuteAction(_gameState, key);
                 }
 
+                if (_gameState.Player.IsPendingDeletion)
+                    _gameState.Stop("You died in a battle.");
+
                 Thread.Sleep(16);
             }
+
+            ShowEndScreen();
+        }
+
+        private void ShowEndScreen()
+        {
+            _gameState.Printer.PrepareConsole();
+            _gameState.Printer.PrintText(EndScreen.ReasonEndText(_gameState.EndReason));
+            System.Console.ReadKey();
         }
     }
 }

@@ -21,13 +21,14 @@ namespace Lab1.Library.Entities.GameObjects
         public Point Pos { get; set; } = pos;
 
         public event Action<IDestroyable>? OnDestroyRequested;
-        public bool IsPendingDeletion { get; private set; }
+        public bool IsPendingDeletion { get; private set; } = false;
 
         public IPlayerState State { get; set; } = new PlayerState(boardWidth);
         public override IPrintable Text()
         {
             Printable p = new();
-            p.AddText(new TextPos(Char.ToString(), new(Pos.X + PrintAt.X, Pos.Y + PrintAt.Y)));
+            if(!IsPendingDeletion)
+                p.AddText(new TextPos(Char.ToString(), new(Pos.X + PrintAt.X, Pos.Y + PrintAt.Y)));
             return p;
         }
         public override bool AcceptGameObjectVisitor(GameObjectVisitor visitor)
