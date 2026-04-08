@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
+
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,10 +22,10 @@ namespace Lab1.Library.Services.Validators.AttackValidators
             var pos = player.Pos;
             Point orientedPos = player.State.Orientation switch
             {
-                'U' => pos.Up(),
-                'D' => pos.Down(),
-                'L' => pos.Left(),
-                'R' => pos.Right(),
+                'U' => pos.Up,
+                'D' => pos.Down,
+                'L' => pos.Left,
+                'R' => pos.Right,
                 _ => new(-1, -1)
             };
 
@@ -35,7 +35,7 @@ namespace Lab1.Library.Services.Validators.AttackValidators
                 return true;
             }
 
-            foreach(var p in pos.NearPoints())
+            foreach(var p in pos.Neighbors)
             {
                 if(IsInsideBoardValidator.IsValid(board, p) && board.GetAt(p).AcceptGameObjectVisitor(new IsEnemy()))
                 {

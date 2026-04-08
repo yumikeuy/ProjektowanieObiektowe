@@ -10,7 +10,7 @@ using Lab1.Library.Interfaces.GameBuilders;
 using Lab1.Library.Interfaces.Game;
 using Lab1.Library.Entities.Game;
 using Lab1.Library.Services.Printing;
-using System.Drawing;
+
 
 namespace Lab1.Library.Services.GameBuilders
 {

@@ -9,7 +9,7 @@ using Lab1.Library.Services;
 using Lab1.Library.Services.Printing;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
+
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -40,7 +40,7 @@ namespace Lab1.Library.Entities.Main
 
         public IPrintable Text()
         {
-            currentPrintPos = PrintAt;
+            currentPrintPos = new(PrintAt);
             Printable p = new();
 
             AddLine(p, "Player State:");

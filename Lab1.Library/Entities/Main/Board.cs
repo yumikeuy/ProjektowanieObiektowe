@@ -11,7 +11,7 @@ using Lab1.Library.Services.Visitors;
 using Lab1.Library.Services.Visitors.GameObject;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
+
 using System.Linq;
 using System.Numerics;
 using System.Reflection.PortableExecutable;

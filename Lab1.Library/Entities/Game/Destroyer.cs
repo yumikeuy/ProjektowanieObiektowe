@@ -12,7 +12,7 @@ namespace Lab1.Library.Entities.Game
     public class Destroyer : IDestroyer
     {
         private IBoard? _board;
-        private List<IDestroyable> _toRemove = new List<IDestroyable>();
+        private List<IDestroyable> _toRemove = [];
 
         public void Add(IDestroyable entity)
         {
