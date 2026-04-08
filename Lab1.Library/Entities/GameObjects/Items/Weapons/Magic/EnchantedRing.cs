@@ -18,9 +18,5 @@ namespace Lab1.Library.Entities.GameObjects.Items.Weapons.Magic
         {
             Damage = damage;
         }
-        public override bool AcceptGameObjectVisitor(GameObjectVisitor visitor)
-        {
-            return visitor.Visit(this);
-        }
     }
 }

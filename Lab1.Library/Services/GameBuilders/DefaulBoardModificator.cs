@@ -8,7 +8,9 @@ using Lab1.Library.Entities.GameObjects;
 using Lab1.Library.Entities.GameObjects.Enemies;
 using Lab1.Library.Entities.GameObjects.Items.Neutral;
 using Lab1.Library.Entities.GameObjects.Items.Weapons;
+using Lab1.Library.Entities.GameObjects.Items.Weapons.Heavy;
 using Lab1.Library.Entities.GameObjects.Items.Weapons.Light;
+using Lab1.Library.Entities.GameObjects.Items.Weapons.Magic;
 using Lab1.Library.Entities.GameObjects.Main;
 using Lab1.Library.Entities.GameObjects.Money;
 using Lab1.Library.Interfaces.Entities;
@@ -91,8 +93,45 @@ namespace Lab1.Library.Services.GameBuilders
 
             if (empty.Count != 0)
                 for (int i = 0; i < amount; i++)
-                    board.SetAt(empty.ElementAt(Random.Shared.Next(empty.Count)), new HappyModificator(new ClassicBow()));
-
+                {
+                    Weapon weapon;
+                    int j = Random.Shared.Next(1, 100);
+                    switch (j)
+                    {
+                        case < 10:
+                            weapon = new HappyModificator(new ClassicBow());
+                            break;
+                        case < 20:
+                            weapon = new HappyModificator(new MachineGun());
+                            break;
+                        case < 30:
+                            weapon = new ClassicBow();
+                            break;
+                        case < 40:
+                            weapon = new MachineGun();
+                            break;
+                        case < 50:
+                            weapon = new PowerfullModificator(new HappyModificator(new ClassicBow()));
+                            break;
+                        case < 60:
+                            weapon = new PowerfullModificator(new HappyModificator(new MachineGun()));
+                            break;
+                        case < 70:
+                            weapon = new HappyModificator(new PowerfullModificator(new MachineGun()));
+                            break;
+                        case < 80:
+                            weapon = new HappyModificator(new PowerfullModificator(new MachineGun()));
+                            break;
+                        case < 90:
+                            weapon = new HappyModificator(new EnchantedRing());
+                            break;
+                        default:
+                            weapon = new EnchantedRing();
+                            break;
+                    }
+                    board.SetAt(empty.ElementAt(Random.Shared.Next(empty.Count)), weapon);
+                }
+                    
             return this;
         }
         public IBoardModificator AddMoney(IBoard board, int amount)

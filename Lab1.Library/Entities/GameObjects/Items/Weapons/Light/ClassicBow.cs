@@ -20,9 +20,5 @@ namespace Lab1.Library.Entities.GameObjects.Items.Weapons.Light
         {
             Damage = damage;
         }
-        public override bool AcceptGameObjectVisitor(GameObjectVisitor visitor)
-        {
-            return visitor.Visit(this);
-        }
     }
 }

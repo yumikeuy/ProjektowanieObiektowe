@@ -11,7 +11,7 @@ namespace Lab1.Library.Services.WeaponModificators
     public class PowerfullModificator : WeaponModificator
     {
         private const int damageBonus = 5;
-
+        public override string Description => base.Description + " (Powerfull)";
         public PowerfullModificator(Weapon weapon) : base(weapon)
         {
             Damage += damageBonus;
