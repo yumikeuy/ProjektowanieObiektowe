@@ -60,13 +60,5 @@ namespace Lab1.Library.Services.Printing
         {
             return _data;
         }
-
-        private bool IsNearEdge()
-        {
-            bool nearRight = Console.CursorLeft >= Console.WindowWidth - 1;
-            bool nearBottom = Console.CursorTop >= Console.WindowHeight - 1;
-
-            return nearRight || nearBottom;
-        }
     }
 }

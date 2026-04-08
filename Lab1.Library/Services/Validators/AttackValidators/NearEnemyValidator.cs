@@ -44,7 +44,6 @@ namespace Lab1.Library.Services.Validators.AttackValidators
                 }
             }
 
-
             go = null!;
             return false;
         }

@@ -18,6 +18,7 @@ namespace Lab1.Library.Services
         public Point Down => (X, Y + 1);
 
         public Point Abs => (Math.Abs(X), Math.Abs(Y));
+        public int Max => Math.Max(X, Y);
         public Point LeftN(int i) => (X + i, Y);
         public Point RightN(int i) => (X - i, Y);
         public Point UpN(int i) => (X, Y - i);
@@ -40,6 +41,10 @@ namespace Lab1.Library.Services
         public static Point operator+(Point left, Point right)
         {
             return (left.X + right.X, left.Y + right.Y);
+        }
+        public static Point operator -(Point left, Point right)
+        {
+            return (left.X - right.X, left.Y - right.Y);
         }
         public static Point operator /(Point left, int a)
         {
@@ -92,6 +97,16 @@ namespace Lab1.Library.Services
         public static implicit operator Point((int X, int Y) tuple)
         {
             return new(tuple.X, tuple.Y);
+        }
+
+        public int LinearDistance(Point point)
+        {
+            return (this - point).Abs.Max;
+        }
+
+        public static int LinearDistance(Point point1, Point point2)
+        {
+            return point1.LinearDistance(point2);
         }
     }
 }

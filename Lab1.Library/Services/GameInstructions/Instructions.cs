@@ -22,15 +22,15 @@ namespace Lab1.Library.Services.GameInstructions
         {
             Printable p = new();
             p.AddText(new TextPos("Controls: ", PrintAt));
-            p.Add(new EmptyLine(new(PrintAt.X, PrintAt.Y + 1), 10).Text());
+            p.Add(new EmptyLine(PrintAt.Down, 10).Text());
             int i = 1;
             var handler = _handler;
             while (handler != null)
             {
                 foreach (var instruction in handler.GetInstructions())
                 {
-                    p.AddText(new TextPos(instruction.Description, new(PrintAt.X, PrintAt.Y + i++)));
-                    p.Add(new EmptyLine(new(PrintAt.X, PrintAt.Y + i++), 10).Text());
+                    p.AddText(new TextPos(instruction.Description, PrintAt.DownN(i++)));
+                    p.Add(new EmptyLine(PrintAt.DownN(i++), 10).Text());
                 }
                 handler = handler.GetNext();
             }

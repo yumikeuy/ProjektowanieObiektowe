@@ -12,12 +12,12 @@ namespace Lab1.Library.Services
     {
         public static Point ConsoleToBoard(IBoard board, Point point)
         {
-            return new(point.X - board.GetZero().X, point.Y - board.GetZero().Y);
+            return point - board.GetZero();
         }
 
         public static Point BoardToConsole(IBoard board, Point point)
         {
-            return new(point.X + board.GetZero().X, point.Y + board.GetZero().Y);
+            return point + board.GetZero();
         }
     }
 }

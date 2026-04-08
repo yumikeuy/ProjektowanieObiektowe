@@ -13,6 +13,7 @@ using Lab1.Library.Entities.GameObjects.Money;
 using Lab1.Library.Interfaces.Entities;
 using Lab1.Library.Interfaces.Game;
 using Lab1.Library.Interfaces.GameBuilders;
+using Lab1.Library.Services.Validators.BoardValidators;
 using Lab1.Library.Services.Visitors;
 using Lab1.Library.Services.Visitors.GameObject;
 using Lab1.Library.Services.WeaponModificators;
@@ -26,7 +27,6 @@ namespace Lab1.Library.Services.GameBuilders
 
         private const int minCorridors = 20;
         private const int maxCorridors = 25;
-        private const int straightCorridorBooster = 20;
 
         private const int minRooms = 1;
         private const int maxRooms = 2;
@@ -104,7 +104,6 @@ namespace Lab1.Library.Services.GameBuilders
 
             return this;
         }
-
         public IBoardModificator AddEnemies(IBoard board, IDestroyer destroyer, int amount)
         {
             var empty = board.GetEmptyCells();
@@ -144,71 +143,6 @@ namespace Lab1.Library.Services.GameBuilders
             }
             return (x.ToArray(), y.ToArray());
         }
-        private Point GetNextPoint(IBoard board, Point pos, ref Point prevPos)
-        {
-            List<Point> nearPoints = [];
-            List<Point> nonEmptyPoints = [];
-            List<Point> notNearEmptyPoints = [];
-
-            foreach(var p in pos.Neighbors)
-                CheckAndAddPoint(board, p, prevPos, nearPoints, nonEmptyPoints, notNearEmptyPoints);
-
-            prevPos = pos;
-
-            if (notNearEmptyPoints.Count != 0)
-                return notNearEmptyPoints[Random.Shared.Next(notNearEmptyPoints.Count)];
-
-            if (nonEmptyPoints.Count != 0)
-                return nonEmptyPoints[Random.Shared.Next(nonEmptyPoints.Count)];
-
-            return nearPoints[Random.Shared.Next(nearPoints.Count)];
-        }
-
-        private bool IsInside(IBoard board, Point pos)
-        {
-            return pos >= (0, 0) && pos < (board.Width, board.Height);
-        }
-
-        private void CheckAndAddPoint(IBoard board, Point pos, Point prevPos,
-            ICollection<Point> nearPoints, ICollection<Point> nonEmptyPoints, ICollection<Point> notNearEmptyPoints)
-        {
-
-            if (IsInside(board, pos) && pos != prevPos)
-            {
-                AddWithStraightBooster(pos, prevPos, nearPoints);
-
-                if (!board.GetAt(pos).AcceptGameObjectVisitor(new CantBeGoneThrough()))
-                {
-                    AddWithStraightBooster(pos, prevPos, nonEmptyPoints);
-
-                    if (!NearEmpty(board, pos))
-                    {
-                        AddWithStraightBooster(pos, prevPos, notNearEmptyPoints);
-                    }
-                }
-            }
-        }
-
-        private void AddWithStraightBooster(Point pos, Point prevPos, ICollection<Point> points)
-        {
-            if (Math.Abs(prevPos.X - pos.X) == 2 || Math.Abs(prevPos.Y - pos.Y) == 2)
-                for (int i = 0; i < straightCorridorBooster; i++)
-                    points.Add(pos);
-            points.Add(pos);
-        }
-
-        private bool NearEmpty(IBoard board, Point pos)
-        {
-            int countEmpty = 0;
-
-            if (IsInside(board, new(pos.X, pos.Y + 1)) && board.GetAt(new(pos.X, pos.Y + 1)).AcceptGameObjectVisitor(new CantBeGoneThrough())) countEmpty++;
-            if (IsInside(board, new(pos.X, pos.Y - 1)) && board.GetAt(new(pos.X, pos.Y - 1)).AcceptGameObjectVisitor(new CantBeGoneThrough())) countEmpty++;
-            if (IsInside(board, new(pos.X + 1, pos.Y)) && board.GetAt(new(pos.X + 1, pos.Y)).AcceptGameObjectVisitor(new CantBeGoneThrough())) countEmpty++;
-            if (IsInside(board, new(pos.X - 1, pos.Y)) && board.GetAt(new(pos.X - 1, pos.Y)).AcceptGameObjectVisitor(new CantBeGoneThrough())) countEmpty++;
-
-            return countEmpty > 1;
-        }
-
         private void AddRoom(IBoard board, Point pos, int roomWidth, int roomHeight)
         {
             roomHeight /= 2;
@@ -216,9 +150,68 @@ namespace Lab1.Library.Services.GameBuilders
 
             for (int i = -roomWidth; i <= roomWidth; i++)
                 for (int j = -roomHeight; j <= roomHeight; j++)
-                    if (IsInside(board, new(pos.X + i, pos.Y + j)))
-                        if (board.GetAt(new(pos.X + i, pos.Y + j)).AcceptGameObjectVisitor(new CantBeGoneThrough()))
-                            board.SetAt(new(pos.X + i, pos.Y + j), new EmptyGameObject());
+                    if (IsInsideBoardValidator.IsValid(board, pos + (i, j)))
+                        if (board.GetAt(pos + (i, j)).AcceptGameObjectVisitor(new CantBeGoneThrough()))
+                            board.SetAt(pos + (i, j), new EmptyGameObject());
         }
+
+        // private const int straightCorridorBooster = 20;
+        //private void CheckAndAddPoint(IBoard board, Point pos, Point prevPos,
+        //    ICollection<Point> nearPoints, ICollection<Point> nonEmptyPoints, ICollection<Point> notNearEmptyPoints)
+        //{
+
+        //    if (IsInside(board, pos) && pos != prevPos)
+        //    {
+        //        AddWithStraightBooster(pos, prevPos, nearPoints);
+
+        //        if (!board.GetAt(pos).AcceptGameObjectVisitor(new CantBeGoneThrough()))
+        //        {
+        //            AddWithStraightBooster(pos, prevPos, nonEmptyPoints);
+
+        //            if (!NearEmpty(board, pos))
+        //            {
+        //                AddWithStraightBooster(pos, prevPos, notNearEmptyPoints);
+        //            }
+        //        }
+        //    }
+        //}
+
+        //private void AddWithStraightBooster(Point pos, Point prevPos, ICollection<Point> points)
+        //{
+        //    if (prevPos.LinearDistance(pos) == 2)
+        //        for (int i = 0; i < straightCorridorBooster; i++)
+        //            points.Add(pos);
+        //    points.Add(pos);
+        //}
+
+        //private Point GetNextPoint(IBoard board, Point pos, ref Point prevPos)
+        //{
+        //    List<Point> nearPoints = [];
+        //    List<Point> nonEmptyPoints = [];
+        //    List<Point> notNearEmptyPoints = [];
+
+        //    foreach(var p in pos.Neighbors)
+        //        CheckAndAddPoint(board, p, prevPos, nearPoints, nonEmptyPoints, notNearEmptyPoints);
+
+        //    prevPos = pos;
+
+        //    if (notNearEmptyPoints.Count != 0)
+        //        return notNearEmptyPoints[Random.Shared.Next(notNearEmptyPoints.Count)];
+
+        //    if (nonEmptyPoints.Count != 0)
+        //        return nonEmptyPoints[Random.Shared.Next(nonEmptyPoints.Count)];
+
+        //    return nearPoints[Random.Shared.Next(nearPoints.Count)];
+        //}
+
+        //private bool NearEmpty(IBoard board, Point pos)
+        //{
+        //    int countEmpty = 0;
+
+        //    foreach(var p in pos.Neighbors)
+        //        if (IsInside(board, p) && board.GetAt(p).AcceptGameObjectVisitor(new CantBeGoneThrough())) countEmpty++;
+
+        //    return countEmpty > 1;
+        //}
     }
 }
