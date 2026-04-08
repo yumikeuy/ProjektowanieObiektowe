@@ -24,19 +24,19 @@ namespace Lab1.Library.Entities.Main
 
         public int Damage { get; set; }
         public int Health { get; set; }
-        public int Happiness { get; set; }
+        public int Luck { get; set; }
         public int Agility { get; set; }
         public int Agressiveness { get; set; }
         public int Iq { get; set; }
         public int Coins { get; set; }
         public int Gold { get; set; }
+        public int Armor { get; set; }
 
         public Point PrintAt { get; set; }
         private Point currentPrintPos;
-        private Point pressELinePrintAt;
         private readonly int separatorLength = 40;
 
-        public bool IsOnItem { get; set; } = false;
+        public char Orientation { get; set; } = 'D';
 
         public IPrintable Text()
         {
@@ -49,7 +49,7 @@ namespace Lab1.Library.Entities.Main
             AddLine(p, "");
             AddLine(p, $"Damage           {Damage}");
             AddLine(p, $"Health           {Health}");
-            AddLine(p, $"Happiness        {Happiness}");
+            AddLine(p, $"Happiness        {Luck}");
             AddLine(p, $"Agility          {Agility}");
             AddLine(p, $"Agressiveness    {Agressiveness}");
             AddLine(p, $"Iq               {Iq}");
@@ -73,9 +73,6 @@ namespace Lab1.Library.Entities.Main
             currentPrintPos = p.LastPosition;
             currentPrintPos.Y++;
 
-            if (IsOnItem)
-                p.Add(new PressELine(pressELinePrintAt).Text());
-
             return p;
         }
         private void AddLine(IPrintable p, string str)
@@ -83,7 +80,7 @@ namespace Lab1.Library.Entities.Main
             p.AddText(new TextPos(str, new(currentPrintPos.X, currentPrintPos.Y++)));
         }
 
-        public bool TryAdd(IItem item)
+        public bool TryAdd(Item item)
         {
             if (_inventory.TryAdd(item))
                 return true;
@@ -92,7 +89,7 @@ namespace Lab1.Library.Entities.Main
 
             return false;
         }
-        public IItem? Drop()
+        public Item? Drop()
         {
             return _hands.Remove();
         }
@@ -100,30 +97,30 @@ namespace Lab1.Library.Entities.Main
         {
             _hands.SelectHand(hand);
         }
-        public bool TryTakeItemToHand(int i)
+        public IHandInventoryTransfer GetInventoryTransfer()
         {
-            return _handInvTransfer.TransferFromInventoryToHands(i);
+            return _handInvTransfer;
         }
-        public bool TryHideItem()
+        public Item? GetCurrentItem()
         {
-            return _handInvTransfer.TransferFromHandsToInventory();
+            return _hands.GetCurrentItem();
         }
 
-        public void StateDefaultInit()
+        private void StateDefaultInit()
         {
             Damage = 0;
             Health = 100;
-            Happiness = 50;
-            Agility = 50;
-            Agressiveness = 50;
-            Iq = 50;
+            Luck = 1;
+            Agility = 1;
+            Agressiveness = 1;
+            Iq = 1;
             Coins = 0;
             Gold = 0;
+            Armor = 0;
         }
-        public PlayerState(int boardWidth, int boardHeight)
+        public PlayerState(int boardWidth)
         {
             PrintAt = new(boardWidth + 5, 1);
-            pressELinePrintAt = new(1, boardHeight + 2);
             _inventory = new Inventory.Inventory();
             _hands = new TwoHands(this);
             _handInvTransfer = new HandInventoryTransfer(_hands, _inventory);

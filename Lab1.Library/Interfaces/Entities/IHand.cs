@@ -10,9 +10,10 @@ namespace Lab1.Library.Interfaces.Entities
 {
     public interface IHand : ITextConvertible
     {
-        public bool TryAdd(IItem item);
-        public IItem? Remove();
+        public bool TryAdd(Item item);
+        public Item? Remove();
         public void ActivateItem(IPlayerState playerState);
         public void DeactivateItem(IPlayerState playerState);
+        public Item? GetItem();
     }
 }

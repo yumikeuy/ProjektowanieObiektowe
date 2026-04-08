@@ -14,17 +14,27 @@ using System.Drawing;
 
 namespace Lab1.Library.Services.GameBuilders
 {
-    public class DefaultGameBuilder(int width, int height, int playerStateWidth,
-        IBoardBuilder boardBuilder, IInstructionsBuilder instructionsBuilder) : IGameBuilder
+    public class DefaultGameBuilder : IGameBuilder
     {
-        private readonly int _width = width;
-        private readonly int _height = height;
-        private readonly Point PrintAt = new(width + playerStateWidth + 3, 1);
+        private readonly int _width;
+        private readonly int _height;
+        private readonly Point PrintAt;
 
-        private readonly IBoardBuilder _boardBuilder = boardBuilder;
-        private readonly IInstructionsBuilder _instructionsBuilder = instructionsBuilder;
+        private readonly IBoardBuilder _boardBuilder;
+        private readonly IInstructionsBuilder _instructionsBuilder;
 
         private IGameState _gameState = new GameState();
+
+        public DefaultGameBuilder(int width, int height, int playerStateWidth,
+        IBoardBuilder boardBuilder, IInstructionsBuilder instructionsBuilder)
+        {
+            _width = width;
+            _height = height;
+            PrintAt = new(width + playerStateWidth + 3, 1);
+            _boardBuilder = boardBuilder;
+            _instructionsBuilder = instructionsBuilder;
+            _gameState.Destroyer = new Destroyer();
+        }
 
         // IGameBuilder
         public IGameBuilder InitializeEmpty()
@@ -80,12 +90,23 @@ namespace Lab1.Library.Services.GameBuilders
 
             return this;
         }
+
+        public IGameBuilder AddEnemies(int amount)
+        {
+            _boardBuilder.AddEnemies(_gameState.Destroyer, amount);
+            _instructionsBuilder.AddEnemies();
+
+            return this;
+        }
+
         public IGameState GetResult()
         {
             _gameState.Printer = new Printer();
             _gameState.Board = _boardBuilder.GetResult();
             _gameState.Instructions = _instructionsBuilder.GetResult();
-            _gameState.Player = new Player(_gameState.Board.GetSpawnPoint(), _width, _height);
+            _gameState.Destroyer.AddBoard(_gameState.Board);
+            _gameState.Player = new Player(_gameState.Board.GetZero(), _gameState.Board.GetSpawnPoint(), _width);
+            _gameState.Destroyer.Add(_gameState.Player);
             return _gameState;
         }
     }

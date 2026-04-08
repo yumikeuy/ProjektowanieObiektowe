@@ -6,6 +6,9 @@ using Lab1.Library.Interfaces.Game;
 using Lab1.Library.Interfaces.Printing;
 using Lab1.Library.Services;
 using Lab1.Library.Services.Printing;
+using Lab1.Library.Services.Validators.ItemsValidators;
+using Lab1.Library.Services.Visitors;
+using Lab1.Library.Services.Visitors.GameObject;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -39,7 +42,7 @@ namespace Lab1.Library.Entities.Main
             Printable lines = new();
             for (int i = -1; i <= Height; i++)
             {
-                var line = new TextPos(new(PrintAt.X, PrintAt.Y + i));
+                var line = new TextPos(new(PrintAt.X, PrintAt.Y + i + 1));
                 for (int j = -1; j <= Width; j++)
                 {
                     if (i == -1 || i == Height)
@@ -56,52 +59,13 @@ namespace Lab1.Library.Entities.Main
         }
 
         // IBoard
-        public bool TryMovePlayer(IPlayer player, Point pos)
-        {
-            var currentPos = player.Pos;
-
-            if (!IsNextTo(currentPos, pos) || !IsInside(pos)) return false;
-            if (!GetAt(pos).CanBeGoneThrough) return false;
-
-            player.Move(pos);
-
-            CheckForPickable(player);
-
-            return true;
-        }
-        public bool TryPickUp(IPlayer player)
-        {
-            if (GetAt(player.Pos).Pick(player.State))
-            {
-                SetAt(player.Pos, new EmptyGameObject());
-                CheckForPickable(player);
-                return true;
-            }
-
-            return false;
-        }
-        public bool TryDrop(IPlayer player)
-        {
-            if (GetAt(player.Pos).IsEmpty)
-            {
-                var item = player.State.Drop();
-                if (item != null)
-                {
-                    SetAt(player.Pos, item);
-                    CheckForPickable(player);
-                    return true;
-                }
-            }
-
-            return false;
-        }
         public ICollection<Point> GetEmptyCells()
         {
             var sps = new List<Point>();
 
             for (int i = 0; i < Height; i++)
                 for (int j = 0; j < Width; j++)
-                    if (_data[j, i].CanBeGoneThrough) sps.Add(new(j, i));
+                    if (!_data[j, i].AcceptGameObjectVisitor(new CantBeGoneThrough())) sps.Add(new(j, i));
 
             return sps;
         }
@@ -120,23 +84,9 @@ namespace Lab1.Library.Entities.Main
         {
             _data[pos.X, pos.Y] = gameObject;
         }
-
-        // private
-        private bool IsInside(Point pos)
+        public Point GetZero()
         {
-            return pos.X >= 0 && pos.Y >= 0 && pos.X < Width && pos.Y < Height;
-        }
-        private bool IsNextTo(Point playerPos, Point pos)
-        {
-            return Math.Abs(playerPos.X - pos.X) <= 1 && playerPos.Y == pos.Y ||
-                    Math.Abs(playerPos.Y - pos.Y) <= 1 && playerPos.X == pos.X;
-        }
-        private void CheckForPickable(IPlayer player)
-        {
-            if (_data[player.Pos.X, player.Pos.Y].Pickable())
-                player.State.IsOnItem = true;
-            else
-                player.State.IsOnItem = false;
+            return new(PrintAt.X + 1, PrintAt.Y + 1);
         }
     }
 }

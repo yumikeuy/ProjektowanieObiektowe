@@ -7,13 +7,14 @@ using System.Threading.Tasks;
 using Lab1.Library.Entities;
 using Lab1.Library.Interfaces.Entities;
 using Lab1.Library.Interfaces.Printing;
+using Lab1.Library.Services.Visitors.GameObject;
 
 namespace Lab1.Library.Interfaces.Game
 {
-    public interface IGameObject : ITextConvertible, IPickable
+    public interface IGameObject : ITextConvertible
     {
         public char Char { get; set; }
-        public bool IsEmpty { get; set; }
-        public bool CanBeGoneThrough { get; set; }
+
+        public bool AcceptGameObjectVisitor(GameObjectVisitor visitor);
     }
 }

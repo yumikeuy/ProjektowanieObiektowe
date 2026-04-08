@@ -34,3 +34,4 @@ C:\Users\Admin\misha\PW\PO\ProjektowanieObiektowe\Lab1\obj\Debug\net8.0\refint\L
 C:\Users\Admin\misha\PW\PO\ProjektowanieObiektowe\Lab1\obj\Debug\net8.0\Lab1.Console.pdb
 C:\Users\Admin\misha\PW\PO\ProjektowanieObiektowe\Lab1\obj\Debug\net8.0\Lab1.Console.genruntimeconfig.cache
 C:\Users\Admin\misha\PW\PO\ProjektowanieObiektowe\Lab1\obj\Debug\net8.0\ref\Lab1.Console.dll
+C:\Users\Admin\misha\PW\PO\ProjektowanieObiektowe\Lab1\obj\Debug\net8.0\Lab1.Console.sourcelink.json

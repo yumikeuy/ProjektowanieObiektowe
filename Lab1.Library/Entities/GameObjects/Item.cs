@@ -1,4 +1,6 @@
 ﻿using Lab1.Library.Interfaces.Entities;
+using Lab1.Library.Services.Visitors.GameObject;
+using Lab1.Library.Services.Visitors.ItemVisitors;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -8,21 +10,20 @@ using System.Threading.Tasks;
 
 namespace Lab1.Library.Entities.GameObjects
 {
-    public abstract class Item : GameObject, IItem
+    public abstract class Item : GameObject
     {
         public virtual string Description { get; set; } = string.Empty;
         public virtual bool IsTwoHanded { get; set; } = false;
 
-        public override bool Pick(IPlayerState playerState)
-        {
-            return playerState.TryAdd(this);
-        }
-        public override bool Pickable()
-        {
-            return true;
-        }
-
         public virtual void Activate(IPlayerState playerState) { }
         public virtual void Deactivate(IPlayerState playerState) { }
+        public override bool AcceptGameObjectVisitor(GameObjectVisitor visitor)
+        {
+            return visitor.Visit(this);
+        }
+        public virtual bool AcceptItemVisitor(ItemVisitor visitor)
+        {
+            return visitor.Visit(this);
+        }
     }
 }

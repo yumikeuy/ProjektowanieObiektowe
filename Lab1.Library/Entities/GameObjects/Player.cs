@@ -7,27 +7,47 @@ using System.Text;
 using System.Threading.Tasks;
 using Lab1.Library.Entities.Main;
 using Lab1.Library.Interfaces.Entities;
+using Lab1.Library.Interfaces.Game;
 using Lab1.Library.Interfaces.Printing;
 using Lab1.Library.Services;
 using Lab1.Library.Services.Printing;
+using Lab1.Library.Services.Visitors.GameObject;
 
 namespace Lab1.Library.Entities.GameObjects
 {
-    public class Player(Point pos, int boardWidth, int boardHeight) : GameObject(pos), IPlayer
+    public class Player(Point printAt, Point pos, int boardWidth) : GameObject(printAt), IPlayer
     {
         public override char Char { get; set; } = '@';
         public Point Pos { get; set; } = pos;
 
-        public IPlayerState State { get; set; } = new PlayerState(boardWidth, boardHeight);
+        public event Action<IDestroyable>? OnDestroyRequested;
+        public bool IsPendingDeletion { get; private set; } = false;
+
+        public IPlayerState State { get; set; } = new PlayerState(boardWidth);
         public override IPrintable Text()
         {
             Printable p = new();
-            p.AddText(new TextPos(Char.ToString(), new(Pos.X + 2, Pos.Y + 1)));
+            if(!IsPendingDeletion)
+                p.AddText(new TextPos(Char.ToString(), new(Pos.X + PrintAt.X, Pos.Y + PrintAt.Y)));
             return p;
         }
-        public void Move(Point pos)
+        public override bool AcceptGameObjectVisitor(GameObjectVisitor visitor)
         {
-            Pos = pos;
+            return visitor.Visit(this);
+        }
+        public void TakeDamage(int damage)
+        {
+            var actualDamage = damage - State.Armor;
+            if (actualDamage < 0) return;
+            State.Health -= actualDamage;
+            State.Armor = 0;
+            if (State.Health < 0) Die();
+        }
+
+        private void Die()
+        {
+            IsPendingDeletion = true;
+            OnDestroyRequested?.Invoke(this);
         }
     }
 }

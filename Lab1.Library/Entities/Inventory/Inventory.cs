@@ -15,14 +15,14 @@ namespace Lab1.Library.Entities.Inventory
 {
     public class Inventory : IInventory
     {
-        private ICollection<IItem> _items = [];
+        private ICollection<Item> _items = [];
         private int _inventorySize = 5;
         public Point PrintAt { get; set; } = new(0, 0);
 
         private bool IsInventoryFull() => IsInventoryFull(1);
         private bool IsInventoryFull(int newItems) => _items.Count + newItems > _inventorySize;
 
-        public bool TryAdd(IItem item)
+        public bool TryAdd(Item item)
         {
             if (!IsInventoryFull())
             {
@@ -32,7 +32,7 @@ namespace Lab1.Library.Entities.Inventory
 
             return false;
         }
-        public bool TryAdd(ICollection<IItem> items)
+        public bool TryAdd(ICollection<Item> items)
         {
             if (!IsInventoryFull(items.Count))
             {
@@ -44,7 +44,7 @@ namespace Lab1.Library.Entities.Inventory
 
             return false;
         }
-        public IItem? TryRemove(int itemIndex)
+        public Item? TryRemove(int itemIndex)
         {
             if (_items.Count <= itemIndex) return null;
             var item = _items.ToList()[itemIndex];

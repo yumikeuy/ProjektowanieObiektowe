@@ -47,7 +47,7 @@ namespace Lab1.Library.Services.Printing
             return new string(result);
         }
 
-        public void PrintIntro(string text)
+        public void PrintText(string text)
         {
             Console.WriteLine(text);
         }

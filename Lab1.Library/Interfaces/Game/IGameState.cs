@@ -11,10 +11,14 @@ namespace Lab1.Library.Interfaces.Game
 {
     public interface IGameState : ITextConvertible
     {
-        public bool IsActive { get; set; }
+        public bool IsActive { get; }
         public IPlayer Player { get; set; }
         public IInstructions Instructions { get; set; }
         public IBoard Board { get; set; }
         public IPrinter Printer { get; set; }
+        public IDestroyer Destroyer { get; set; }
+        public string EndReason { get; }
+        public void Stop(string reason);
+        public void Start();
     }
 }

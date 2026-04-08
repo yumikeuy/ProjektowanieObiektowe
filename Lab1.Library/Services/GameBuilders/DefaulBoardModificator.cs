@@ -5,11 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Lab1.Library.Entities.GameObjects;
+using Lab1.Library.Entities.GameObjects.Enemies;
 using Lab1.Library.Entities.GameObjects.Items.Neutral;
 using Lab1.Library.Entities.GameObjects.Items.Weapons;
+using Lab1.Library.Entities.GameObjects.Items.Weapons.Light;
 using Lab1.Library.Entities.GameObjects.Money;
 using Lab1.Library.Interfaces.Entities;
+using Lab1.Library.Interfaces.Game;
 using Lab1.Library.Interfaces.GameBuilders;
+using Lab1.Library.Services.Visitors;
+using Lab1.Library.Services.Visitors.GameObject;
 using Lab1.Library.Services.WeaponModificators;
 
 namespace Lab1.Library.Services.GameBuilders
@@ -21,8 +26,6 @@ namespace Lab1.Library.Services.GameBuilders
 
         private const int minCorridors = 20;
         private const int maxCorridors = 25;
-        private const int minCorridorLenght = 10;
-        private const int maxCorridorLendth = 18;
         private const int straightCorridorBooster = 20;
 
         private const int minRooms = 1;
@@ -41,12 +44,12 @@ namespace Lab1.Library.Services.GameBuilders
 
             foreach (var y0 in y)
                 for (int j = 0; j < board.Width; j++)
-                    if (!board.GetAt(new(j, y0)).CanBeGoneThrough)
+                    if (board.GetAt(new(j, y0)).AcceptGameObjectVisitor(new CantBeGoneThrough()))
                         board.SetAt(new(j, y0), new EmptyGameObject());
 
             foreach (var x0 in x)
                 for (int j = 0; j < board.Height; j++)
-                    if (!board.GetAt(new(x0, j)).CanBeGoneThrough)
+                    if (board.GetAt(new(x0, j)).AcceptGameObjectVisitor(new CantBeGoneThrough()))
                         board.SetAt(new(x0, j), new EmptyGameObject());
 
             return this;
@@ -98,6 +101,23 @@ namespace Lab1.Library.Services.GameBuilders
             if (empty.Count != 0)
                 for (int i = 0; i < amount; i++)
                     board.SetAt(empty.ElementAt(Random.Shared.Next(empty.Count)), new Gold());
+
+            return this;
+        }
+
+        public IBoardModificator AddEnemies(IBoard board, IDestroyer destroyer, int amount)
+        {
+            var empty = board.GetEmptyCells();
+
+            if (empty.Count != 0)
+                for (int i = 0; i < amount; i++)
+                {
+                    var pos = empty.ElementAt(Random.Shared.Next(empty.Count));
+                    var newEnemie = new Zombie(pos);
+                    destroyer.Add(newEnemie);
+                    board.SetAt(pos, newEnemie);
+                }
+                    
 
             return this;
         }
@@ -159,7 +179,7 @@ namespace Lab1.Library.Services.GameBuilders
             {
                 AddWithStraightBooster(pos, prevPos, nearPoints);
 
-                if (!board.GetAt(pos).CanBeGoneThrough)
+                if (!board.GetAt(pos).AcceptGameObjectVisitor(new CantBeGoneThrough()))
                 {
                     AddWithStraightBooster(pos, prevPos, nonEmptyPoints);
 
@@ -183,10 +203,10 @@ namespace Lab1.Library.Services.GameBuilders
         {
             int countEmpty = 0;
 
-            if (IsInside(board, new(pos.X, pos.Y + 1)) && board.GetAt(new(pos.X, pos.Y + 1)).CanBeGoneThrough) countEmpty++;
-            if (IsInside(board, new(pos.X, pos.Y - 1)) && board.GetAt(new(pos.X, pos.Y - 1)).CanBeGoneThrough) countEmpty++;
-            if (IsInside(board, new(pos.X + 1, pos.Y)) && board.GetAt(new(pos.X + 1, pos.Y)).CanBeGoneThrough) countEmpty++;
-            if (IsInside(board, new(pos.X - 1, pos.Y)) && board.GetAt(new(pos.X - 1, pos.Y)).CanBeGoneThrough) countEmpty++;
+            if (IsInside(board, new(pos.X, pos.Y + 1)) && board.GetAt(new(pos.X, pos.Y + 1)).AcceptGameObjectVisitor(new CantBeGoneThrough())) countEmpty++;
+            if (IsInside(board, new(pos.X, pos.Y - 1)) && board.GetAt(new(pos.X, pos.Y - 1)).AcceptGameObjectVisitor(new CantBeGoneThrough())) countEmpty++;
+            if (IsInside(board, new(pos.X + 1, pos.Y)) && board.GetAt(new(pos.X + 1, pos.Y)).AcceptGameObjectVisitor(new CantBeGoneThrough())) countEmpty++;
+            if (IsInside(board, new(pos.X - 1, pos.Y)) && board.GetAt(new(pos.X - 1, pos.Y)).AcceptGameObjectVisitor(new CantBeGoneThrough())) countEmpty++;
 
             return countEmpty > 1;
         }
@@ -199,7 +219,7 @@ namespace Lab1.Library.Services.GameBuilders
             for (int i = -roomWidth; i <= roomWidth; i++)
                 for (int j = -roomHeight; j <= roomHeight; j++)
                     if (IsInside(board, new(pos.X + i, pos.Y + j)))
-                        if (!board.GetAt(new(pos.X + i, pos.Y + j)).CanBeGoneThrough)
+                        if (board.GetAt(new(pos.X + i, pos.Y + j)).AcceptGameObjectVisitor(new CantBeGoneThrough()))
                             board.SetAt(new(pos.X + i, pos.Y + j), new EmptyGameObject());
         }
     }

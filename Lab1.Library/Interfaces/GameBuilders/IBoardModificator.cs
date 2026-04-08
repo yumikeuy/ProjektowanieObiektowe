@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Lab1.Library.Interfaces.Entities;
+using Lab1.Library.Interfaces.Game;
 
 namespace Lab1.Library.Interfaces.GameBuilders
 {
@@ -15,5 +16,6 @@ namespace Lab1.Library.Interfaces.GameBuilders
         public IBoardModificator AddItems(IBoard board, int amount);
         public IBoardModificator AddWeapons(IBoard board, int amount);
         public IBoardModificator AddMoney(IBoard board, int amount);
+        public IBoardModificator AddEnemies(IBoard board, IDestroyer destroyer, int amount);
     }
 }
