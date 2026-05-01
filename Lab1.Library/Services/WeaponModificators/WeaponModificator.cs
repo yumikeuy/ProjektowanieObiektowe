@@ -34,12 +34,12 @@ namespace Lab1.Library.Services.WeaponModificators
         }
         public bool AcceptItemVisitor(ItemVisitor visitor) 
         {
-            return _weapon.AcceptItemVisitor(visitor);
+            return visitor.Visit(this);
         }
 
         public bool AcceptGameObjectVisitor(GameObjectVisitor visitor)
         {
-            return _weapon.AcceptGameObjectVisitor(visitor);
+            return visitor.Visit(this);
         }
 
         public IPrintable Text()

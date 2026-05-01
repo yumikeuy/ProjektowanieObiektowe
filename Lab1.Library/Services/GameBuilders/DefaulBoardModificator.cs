@@ -108,12 +108,12 @@ namespace Lab1.Library.Services.GameBuilders
                         //case < 30:
                         //    weapon = new ClassicBow();
                         //    break;
-                        case < 40:
-                            weapon = new MachineGun();
-                            break;
-                        //case < 50:
-                        //    weapon = new PowerfullModificator(new HappyModificator(new ClassicBow()));
+                        //case < 40:
+                        //    weapon = new MachineGun();
                         //    break;
+                        default:
+                            weapon = new PowerfullModificator(new HappyModificator(new ClassicBow()));
+                            break;
                         //case < 60:
                         //    weapon = new PowerfullModificator(new HappyModificator(new MachineGun()));
                         //    break;
@@ -126,9 +126,9 @@ namespace Lab1.Library.Services.GameBuilders
                         //case < 90:
                         //    weapon = new HappyModificator(new EnchantedRing());
                         //    break;
-                        default:
-                            weapon = new MachineGun();
-                            break;
+                        //default:
+                        //    weapon = new MachineGun();
+                        //    break;
                     }
                     board.SetAt(empty.ElementAt(Random.Shared.Next(empty.Count)), weapon);
                 }
