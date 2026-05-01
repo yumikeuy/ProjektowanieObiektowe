@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Lab1.Library.Entities.GameObjects;
-using Lab1.Library.Entities.Printing;
+﻿using Lab1.Library.Entities.Printing;
 using Lab1.Library.Interfaces.Game;
 
 namespace Lab1.Console
 {
     public class GameManager : IGameManager
     {
-        private IGameState _gameState;
+        private readonly IGameState _gameState;
 
         public GameManager(IGameState gameState)
         {
@@ -35,7 +29,7 @@ namespace Lab1.Console
             {
                 _gameState.Destroyer.CleanUp();
 
-                if(hasChanged || _gameState.Printer.CheckForResize()) _gameState.Printer.Print();
+                if (hasChanged || _gameState.Printer.CheckForResize()) _gameState.Printer.Print();
                 hasChanged = false;
 
                 if (System.Console.KeyAvailable)

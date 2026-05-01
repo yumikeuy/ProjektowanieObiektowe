@@ -11,4 +11,10 @@
     <ProjectReference Include="..\Lab1.Library\Lab1.Library.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Configuration.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

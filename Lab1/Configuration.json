@@ -1,0 +1,19 @@
+{
+    "BoardWidth": 40,
+    "BoardHeight": 20,
+    "PlayerStateWidth": 45,
+    "ItemsAmount": 20,
+    "WeaponsAmount": 10,
+    "MoneyCount": 5,
+    "EnemiesCount": 5,
+    "AddRooms": true,
+    "AddCorridors": true,
+    "AddCentralRoom": false,
+    "AddItems": true,
+    "AddWeapons": true,
+    "AddMoney": true,
+    "AddEnemies": true,
+    "InitializeOption": "Full",
+    "LogPath": "Logs/",
+    "PlayerName": "yumikeuy"
+}
