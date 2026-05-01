@@ -14,23 +14,24 @@ using Lab1.Library.Services.Visitors.GameObject;
 
 namespace Lab1.Library.Entities.GameObjects.Main
 {
-    public class Player(Point printAt, Point pos, int boardWidth) : GameObject(printAt), IPlayer
+    public class Player(Point printAt, Point pos, int boardWidth) : IPlayer
     {
-        public override char Char { get; set; } = '@';
+        public char Char { get; set; } = '@';
         public Point Pos { get; set; } = pos;
+        public Point PrintAt { get; set; } = printAt;
 
         public event Action<IDestroyable>? OnDestroyRequested;
         public bool IsPendingDeletion { get; private set; } = false;
 
         public IPlayerState State { get; set; } = new PlayerState(boardWidth);
-        public override IPrintable Text()
+        public IPrintable Text()
         {
             Printable p = new();
             if (!IsPendingDeletion)
                 p.AddText(new TextPos(Char.ToString(), Pos + PrintAt));
             return p;
         }
-        public override bool AcceptGameObjectVisitor(GameObjectVisitor visitor)
+        public bool AcceptGameObjectVisitor(GameObjectVisitor visitor)
         {
             return visitor.Visit(this);
         }

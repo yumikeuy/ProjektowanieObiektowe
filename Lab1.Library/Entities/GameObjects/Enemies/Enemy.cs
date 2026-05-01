@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,7 +29,7 @@ namespace Lab1.Library.Entities.GameObjects.Enemies
         public override bool AcceptGameObjectVisitor(GameObjectVisitor visitor)
         {
             if(IsPendingDeletion) return false;
-            return visitor.Visit(this);
+            return false;// visitor.Visit(this);
         }
         private void Die()
         {

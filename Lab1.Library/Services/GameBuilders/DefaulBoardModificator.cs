@@ -14,6 +14,7 @@ using Lab1.Library.Entities.GameObjects.Items.Weapons.Magic;
 using Lab1.Library.Entities.GameObjects.Main;
 using Lab1.Library.Entities.GameObjects.Money;
 using Lab1.Library.Interfaces.Entities;
+using Lab1.Library.Interfaces.Entities.GameObjects.Items.Weapons;
 using Lab1.Library.Interfaces.Game;
 using Lab1.Library.Interfaces.GameBuilders;
 using Lab1.Library.Services.Validators.BoardValidators;
@@ -94,39 +95,39 @@ namespace Lab1.Library.Services.GameBuilders
             if (empty.Count != 0)
                 for (int i = 0; i < amount; i++)
                 {
-                    Weapon weapon;
+                    IWeapon weapon;
                     int j = Random.Shared.Next(1, 100);
                     switch (j)
                     {
-                        case < 10:
-                            weapon = new HappyModificator(new ClassicBow());
-                            break;
-                        case < 20:
-                            weapon = new HappyModificator(new MachineGun());
-                            break;
-                        case < 30:
-                            weapon = new ClassicBow();
-                            break;
+                        //case < 10:
+                        //    weapon = new HappyModificator(new ClassicBow());
+                        //    break;
+                        //case < 20:
+                        //    weapon = new HappyModificator(new MachineGun());
+                        //    break;
+                        //case < 30:
+                        //    weapon = new ClassicBow();
+                        //    break;
                         case < 40:
                             weapon = new MachineGun();
                             break;
-                        case < 50:
-                            weapon = new PowerfullModificator(new HappyModificator(new ClassicBow()));
-                            break;
-                        case < 60:
-                            weapon = new PowerfullModificator(new HappyModificator(new MachineGun()));
-                            break;
-                        case < 70:
-                            weapon = new HappyModificator(new PowerfullModificator(new MachineGun()));
-                            break;
-                        case < 80:
-                            weapon = new HappyModificator(new PowerfullModificator(new MachineGun()));
-                            break;
-                        case < 90:
-                            weapon = new HappyModificator(new EnchantedRing());
-                            break;
+                        //case < 50:
+                        //    weapon = new PowerfullModificator(new HappyModificator(new ClassicBow()));
+                        //    break;
+                        //case < 60:
+                        //    weapon = new PowerfullModificator(new HappyModificator(new MachineGun()));
+                        //    break;
+                        //case < 70:
+                        //    weapon = new HappyModificator(new PowerfullModificator(new MachineGun()));
+                        //    break;
+                        //case < 80:
+                        //    weapon = new HappyModificator(new PowerfullModificator(new MachineGun()));
+                        //    break;
+                        //case < 90:
+                        //    weapon = new HappyModificator(new EnchantedRing());
+                        //    break;
                         default:
-                            weapon = new EnchantedRing();
+                            weapon = new MachineGun();
                             break;
                     }
                     board.SetAt(empty.ElementAt(Random.Shared.Next(empty.Count)), weapon);

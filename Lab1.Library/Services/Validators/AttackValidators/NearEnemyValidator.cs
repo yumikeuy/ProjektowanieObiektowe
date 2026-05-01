@@ -8,7 +8,7 @@ using Lab1.Library.Entities;
 using Lab1.Library.Entities.GameObjects.Enemies;
 using Lab1.Library.Extensions.PointExtensions;
 using Lab1.Library.Interfaces.Entities;
-using Lab1.Library.Interfaces.Game;
+using Lab1.Library.Interfaces.Entities.GameObjects;
 using Lab1.Library.Services.Validators.BoardValidators;
 using Lab1.Library.Services.Visitors;
 using Lab1.Library.Services.Visitors.GameObject;

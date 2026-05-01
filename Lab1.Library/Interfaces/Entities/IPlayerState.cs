@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Lab1.Library.Interfaces.Printing;
 using Lab1.Library.Entities.Inventory;
 using Lab1.Library.Entities.GameObjects.Items;
+using Lab1.Library.Interfaces.Entities.GameObjects.Items;
 
 namespace Lab1.Library.Interfaces.Entities
 {
@@ -23,10 +24,10 @@ namespace Lab1.Library.Interfaces.Entities
 
         public char Orientation { get; set; }
 
-        public bool TryAdd(Item item);
-        public Item? Drop();
+        public bool TryAdd(IItem item);
+        public IItem? Drop();
         public void SelectHand(Hands hand);
         public IHandInventoryTransfer GetInventoryTransfer();
-        public Item? GetCurrentItem();
+        public IItem? GetCurrentItem();
     }
 }

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Lab1.Library.Entities.GameObjects;
-using Lab1.Library.Interfaces.Game;
+using Lab1.Library.Interfaces.Entities.GameObjects;
 using Lab1.Library.Interfaces.Printing;
 using Lab1.Library.Services;
 

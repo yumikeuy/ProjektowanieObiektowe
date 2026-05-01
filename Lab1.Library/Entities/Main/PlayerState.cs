@@ -3,6 +3,7 @@ using Lab1.Library.Entities.GameObjects.Items.Weapons;
 using Lab1.Library.Entities.Inventory;
 using Lab1.Library.Entities.Printing;
 using Lab1.Library.Interfaces.Entities;
+using Lab1.Library.Interfaces.Entities.GameObjects.Items;
 using Lab1.Library.Interfaces.Printing;
 using Lab1.Library.Services;
 using Lab1.Library.Services.Printing;
@@ -79,7 +80,7 @@ namespace Lab1.Library.Entities.Main
             p.AddText(new TextPos(str, new(currentPrintPos.X, currentPrintPos.Y++)));
         }
 
-        public bool TryAdd(Item item)
+        public bool TryAdd(IItem item)
         {
             if (_inventory.TryAdd(item))
                 return true;
@@ -88,7 +89,7 @@ namespace Lab1.Library.Entities.Main
 
             return false;
         }
-        public Item? Drop()
+        public IItem? Drop()
         {
             return _hands.Remove();
         }
@@ -100,7 +101,7 @@ namespace Lab1.Library.Entities.Main
         {
             return _handInvTransfer;
         }
-        public Item? GetCurrentItem()
+        public IItem? GetCurrentItem()
         {
             return _hands.GetCurrentItem();
         }

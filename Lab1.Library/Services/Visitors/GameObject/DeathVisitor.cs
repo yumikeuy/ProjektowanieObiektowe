@@ -12,7 +12,6 @@ namespace Lab1.Library.Services.Visitors.GameObject
     {
         public override bool Visit(Player player)
         {
-
             return true;
         }
     }

@@ -5,32 +5,46 @@ using System.Text;
 using System.Threading.Tasks;
 using Lab1.Library.Entities.GameObjects.Items.Weapons;
 using Lab1.Library.Interfaces.Entities;
+using Lab1.Library.Interfaces.Entities.GameObjects;
+using Lab1.Library.Interfaces.Entities.GameObjects.Items;
+using Lab1.Library.Interfaces.Entities.GameObjects.Items.Weapons;
+using Lab1.Library.Interfaces.Printing;
+using Lab1.Library.Services.Visitors.GameObject;
 using Lab1.Library.Services.Visitors.ItemVisitors;
 
 namespace Lab1.Library.Services.WeaponModificators
 {
-    public abstract class WeaponModificator(Weapon weapon) : Weapon
+    public abstract class WeaponModificator(IWeapon weapon) : IWeapon
     {
-        protected Weapon _weapon = weapon;
+        protected IWeapon _weapon = weapon;
 
-        public override char Char => _weapon.Char;
-        public override Point PrintAt => _weapon.PrintAt;
-        public override string Description => _weapon.Description;
-        public override bool IsTwoHanded => _weapon.IsTwoHanded;
+        public char Char { get => _weapon.Char; set => _weapon.Char = value; }
+        public Point PrintAt { get => _weapon.PrintAt; set => _weapon.PrintAt = value; }
+        public virtual string Description { get => _weapon.Description; set => _weapon.Description = value; }
+        public bool IsTwoHanded { get => _weapon.IsTwoHanded; set => _weapon.IsTwoHanded = value; }
+        public int Damage { get => _weapon.Damage; set => _weapon.Damage = value; }
 
-        public override void Activate(IPlayerState playerState)
+        public virtual void Activate(IPlayerState playerState)
         {
             _weapon.Activate(playerState);
-            base.Activate(playerState);
         }
-        public override void Deactivate(IPlayerState playerState)
+        public virtual void Deactivate(IPlayerState playerState)
         {
             _weapon.Deactivate(playerState);
-            base.Deactivate(playerState);
         }
-        public override bool AcceptItemVisitor(ItemVisitor visitor) 
+        public bool AcceptItemVisitor(ItemVisitor visitor) 
         {
             return _weapon.AcceptItemVisitor(visitor);
+        }
+
+        public bool AcceptGameObjectVisitor(GameObjectVisitor visitor)
+        {
+            return _weapon.AcceptGameObjectVisitor(visitor);
+        }
+
+        public IPrintable Text()
+        {
+            return _weapon.Text();
         }
     }
 }

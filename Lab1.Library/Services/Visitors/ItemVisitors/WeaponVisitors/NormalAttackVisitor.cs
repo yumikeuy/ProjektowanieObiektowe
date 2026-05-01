@@ -8,6 +8,9 @@ using Lab1.Library.Entities.GameObjects.Items.Weapons.Light;
 using Lab1.Library.Entities.GameObjects.Items.Weapons.Magic;
 using Lab1.Library.Entities.Main;
 using Lab1.Library.Interfaces.Entities;
+using Lab1.Library.Interfaces.Entities.GameObjects.Items.Weapons.HeavyWeapons;
+using Lab1.Library.Interfaces.Entities.GameObjects.Items.Weapons.LightWeapons;
+using Lab1.Library.Interfaces.Entities.GameObjects.Items.Weapons.MagicWeapons;
 
 namespace Lab1.Library.Services.Visitors.ItemVisitors.WeaponVisitors
 {
@@ -17,19 +20,19 @@ namespace Lab1.Library.Services.Visitors.ItemVisitors.WeaponVisitors
         public override int CalculatedArmor { get; set; } = playerState.Agility;
 
 
-        public override bool Visit(HeavyWeapon heavyWeapon)
+        public override bool Visit(IHeavyWeapon heavyWeapon)
         {
             CalculatedDamage = heavyWeapon.Damage;
             CalculatedArmor = playerState.Agressiveness + playerState.Luck;
             return true;
         }
-        public override bool Visit(LightWeapon lightWeapon)
+        public override bool Visit(ILightWeapon lightWeapon)
         {
             CalculatedDamage = lightWeapon.Damage;
             CalculatedArmor = playerState.Agility + playerState.Luck;
             return true;
         }
-        public override bool Visit(MagicWeapon magicWeapon)
+        public override bool Visit(IMagicWeapon magicWeapon)
         {
             CalculatedDamage = 1;
             CalculatedArmor = playerState.Agility + playerState.Luck;

@@ -4,11 +4,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Lab1.Library.Interfaces.Entities;
+using Lab1.Library.Interfaces.Entities.GameObjects.Items;
+using Lab1.Library.Interfaces.Printing;
+using Lab1.Library.Services.Printing;
 using Lab1.Library.Services.Visitors.GameObject;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Lab1.Library.Entities.GameObjects.Items.Neutral
 {
-    public abstract class NeutralItem : Item
+    public interface INeutralItem : IItem
     {
+   
     }
 }

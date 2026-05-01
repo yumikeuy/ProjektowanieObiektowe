@@ -13,7 +13,7 @@ namespace Lab1.Library.Entities.GameObjects.Money
     {
         public override bool AcceptGameObjectVisitor(GameObjectVisitor visitor)
         {
-            return visitor.Visit(this);
+            return false;// visitor.Visit(this);
         }
     }
 }

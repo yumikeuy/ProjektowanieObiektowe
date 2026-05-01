@@ -4,19 +4,50 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Lab1.Library.Interfaces.Entities;
+using Lab1.Library.Interfaces.Entities.GameObjects;
+using Lab1.Library.Interfaces.Printing;
 using Lab1.Library.Services;
+using Lab1.Library.Services.Printing;
 using Lab1.Library.Services.Visitors.GameObject;
 
 namespace Lab1.Library.Entities.GameObjects.Enemies
 {
-    public class Zombie(Point pos) : Enemy(pos)
+    public class Zombie(Point pos) : IEnemy
     {
-        public override int Health { get; set; } = 100;
-        public override int Damage { get; set; } = 15;
-        public override int Armor { get; set; } = 1;
-        public override bool AcceptGameObjectVisitor(GameObjectVisitor visitor)
+        public int Health { get; set; } = 100;
+        public int Damage { get; set; } = 15;
+        public int Armor { get; set; } = 1;
+        public char Char { get; set; } = '#';
+        public Point PrintAt { get; set; } = (0, 0);
+
+        public bool IsPendingDeletion { get; set; } = false;
+
+        public Point Pos { get; set; } = pos;
+
+        public event Action<IDestroyable>? OnDestroyRequested;
+
+        public bool AcceptGameObjectVisitor(GameObjectVisitor visitor)
         {
             return visitor.Visit(this);
+        }
+
+        public void TakeDamage(int damage)
+        {
+            Health -= damage - Armor;
+            if (Health < 0) Die();
+        }
+        private void Die()
+        {
+            IsPendingDeletion = true;
+            OnDestroyRequested?.Invoke(this);
+        }
+
+        public IPrintable Text()
+        {
+            Printable p = new();
+            p.AddText(new TextPos(Char.ToString(), PrintAt));
+            return p;
         }
     }
 }

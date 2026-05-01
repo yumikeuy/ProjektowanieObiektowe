@@ -12,7 +12,7 @@ using Lab1.Library.Entities.GameObjects.Main;
 using Lab1.Library.Entities.GameObjects.Money;
 using Lab1.Library.Entities.Main;
 using Lab1.Library.Interfaces.Entities;
-using Lab1.Library.Interfaces.Game;
+using Lab1.Library.Interfaces.Entities.GameObjects;
 using Lab1.Library.Interfaces.GameBuilders;
 
 namespace Lab1.Library.Services.GameBuilders

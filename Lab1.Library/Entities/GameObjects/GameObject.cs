@@ -1,5 +1,4 @@
-﻿using Lab1.Library.Interfaces.Entities;
-using Lab1.Library.Interfaces.Game;
+﻿using Lab1.Library.Interfaces.Entities.GameObjects;
 using Lab1.Library.Interfaces.Printing;
 using Lab1.Library.Services;
 using Lab1.Library.Services.Printing;
