@@ -7,6 +7,7 @@ using Lab1.Library.Entities.GameObjects;
 using Lab1.Library.Entities.GameObjects.Main;
 using Lab1.Library.Interfaces.Game;
 using Lab1.Library.Services.GameInstructions;
+using Lab1.Library.Services.Logging;
 using Lab1.Library.Services.Validators.ItemsValidators;
 using Lab1.Library.Services.Visitors;
 
@@ -22,8 +23,12 @@ namespace Lab1.Library.Services.GameInstructions.Items
             var player = inputEvent.GameState.Player;
             var board = inputEvent.GameState.Board;
 
-            if (PickUpItemValidator.IsValid(board, player.Pos, player.State))                
-                board.SetAt(player.Pos, new EmptyGameObject());
+            if (PickUpItemValidator.IsValid(board, player.Pos, player.State))
+            {
+                Logger.Instance.Log("Picked up an item.");
+                board.SetAt(player.Pos, new EmptyGameObject());    
+            }                
+                
 
             base.Execute(inputEvent);
         }

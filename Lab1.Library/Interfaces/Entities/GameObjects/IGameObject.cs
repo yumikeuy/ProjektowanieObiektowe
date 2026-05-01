@@ -12,8 +12,8 @@ namespace Lab1.Library.Interfaces.Entities.GameObjects
 {
     public interface IGameObject : ITextConvertible
     {
-        public char Char { get; set; }
+        char Char { get; set; }
 
-        public bool AcceptGameObjectVisitor(GameObjectVisitor visitor);
+        bool AcceptGameObjectVisitor(GameObjectVisitor visitor);
     }
 }

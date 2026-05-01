@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Lab1.Library.Interfaces.Game;
 using Lab1.Library.Services.GameInstructions;
+using Lab1.Library.Services.Logging;
 
 namespace Lab1.Library.Services.InputHandlers
 {
@@ -28,8 +29,17 @@ namespace Lab1.Library.Services.InputHandlers
         public void Handle(IInputEvent inputEvent)
         {
             _instructions.FirstOrDefault(i => i.Keys.Contains(inputEvent.Key))?.Execute(inputEvent);
-            if (!inputEvent.IsHandled && _nextHandler != null)
-                _nextHandler.Handle(inputEvent);
+            if (!inputEvent.IsHandled)
+            {
+                if(_nextHandler != null)
+                {
+                    _nextHandler.Handle(inputEvent);
+                }
+                else
+                {
+                    Logger.Instance.Log("Pressed an unknown key.");
+                }
+            }
         }
 
         public ICollection<ActionInstruction> GetInstructions()

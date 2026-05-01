@@ -9,6 +9,7 @@ using Lab1.Library.Interfaces.Entities;
 using Lab1.Library.Interfaces.Game;
 using Lab1.Library.Interfaces.Printing;
 using Lab1.Library.Services;
+using Lab1.Library.Services.Logging;
 using Lab1.Library.Services.Printing;
 using Lab1.Library.Services.Visitors.GameObject;
 
@@ -48,6 +49,7 @@ namespace Lab1.Library.Entities.GameObjects.Main
         {
             IsPendingDeletion = true;
             OnDestroyRequested?.Invoke(this);
+            Logger.Instance.Log("Got killed an enemy.");
         }
     }
 }

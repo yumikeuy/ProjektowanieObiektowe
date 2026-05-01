@@ -5,8 +5,8 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Lab1.Library.Interfaces.Game;
-using Lab1.Library.Services;
 using Lab1.Library.Services.GameBuilders;
+using Lab1.Library.Services.Logging;
 
 namespace Lab1.Console
 {
@@ -29,7 +29,7 @@ namespace Lab1.Console
             if (config.AddMoney) gameBuilder.AddMoney(config.MoneyCount);
             if (config.AddEnemies) gameBuilder.AddEnemies(config.EnemiesCount);
 
-            Logger.Instance.Initialize(config.LogPath, config.PlayerName);
+            Logger.Instance.Initialize(new FileMessageWriter(config.LogPath, config.PlayerName));
 
             var gameState = gameBuilder.GetResult();
 

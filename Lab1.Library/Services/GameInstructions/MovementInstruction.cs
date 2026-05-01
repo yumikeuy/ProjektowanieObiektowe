@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Lab1.Library.Interfaces.Game;
+using Lab1.Library.Services.Logging;
 using Lab1.Library.Services.Validators.MovementVaidators;
 
 namespace Lab1.Library.Services.GameInstructions
@@ -34,6 +35,10 @@ namespace Lab1.Library.Services.GameInstructions
             {
                 player.Pos = newPos;
                 player.State.Orientation = orientation;
+            }
+            else
+            {
+                Logger.Instance.Log("Tried to go through the wall.");
             }
 
             base.Execute(inputEvent);

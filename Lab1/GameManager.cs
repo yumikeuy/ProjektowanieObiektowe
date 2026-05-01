@@ -1,5 +1,6 @@
 ﻿using Lab1.Library.Entities.Printing;
 using Lab1.Library.Interfaces.Game;
+using Lab1.Library.Services.Logging;
 
 namespace Lab1.Console
 {
@@ -19,6 +20,7 @@ namespace Lab1.Console
             _gameState.Printer.PrintText(_gameState.Board.IntroductionText);
             System.Console.ReadKey();
             _gameState.Start();
+            Logger.Instance.Log("Started the game.");
             StartGameLoop();
         }
 

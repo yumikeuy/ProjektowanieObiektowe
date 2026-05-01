@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Lab1.Library.Entities.Main;
 using Lab1.Library.Interfaces.Game;
+using Lab1.Library.Services.Logging;
 using Lab1.Library.Services.Validators.AttackValidators;
 using Lab1.Library.Services.Visitors;
 using Lab1.Library.Services.Visitors.GameObject;
@@ -35,6 +36,7 @@ namespace Lab1.Library.Services.GameInstructions.Attack
             {
                 if (gameObject.AcceptGameObjectVisitor(new TakeDamage(damage)))
                 {
+                    Logger.Instance.Log($"Attacked an enemy with {damage} damage.");
                     player.State.Armor = armor;
                     gameObject.AcceptGameObjectVisitor(new RespondWithAttack(player));
                 }

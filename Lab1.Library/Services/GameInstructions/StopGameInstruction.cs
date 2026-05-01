@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Lab1.Library.Interfaces.Game;
+using Lab1.Library.Services.Logging;
 
 namespace Lab1.Library.Services.GameInstructions
 {
@@ -15,6 +16,7 @@ namespace Lab1.Library.Services.GameInstructions
         public override void Execute(IInputEvent inputEvent)
         {
             inputEvent.GameState.Stop("You exited the game.");
+            Logger.Instance.Log("Exited the game.");
             base.Execute(inputEvent);
         }
     }

@@ -10,6 +10,7 @@ using Lab1.Library.Interfaces.Entities;
 using Lab1.Library.Interfaces.Entities.GameObjects.Items;
 using Lab1.Library.Interfaces.Printing;
 using Lab1.Library.Services;
+using Lab1.Library.Services.Logging;
 
 namespace Lab1.Library.Entities.Inventory
 {
@@ -157,6 +158,7 @@ namespace Lab1.Library.Entities.Inventory
             if (hand.TryAdd(item))
             {
                 hand.ActivateItem(_playerState);
+                Logger.Instance.Log("Took item to hand.");
                 return true;
             }
 
