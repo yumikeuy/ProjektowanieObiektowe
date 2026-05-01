@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics.CodeAnalysis;
 
 namespace Lab1.Library.Services
 {
@@ -12,19 +7,19 @@ namespace Lab1.Library.Services
         public int X { get; set; }
         public int Y { get; set; }
 
-        public Point Left => (X - 1, Y);
-        public Point Right => (X + 1, Y);
-        public Point Up => (X, Y - 1);
-        public Point Down => (X, Y + 1);
+        public readonly Point Left => (X - 1, Y);
+        public readonly Point Right => (X + 1, Y);
+        public readonly Point Up => (X, Y - 1);
+        public readonly Point Down => (X, Y + 1);
 
-        public Point Abs => (Math.Abs(X), Math.Abs(Y));
-        public int Max => Math.Max(X, Y);
-        public Point LeftN(int i) => (X + i, Y);
-        public Point RightN(int i) => (X - i, Y);
-        public Point UpN(int i) => (X, Y - i);
-        public Point DownN(int i) => (X, Y + i);
+        public readonly Point Abs => (Math.Abs(X), Math.Abs(Y));
+        public readonly int Max => Math.Max(X, Y);
+        public readonly Point LeftN(int i) => (X + i, Y);
+        public readonly Point RightN(int i) => (X - i, Y);
+        public readonly Point UpN(int i) => (X, Y - i);
+        public readonly Point DownN(int i) => (X, Y + i);
 
-        public ICollection<Point> Neighbors => [Left, Right, Up, Down]; 
+        public readonly ICollection<Point> Neighbors => [Left, Right, Up, Down];
 
         public Point(int x, int y)
         {
@@ -38,7 +33,7 @@ namespace Lab1.Library.Services
             Y = point.Y;
         }
 
-        public static Point operator+(Point left, Point right)
+        public static Point operator +(Point left, Point right)
         {
             return (left.X + right.X, left.Y + right.Y);
         }
@@ -87,7 +82,7 @@ namespace Lab1.Library.Services
         {
             return base.GetHashCode();
         }
-         
+
 
         public static implicit operator (int X, int Y)(Point point)
         {

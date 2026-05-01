@@ -13,7 +13,7 @@ namespace Lab1.Library.Services.WeaponModificators
     public class HappyModificator(IWeapon weapon) : WeaponModificator(weapon)
     {
         private const int happinessBonus = 1;
-        public override string Description => base.Description + "(Happy)";
+        public override string Description => base.Description + " (Happy)";
         public override void Activate(IPlayerState playerState)
         {
             playerState.Luck += happinessBonus;

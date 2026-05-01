@@ -16,7 +16,7 @@ namespace Lab1.Library.Entities.GameObjects.Enemies
     public class Zombie(Point pos) : IEnemy
     {
         public int Health { get; set; } = 100;
-        public int Damage { get; set; } = 15;
+        public int Damage { get; set; } = 1;
         public int Armor { get; set; } = 1;
         public char Char { get; set; } = '#';
         public Point PrintAt { get; set; } = (0, 0);

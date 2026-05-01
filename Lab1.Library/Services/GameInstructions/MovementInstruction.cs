@@ -5,7 +5,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using Lab1.Library.Extensions.PointExtensions;
 using Lab1.Library.Interfaces.Game;
 using Lab1.Library.Services.Validators.MovementVaidators;
 
