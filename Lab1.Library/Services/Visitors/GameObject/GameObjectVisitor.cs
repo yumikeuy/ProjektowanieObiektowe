@@ -20,6 +20,8 @@ namespace Lab1.Library.Services.Visitors.GameObject
         public virtual bool Visit(EmptyGameObject emptyGameObject) { return false; }
         public virtual bool Visit(Wall wall) { return false; }
         public virtual bool Visit(IMoney money) { return false; }
+        public virtual bool Visit(Coin coin) { return false; }
+        public virtual bool Visit(Gold gold) { return false; }
         public virtual bool Visit(IItem item) { return false; }
     }
 }

@@ -18,12 +18,12 @@ namespace Lab1.Library.Services.Visitors.GameObject
             _playerState.TryAdd(item);
             return true;
         }
-        public bool Visit(Coin coin)
+        public override bool Visit(Coin coin)
         {
             _playerState.Coins++;
             return true;
         }
-        public bool Visit(Gold gold)
+        public override bool Visit(Gold gold)
         {
             _playerState.Gold++;
             return true;
