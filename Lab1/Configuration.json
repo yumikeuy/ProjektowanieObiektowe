@@ -15,5 +15,6 @@
     "AddEnemies": true,
     "InitializeOption": "Full",
     "LogPath": "Logs/",
-    "PlayerName": "yumikeuy"
+    "PlayerName": "yumikeuy",
+    "Theme": "Nuclear"
 }

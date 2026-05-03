@@ -14,10 +14,7 @@ namespace Lab1.Library.Entities.Main
 {
     public class LogScreen : ILogScreen
     {
-        public bool FullScreen { get; set; } = false;
         public Point PrintAt { get; set; }
-
-        private Point printAtFullScreen = (1, 1);
 
         private int lastLogsCount = 3;
 
@@ -27,21 +24,10 @@ namespace Lab1.Library.Entities.Main
 
             var logs = Logger.Instance.GetLogs();
 
-            if (FullScreen)
+            for (int i = 0; i < lastLogsCount; i++)
             {
-                int i = 0;
-                foreach (var line in logs)
-                {
-                    logsPrintable.AddText(new TextPos(line, printAtFullScreen.DownN(i++)));
-                }
-            }
-            else
-            {
-                for (int i = 0; i < lastLogsCount; i++)
-                {
-                    if (i < logs.Length)
-                        logsPrintable.AddText(new TextPos(logs[logs.Length - i - 1].Trim(), PrintAt.DownN(i)));
-                }
+                if (i < logs.Length)
+                    logsPrintable.AddText(new TextPos(logs[logs.Length - i - 1].Trim(), PrintAt.DownN(i)));
             }
 
             return logsPrintable;
@@ -49,7 +35,7 @@ namespace Lab1.Library.Entities.Main
 
         public LogScreen(int boardHeight)
         {
-            PrintAt = (1, boardHeight + 4);
+            PrintAt = (1, boardHeight + 5);
         }
     }
 }

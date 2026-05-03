@@ -13,7 +13,10 @@ using Lab1.Library.Entities.GameObjects.Items.Weapons.Light;
 using Lab1.Library.Entities.GameObjects.Items.Weapons.Magic;
 using Lab1.Library.Entities.GameObjects.Main;
 using Lab1.Library.Entities.GameObjects.Money;
+using Lab1.Library.Entities.Main;
 using Lab1.Library.Interfaces.Entities;
+using Lab1.Library.Interfaces.Entities.GameObjects;
+using Lab1.Library.Interfaces.Entities.GameObjects.Items;
 using Lab1.Library.Interfaces.Entities.GameObjects.Items.Weapons;
 using Lab1.Library.Interfaces.Game;
 using Lab1.Library.Interfaces.GameBuilders;
@@ -78,17 +81,21 @@ namespace Lab1.Library.Services.GameBuilders
 
             return this;
         }
-        public IBoardModificator AddItems(IBoard board, int amount)
+        public IBoardModificator AddItems(IBoard board, List<IItem> items, int amount)
         {
             var empty = board.GetEmptyCells();
 
             if (empty.Count != 0)
                 for (int i = 0; i < amount; i++)
-                    board.SetAt(empty.ElementAt(Random.Shared.Next(empty.Count)), new Apple());
-
+                {
+                    int ind = Random.Shared.Next(0, items.Count);
+                    var item = items[ind];//TODO
+                    board.SetAt(empty.ElementAt(Random.Shared.Next(empty.Count)), item);
+                }
+                 
             return this;
         }
-        public IBoardModificator AddWeapons(IBoard board, int amount)
+        public IBoardModificator AddWeapons(IBoard board, List<IWeapon> weapons, int amount)
         {
             var empty = board.GetEmptyCells();
 
@@ -99,36 +106,36 @@ namespace Lab1.Library.Services.GameBuilders
                     int j = Random.Shared.Next(1, 100);
                     switch (j)
                     {
-                        //case < 10:
-                        //    weapon = new HappyModificator(new ClassicBow());
-                        //    break;
-                        //case < 20:
-                        //    weapon = new HappyModificator(new MachineGun());
-                        //    break;
-                        //case < 30:
-                        //    weapon = new ClassicBow();
-                        //    break;
-                        //case < 40:
-                        //    weapon = new MachineGun();
-                        //    break;
-                        default:
+                        case < 10:
+                            weapon = new HappyModificator(new ClassicBow());
+                            break;
+                        case < 20:
+                            weapon = new HappyModificator(new MachineGun());
+                            break;
+                        case < 30:
+                            weapon = new ClassicBow();
+                            break;
+                        case < 40:
+                            weapon = new MachineGun();
+                            break;
+                        case < 50:
                             weapon = new PowerfullModificator(new HappyModificator(new ClassicBow()));
                             break;
-                        //case < 60:
-                        //    weapon = new PowerfullModificator(new HappyModificator(new MachineGun()));
-                        //    break;
-                        //case < 70:
-                        //    weapon = new HappyModificator(new PowerfullModificator(new MachineGun()));
-                        //    break;
-                        //case < 80:
-                        //    weapon = new HappyModificator(new PowerfullModificator(new MachineGun()));
-                        //    break;
-                        //case < 90:
-                        //    weapon = new HappyModificator(new EnchantedRing());
-                        //    break;
-                        //default:
-                        //    weapon = new MachineGun();
-                        //    break;
+                        case < 60:
+                            weapon = new PowerfullModificator(new HappyModificator(new MachineGun()));
+                            break;
+                        case < 70:
+                            weapon = new HappyModificator(new PowerfullModificator(new MachineGun()));
+                            break;
+                        case < 80:
+                            weapon = new HappyModificator(new PowerfullModificator(new MachineGun()));
+                            break;
+                        case < 90:
+                            weapon = new HappyModificator(new EnchantedRing());
+                            break;
+                        default:
+                            weapon = new MachineGun();
+                            break;
                     }
                     board.SetAt(empty.ElementAt(Random.Shared.Next(empty.Count)), weapon);
                 }
@@ -145,7 +152,7 @@ namespace Lab1.Library.Services.GameBuilders
 
             return this;
         }
-        public IBoardModificator AddEnemies(IBoard board, IDestroyer destroyer, int amount)
+        public IBoardModificator AddEnemies(IBoard board, IDestroyer destroyer, List<IEnemy> enemies, int amount)
         {
             var empty = board.GetEmptyCells();
 
@@ -153,12 +160,12 @@ namespace Lab1.Library.Services.GameBuilders
                 for (int i = 0; i < amount; i++)
                 {
                     var pos = empty.ElementAt(Random.Shared.Next(empty.Count));
-                    var newEnemie = new Zombie(pos);
+                    int ind = Random.Shared.Next(0, enemies.Count);
+                    var newEnemie = enemies[ind];
                     destroyer.Add(newEnemie);
                     board.SetAt(pos, newEnemie);
                 }
                     
-
             return this;
         }
 
@@ -194,6 +201,15 @@ namespace Lab1.Library.Services.GameBuilders
                     if (IsInsideBoardValidator.IsValid(board, pos + (i, j)))
                         if (board.GetAt(pos + (i, j)).AcceptGameObjectVisitor(new CantBeGoneThrough()))
                             board.SetAt(pos + (i, j), new EmptyGameObject());
+        }
+        public IBoardModificator AddArtefact(IBoard board, IItem artefact)
+        {
+            var empty = board.GetEmptyCells();
+
+            if (empty.Count != 0)
+                board.SetAt(empty.ElementAt(Random.Shared.Next(empty.Count)), artefact);
+
+            return this;
         }
 
         // private const int straightCorridorBooster = 20;

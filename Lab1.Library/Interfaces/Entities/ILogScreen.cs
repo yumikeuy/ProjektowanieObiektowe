@@ -9,6 +9,5 @@ namespace Lab1.Library.Interfaces.Entities
 {
     public interface ILogScreen : ITextConvertible
     {
-        public bool FullScreen { get; set; }
     }
 }

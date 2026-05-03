@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Lab1.Library.Interfaces.Entities;
+using Lab1.Library.Interfaces.Entities.GameObjects;
+using Lab1.Library.Interfaces.Entities.GameObjects.Items;
+using Lab1.Library.Interfaces.Entities.GameObjects.Items.Weapons;
 using Lab1.Library.Interfaces.Game;
 
 namespace Lab1.Library.Interfaces.GameBuilders
@@ -13,9 +16,10 @@ namespace Lab1.Library.Interfaces.GameBuilders
         public IBoardModificator AddCorridors(IBoard board);
         public IBoardModificator AddRooms(IBoard board);
         public IBoardModificator AddCentralRoom(IBoard board);
-        public IBoardModificator AddItems(IBoard board, int amount);
-        public IBoardModificator AddWeapons(IBoard board, int amount);
+        public IBoardModificator AddItems(IBoard board, List<IItem> items, int amount);
+        public IBoardModificator AddWeapons(IBoard board, List<IWeapon> items, int amount);
         public IBoardModificator AddMoney(IBoard board, int amount);
-        public IBoardModificator AddEnemies(IBoard board, IDestroyer destroyer, int amount);
+        public IBoardModificator AddEnemies(IBoard board, IDestroyer destroyer, List<IEnemy> items, int amount);
+        public IBoardModificator AddArtefact(IBoard board, IItem artefact);
     }
 }

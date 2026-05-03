@@ -26,5 +26,7 @@ namespace Lab1.Console
         public string InitializeOption { get; set; } = string.Empty;
         public string LogPath { get; set; } = string.Empty;
         public string PlayerName { get; set; } = string.Empty;
+        public string BuildingStrategy { get; set; } = string.Empty;
+        public string Theme { get; set; } = string.Empty;
     }
 }

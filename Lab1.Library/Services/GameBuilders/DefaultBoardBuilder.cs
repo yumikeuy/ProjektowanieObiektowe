@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Lab1.Library.Entities.Printing;
 using Lab1.Library.Interfaces.Entities;
+using Lab1.Library.Interfaces.Entities.GameObjects;
+using Lab1.Library.Interfaces.Entities.GameObjects.Items;
+using Lab1.Library.Interfaces.Entities.GameObjects.Items.Weapons;
 using Lab1.Library.Interfaces.Game;
 using Lab1.Library.Interfaces.GameBuilders;
 
@@ -67,19 +70,19 @@ namespace Lab1.Library.Services.GameBuilders
             _modificator.AddCentralRoom(_board);
             return this;
         }
-        public IBoardBuilder AddItems(int amount)
+        public IBoardBuilder AddItems(List<IItem> items, int amount)
         {
             if (!isInitialized) throw new Exception("Board hasn't been initialized yet.");
 
-            _modificator.AddItems(_board, amount);
+            _modificator.AddItems(_board, items, amount);
             _board.IntroductionText += IntroductionTexts.InitializeText;
             return this;
         }
-        public IBoardBuilder AddWeapons(int amount)
+        public IBoardBuilder AddWeapons(List<IWeapon> weapons, int amount)
         {
             if (!isInitialized) throw new Exception("Board hasn't been initialized yet.");
 
-            _modificator.AddWeapons(_board, amount);
+            _modificator.AddWeapons(_board, weapons, amount);
             _board.IntroductionText += IntroductionTexts.WeaponsText;
             return this;
         }
@@ -91,12 +94,18 @@ namespace Lab1.Library.Services.GameBuilders
             _board.IntroductionText += IntroductionTexts.MoneyText;
             return this;
         }
-        public IBoardBuilder AddEnemies(IDestroyer destroyer, int amount)
+        public IBoardBuilder AddEnemies(IDestroyer destroyer, List<IEnemy> enemies, int amount)
         {
             if (!isInitialized) throw new Exception("Board hasn't been initialized yet.");
 
-            _modificator.AddEnemies(_board, destroyer, amount);
+            _modificator.AddEnemies(_board, destroyer, enemies, amount);
             _board.IntroductionText += IntroductionTexts.EnemiesText;
+            return this;
+        }
+        public IBoardBuilder AddArtefact(IItem artefact)
+        {
+            _modificator.AddArtefact(_board, artefact);
+
             return this;
         }
         public IBoard GetResult()

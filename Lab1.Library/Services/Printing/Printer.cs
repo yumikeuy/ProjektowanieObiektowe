@@ -55,6 +55,7 @@ namespace Lab1.Library.Services.Printing
         public void PrepareConsole()
         {
             Console.CursorVisible = false;
+            Console.SetCursorPosition(0, 0);
             Console.Clear();
         }
 

@@ -13,6 +13,9 @@ using Lab1.Library.Services.Printing;
 using Lab1.Library.Entities.GameObjects.Main;
 using Lab1.Library.Entities.Main;
 using Lab1.Library.Services.Logging;
+using Lab1.Library.Interfaces.Entities.GameObjects;
+using Lab1.Library.Interfaces.Entities.GameObjects.Items;
+using Lab1.Library.Interfaces.Entities.GameObjects.Items.Weapons;
 
 
 namespace Lab1.Library.Services.GameBuilders
@@ -74,16 +77,16 @@ namespace Lab1.Library.Services.GameBuilders
 
             return this;
         }
-        public IGameBuilder AddItems(int amount)
+        public IGameBuilder AddItems(List<IItem> items, int amount)
         {
-            _boardBuilder.AddItems(amount);
+            _boardBuilder.AddItems(items, amount);
             _instructionsBuilder.AddItems();
 
             return this;
         }
-        public IGameBuilder AddWeapons(int amount)
+        public IGameBuilder AddWeapons(List<IWeapon> weapons, int amount)
         {
-            _boardBuilder.AddWeapons(amount);
+            _boardBuilder.AddWeapons(weapons, amount);
             _instructionsBuilder.AddItems();
 
             return this;
@@ -96,10 +99,18 @@ namespace Lab1.Library.Services.GameBuilders
             return this;
         }
 
-        public IGameBuilder AddEnemies(int amount)
+        public IGameBuilder AddEnemies(List<IEnemy> enemies, int amount)
         {
-            _boardBuilder.AddEnemies(_gameState.Destroyer, amount);
+            _boardBuilder.AddEnemies(_gameState.Destroyer, enemies, amount);
             _instructionsBuilder.AddEnemies();
+
+            return this;
+        }
+
+        public IGameBuilder AddArtefact(IItem artefact)
+        {
+            _boardBuilder.AddArtefact(artefact);
+            _instructionsBuilder.AddItems();
 
             return this;
         }
