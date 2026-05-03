@@ -17,6 +17,7 @@ namespace Lab1.Library.Interfaces.Game
         public IBoard Board { get; set; }
         public IPrinter Printer { get; set; }
         public IDestroyer Destroyer { get; set; }
+        public ILogScreen LogScreen { get; set; }
         public string EndReason { get; }
         public void Stop(string reason);
         public void Start();

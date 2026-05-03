@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Lab1.Library.Interfaces.Game;
 
 namespace Lab1.Console
 {
-    public class GameConfiguration
+    public class GameConfiguration : IGameConfiguration
     {
         public int BoardWidth { get; set; } = 40;
         public int BoardHeight { get; set; } = 20;
@@ -23,7 +24,7 @@ namespace Lab1.Console
         public bool AddMoney { get; set; } = true;
         public bool AddEnemies { get; set; } = true;
         public string InitializeOption { get; set; } = string.Empty;
-        public string LogPath { get; set; } 
-        public string PlayerName { get; set; } 
+        public string LogPath { get; set; } = string.Empty;
+        public string PlayerName { get; set; } = string.Empty;
     }
 }

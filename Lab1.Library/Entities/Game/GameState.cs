@@ -20,6 +20,7 @@ namespace Lab1.Library.Entities.Game
         public IBoard Board { get; set; } = null!;
         public IPrinter Printer { get; set; } = null!;
         public IDestroyer Destroyer { get; set; } = null!;
+        public ILogScreen LogScreen { get; set; } = null!;
         public string EndReason { get; private set; } = string.Empty;
 
         public void Stop(string reason)
@@ -42,6 +43,7 @@ namespace Lab1.Library.Entities.Game
             p.Add(Player.Text());
             p.Add(Player.State.Text());
             p.Add(Instructions.Text());
+            p.Add(LogScreen.Text());
 
             return p;
         }

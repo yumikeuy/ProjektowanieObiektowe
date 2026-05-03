@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
+using Lab1.Library.Interfaces.Game;
 using Lab1.Library.Interfaces.Logging;
 
 namespace Lab1.Library.Services.Logging
@@ -14,13 +17,23 @@ namespace Lab1.Library.Services.Logging
         public static Logger Instance => _instance.Value;
         private static bool _isInitialized = false;
         private IMessageWriter _messageWriter = null!;
+        private ILogReader _logReader = null!;
         private Logger() { }
 
-        public void Initialize(IMessageWriter messageWriter)
+        public void Initialize(string logPath, string playerName, IMessageWriter messageWriter, ILogReader logReader)
         {
             if (_isInitialized) return;
 
             _messageWriter = messageWriter;
+            _logReader = logReader;
+
+            var logFile = "Log_" + playerName + "_" + DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".log";
+            var logDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, logPath);
+            var _logPath = Path.Combine(logDir, logFile);
+            Directory.CreateDirectory(logDir);
+
+            messageWriter.SetPath(_logPath);
+            logReader.SetPath(_logPath);
 
             _isInitialized = true;
         }
@@ -33,6 +46,11 @@ namespace Lab1.Library.Services.Logging
             }
 
             _messageWriter.Write(message);
+        }
+
+        public string[] GetLogs()
+        {
+            return _logReader.GetLogs();
         }
     }
 }

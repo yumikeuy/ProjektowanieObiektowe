@@ -11,6 +11,8 @@ using Lab1.Library.Interfaces.Game;
 using Lab1.Library.Entities.Game;
 using Lab1.Library.Services.Printing;
 using Lab1.Library.Entities.GameObjects.Main;
+using Lab1.Library.Entities.Main;
+using Lab1.Library.Services.Logging;
 
 
 namespace Lab1.Library.Services.GameBuilders
@@ -19,36 +21,38 @@ namespace Lab1.Library.Services.GameBuilders
     {
         private readonly int _width;
         private readonly int _height;
-        private readonly Point PrintAt;
+        private readonly Point printAt;
 
         private readonly IBoardBuilder _boardBuilder;
         private readonly IInstructionsBuilder _instructionsBuilder;
 
         private IGameState _gameState = new GameState();
-
-        public DefaultGameBuilder(int width, int height, int playerStateWidth,
+        private IGameConfiguration _gameConfiguration;
+        public DefaultGameBuilder(IGameConfiguration gameConfiguration,
         IBoardBuilder boardBuilder, IInstructionsBuilder instructionsBuilder)
         {
-            _width = width;
-            _height = height;
-            PrintAt = new(width + playerStateWidth + 3, 1);
+            _gameConfiguration = gameConfiguration;
+            _width = _gameConfiguration.BoardWidth;
+            _height = _gameConfiguration.BoardHeight;
+            printAt = new(_width + 10 + _gameConfiguration.PlayerStateWidth + 5, 1);
             _boardBuilder = boardBuilder;
             _instructionsBuilder = instructionsBuilder;
             _gameState.Destroyer = new Destroyer();
+            _gameState.LogScreen = new LogScreen(_height);
         }
 
         // IGameBuilder
         public IGameBuilder InitializeEmpty()
         {
             _boardBuilder.InitializeEmpty(_width, _height);
-            _instructionsBuilder.Initialize(PrintAt);
+            _instructionsBuilder.Initialize(printAt);
 
             return this;
         }
         public IGameBuilder InitializeFull()
         {
             _boardBuilder.InitializeFull(_width, _height);
-            _instructionsBuilder.Initialize(PrintAt);
+            _instructionsBuilder.Initialize(printAt);
 
             return this;
         }
@@ -70,9 +74,9 @@ namespace Lab1.Library.Services.GameBuilders
 
             return this;
         }
-        public IGameBuilder AddItems(int ammount)
+        public IGameBuilder AddItems(int amount)
         {
-            _boardBuilder.AddItems(ammount);
+            _boardBuilder.AddItems(amount);
             _instructionsBuilder.AddItems();
 
             return this;

@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lab1.Library.Interfaces.Logging
+namespace Lab1.Library.Interfaces.Game
 {
-    public interface IMessageWriter
+    public interface ILogReader
     {
-        void Write(string message);
+        string[] GetLogs();
         void SetPath(string path);
     }
 }

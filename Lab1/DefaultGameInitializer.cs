@@ -17,8 +17,8 @@ namespace Lab1.Console
             var config = JsonSerializer.Deserialize<GameConfiguration>(File.ReadAllText(jsonConfigurationPath)) 
                 ?? throw new NullReferenceException("Game configuration is invalid.");
 
-            var gameBuilder = new DefaultGameBuilder(config.BoardWidth, config.BoardHeight, config.PlayerStateWidth,
-                       new DefaultBoardBuilder(new DefaultBoardInitializer(), new DefaulBoardModificator()), new DefaultInstructionsBuilder());
+            var gameBuilder = new DefaultGameBuilder(config, 
+                new DefaultBoardBuilder(new DefaultBoardInitializer(), new DefaulBoardModificator()), new DefaultInstructionsBuilder());
 
             InitializeBoard(gameBuilder, config.InitializeOption);
             if (config.AddCentralRoom) gameBuilder.AddCentralRoom();
@@ -29,7 +29,7 @@ namespace Lab1.Console
             if (config.AddMoney) gameBuilder.AddMoney(config.MoneyCount);
             if (config.AddEnemies) gameBuilder.AddEnemies(config.EnemiesCount);
 
-            Logger.Instance.Initialize(new FileMessageWriter(config.LogPath, config.PlayerName));
+            Logger.Instance.Initialize(config.LogPath, config.PlayerName, new FileMessageWriter(), new FileLogReader());
 
             var gameState = gameBuilder.GetResult();
 

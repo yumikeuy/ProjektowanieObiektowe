@@ -11,22 +11,18 @@ namespace Lab1.Library.Services.Logging
 {
     public class FileMessageWriter : IMessageWriter
     {
-        private string _logPath = string.Empty;
+        private string _logPath = null!;
 
-        public FileMessageWriter(string path, string name)
+        public void SetPath(string path)
         {
-            var logFile = "Log_" + name + "_" + DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".log";
-            var logDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, path);
-            var logPath = Path.Combine(logDir, logFile);
-            Directory.CreateDirectory(logDir);
-
-            _logPath = logPath;
+            _logPath = path;
         }
 
         public void Write(string message)
         {
+            if(_logPath == null) throw new NullReferenceException("Logging path not specified.");
             string timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            File.AppendAllText(_logPath, $"[{timestamp}] :\t{message}\n");
+            File.AppendAllText(_logPath, $"[{timestamp}] :   {message}\n");
         }
     }
 }
