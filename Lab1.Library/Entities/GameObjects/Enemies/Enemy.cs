@@ -86,7 +86,7 @@ namespace Lab1.Library.Entities.GameObjects.Enemies
                     dirs.Add(p);
             if(dirs.Count > 0)
             {
-                var newPos = dirs[Random.Shared.Next(dirs.Count - 1)];
+                var newPos = dirs[Random.Shared.Next(dirs.Count)];
                 board.SetAt(newPos, this);
                 board.SetAt(Pos, new EmptyGameObject());
                 Pos = PrintAt = newPos;
