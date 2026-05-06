@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lab1.Library.Interfaces
+namespace Lab1.Library.Interfaces.Entities.GameObjects.Enemies
 {
-    public interface IDamagable
+    public interface IAggressive : IEnemy
     {
-        public bool TakeDamage(int damage);
     }
 }

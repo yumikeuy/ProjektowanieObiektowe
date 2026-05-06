@@ -1,33 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using Lab1.Library.Entities.GameObjects;
-using Lab1.Library.Entities.GameObjects.Enemies;
-using Lab1.Library.Entities.GameObjects.Items.Neutral;
-using Lab1.Library.Entities.GameObjects.Items.Weapons;
 using Lab1.Library.Entities.GameObjects.Items.Weapons.Heavy;
 using Lab1.Library.Entities.GameObjects.Items.Weapons.Light;
 using Lab1.Library.Entities.GameObjects.Items.Weapons.Magic;
 using Lab1.Library.Entities.GameObjects.Main;
 using Lab1.Library.Entities.GameObjects.Money;
-using Lab1.Library.Entities.Main;
 using Lab1.Library.Interfaces.Entities;
 using Lab1.Library.Interfaces.Entities.GameObjects;
 using Lab1.Library.Interfaces.Entities.GameObjects.Items;
 using Lab1.Library.Interfaces.Entities.GameObjects.Items.Weapons;
+using Lab1.Library.Interfaces.Events;
 using Lab1.Library.Interfaces.Game;
 using Lab1.Library.Interfaces.GameBuilders;
 using Lab1.Library.Services.Validators.BoardValidators;
-using Lab1.Library.Services.Visitors;
 using Lab1.Library.Services.Visitors.GameObject;
 using Lab1.Library.Services.WeaponModificators;
 
 namespace Lab1.Library.Services.GameBuilders
 {
-    public class DefaulBoardModificator : IBoardModificator
+    public class DefaulBoardModificator: IBoardModificator
     {
         private const int gridWidth = 8;
         private const int gridHeight = 10;
@@ -44,6 +37,8 @@ namespace Lab1.Library.Services.GameBuilders
 
         private const int centralRoomWidth = 6;
         private const int centralRoomHeight = 3;
+
+
         public IBoardModificator AddCorridors(IBoard board)
         {
             var corridorsNumber = Random.Shared.Next(minCorridors, maxCorridors);
@@ -89,7 +84,7 @@ namespace Lab1.Library.Services.GameBuilders
                 for (int i = 0; i < amount; i++)
                 {
                     int ind = Random.Shared.Next(0, items.Count);
-                    var item = items[ind];//TODO
+                    var item = items[ind];
                     board.SetAt(empty.ElementAt(Random.Shared.Next(empty.Count)), item);
                 }
                  
@@ -102,41 +97,20 @@ namespace Lab1.Library.Services.GameBuilders
             if (empty.Count != 0)
                 for (int i = 0; i < amount; i++)
                 {
-                    IWeapon weapon;
                     int j = Random.Shared.Next(1, 100);
-                    switch (j)
+                    IWeapon weapon = j switch
                     {
-                        case < 10:
-                            weapon = new HappyModificator(new ClassicBow());
-                            break;
-                        case < 20:
-                            weapon = new HappyModificator(new MachineGun());
-                            break;
-                        case < 30:
-                            weapon = new ClassicBow();
-                            break;
-                        case < 40:
-                            weapon = new MachineGun();
-                            break;
-                        case < 50:
-                            weapon = new PowerfullModificator(new HappyModificator(new ClassicBow()));
-                            break;
-                        case < 60:
-                            weapon = new PowerfullModificator(new HappyModificator(new MachineGun()));
-                            break;
-                        case < 70:
-                            weapon = new HappyModificator(new PowerfullModificator(new MachineGun()));
-                            break;
-                        case < 80:
-                            weapon = new HappyModificator(new PowerfullModificator(new MachineGun()));
-                            break;
-                        case < 90:
-                            weapon = new HappyModificator(new EnchantedRing());
-                            break;
-                        default:
-                            weapon = new MachineGun();
-                            break;
-                    }
+                        < 10 => new HappyModificator(new ClassicBow()),
+                        < 20 => new HappyModificator(new MachineGun()),
+                        < 30 => new ClassicBow(),
+                        < 40 => new MachineGun(),
+                        < 50 => new PowerfullModificator(new HappyModificator(new ClassicBow())),
+                        < 60 => new PowerfullModificator(new HappyModificator(new MachineGun())),
+                        < 70 => new HappyModificator(new PowerfullModificator(new MachineGun())),
+                        < 80 => new HappyModificator(new PowerfullModificator(new MachineGun())),
+                        < 90 => new HappyModificator(new EnchantedRing()),
+                        _ => new MachineGun(),
+                    };
                     board.SetAt(empty.ElementAt(Random.Shared.Next(empty.Count)), weapon);
                 }
                     
@@ -152,7 +126,7 @@ namespace Lab1.Library.Services.GameBuilders
 
             return this;
         }
-        public IBoardModificator AddEnemies(IBoard board, IDestroyer destroyer, List<IEnemy> enemies, int amount)
+        public IBoardModificator AddEnemies(IBoard board, IEnemyMover enemyMover, IMediatorsDirector<INoiseData, IKillData> mediatorsDirector, List<IEnemy> enemies, int amount)
         {
             var empty = board.GetEmptyCells();
 
@@ -161,13 +135,30 @@ namespace Lab1.Library.Services.GameBuilders
                 {
                     var pos = empty.ElementAt(Random.Shared.Next(empty.Count));
                     int ind = Random.Shared.Next(0, enemies.Count);
-                    var newEnemie = enemies[ind];
-                    destroyer.Add(newEnemie);
-                    board.SetAt(pos, newEnemie);
+                    var newEnemy = (IEnemy)enemies[ind].Clone();
+                    newEnemy.Pos = newEnemy.PrintAt = pos;
+
+                    enemyMover.Add(newEnemy);
+
+                    mediatorsDirector.NoiseMediator.Subscribe(newEnemy);
+                    newEnemy.RegisterInKillMediator(mediatorsDirector);
+                    mediatorsDirector.Destroyer.Add(newEnemy);
+
+                    board.SetAt(pos, newEnemy);
                 }
                     
             return this;
         }
+        public IBoardModificator AddArtefact(IBoard board, IItem artefact)
+        {
+            var empty = board.GetEmptyCells();
+
+            if (empty.Count != 0)
+                board.SetAt(empty.ElementAt(Random.Shared.Next(empty.Count)), artefact);
+
+            return this;
+        }
+
 
         private Point GetRandomPoint(IBoard board, int grid)
         {
@@ -202,73 +193,5 @@ namespace Lab1.Library.Services.GameBuilders
                         if (board.GetAt(pos + (i, j)).AcceptGameObjectVisitor(new CantBeGoneThrough()))
                             board.SetAt(pos + (i, j), new EmptyGameObject());
         }
-        public IBoardModificator AddArtefact(IBoard board, IItem artefact)
-        {
-            var empty = board.GetEmptyCells();
-
-            if (empty.Count != 0)
-                board.SetAt(empty.ElementAt(Random.Shared.Next(empty.Count)), artefact);
-
-            return this;
-        }
-
-        // private const int straightCorridorBooster = 20;
-        //private void CheckAndAddPoint(IBoard board, Point pos, Point prevPos,
-        //    ICollection<Point> nearPoints, ICollection<Point> nonEmptyPoints, ICollection<Point> notNearEmptyPoints)
-        //{
-
-        //    if (IsInside(board, pos) && pos != prevPos)
-        //    {
-        //        AddWithStraightBooster(pos, prevPos, nearPoints);
-
-        //        if (!board.GetAt(pos).AcceptGameObjectVisitor(new CantBeGoneThrough()))
-        //        {
-        //            AddWithStraightBooster(pos, prevPos, nonEmptyPoints);
-
-        //            if (!NearEmpty(board, pos))
-        //            {
-        //                AddWithStraightBooster(pos, prevPos, notNearEmptyPoints);
-        //            }
-        //        }
-        //    }
-        //}
-
-        //private void AddWithStraightBooster(Point pos, Point prevPos, ICollection<Point> points)
-        //{
-        //    if (prevPos.LinearDistance(pos) == 2)
-        //        for (int i = 0; i < straightCorridorBooster; i++)
-        //            points.Add(pos);
-        //    points.Add(pos);
-        //}
-
-        //private Point GetNextPoint(IBoard board, Point pos, ref Point prevPos)
-        //{
-        //    List<Point> nearPoints = [];
-        //    List<Point> nonEmptyPoints = [];
-        //    List<Point> notNearEmptyPoints = [];
-
-        //    foreach(var p in pos.Neighbors)
-        //        CheckAndAddPoint(board, p, prevPos, nearPoints, nonEmptyPoints, notNearEmptyPoints);
-
-        //    prevPos = pos;
-
-        //    if (notNearEmptyPoints.Count != 0)
-        //        return notNearEmptyPoints[Random.Shared.Next(notNearEmptyPoints.Count)];
-
-        //    if (nonEmptyPoints.Count != 0)
-        //        return nonEmptyPoints[Random.Shared.Next(nonEmptyPoints.Count)];
-
-        //    return nearPoints[Random.Shared.Next(nearPoints.Count)];
-        //}
-
-        //private bool NearEmpty(IBoard board, Point pos)
-        //{
-        //    int countEmpty = 0;
-
-        //    foreach(var p in pos.Neighbors)
-        //        if (IsInside(board, p) && board.GetAt(p).AcceptGameObjectVisitor(new CantBeGoneThrough())) countEmpty++;
-
-        //    return countEmpty > 1;
-        //}
     }
 }

@@ -12,6 +12,8 @@ using Lab1.Library.Entities.GameObjects.Items.Weapons.Heavy;
 using Lab1.Library.Entities.GameObjects.Items.Weapons.Light;
 using Lab1.Library.Entities.GameObjects.Items.Weapons.Magic;
 using Lab1.Library.Entities.GameObjects.Enemies;
+using Lab1.Library.Entities.GameObjects.Enemies.Cowardly;
+using Lab1.Library.Entities.GameObjects.Enemies.Aggressive;
 
 namespace Lab1.Library.Services.GameBuilders.BuildingThemes
 {

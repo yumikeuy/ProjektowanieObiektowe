@@ -13,9 +13,9 @@ namespace Lab1.Library.Services.GameInstructions.Attack
 {
     public class StealthAttackInstruction : AttackInstruction
     {
-        public override ICollection<char> Chars { get; set; } = ['B'];
-        public override ICollection<ConsoleKey> Keys { get; set; } = [ConsoleKey.B];
-        public override string Description { get; set; } = "Press \"B\" to use stealth attack on an enemy";
+        public override ICollection<char> Chars { get; set; } = ['V'];
+        public override ICollection<ConsoleKey> Keys { get; set; } = [ConsoleKey.V];
+        public override string Description { get; set; } = "Press \"V\" to use stealth attack on an enemy";
         public override void Execute(IInputEvent inputEvent)
         {
             _attackVisitor = new StealthAttackVisitor(inputEvent.GameState.Player.State);

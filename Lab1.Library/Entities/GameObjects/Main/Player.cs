@@ -36,13 +36,21 @@ namespace Lab1.Library.Entities.GameObjects.Main
         {
             return visitor.Visit(this);
         }
-        public void TakeDamage(int damage)
+        public bool TakeDamage(int damage)
         {
             var actualDamage = damage - State.Armor;
-            if (actualDamage < 0) return;
+            if (actualDamage < 0) return false;
+
             State.Health -= actualDamage;
             State.Armor = 0;
-            if (State.Health < 0) Die();
+
+            if (State.Health <= 0)
+            {
+                Die();
+                return true;
+            }
+
+            return false;
         }
 
         private void Die()

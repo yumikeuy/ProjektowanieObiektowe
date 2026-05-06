@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lab1.Library.Interfaces
+namespace Lab1.Library.Interfaces.Events
 {
-    public interface IDamagable
+    public interface IResponsive<TEventData>
     {
-        public bool TakeDamage(int damage);
+        void OnNotify(TEventData data);
     }
 }

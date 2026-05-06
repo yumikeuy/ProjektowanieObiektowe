@@ -13,13 +13,14 @@ namespace Lab1.Library.Interfaces.Entities
 {
     public interface IBoard : ITextConvertible
     {
-        public int Width { get; }
-        public int Height { get; }
-        public string IntroductionText { get; set; }
-        public ICollection<Point> GetEmptyCells();
-        public Point GetSpawnPoint();
-        public IGameObject GetAt(Point pos);
-        public void SetAt(Point pos, IGameObject gameObject);
-        public Point GetZero();
+        int Width { get; }
+        int Height { get; }
+        string IntroductionText { get; set; }
+        ICollection<Point> GetEmptyCells();
+        Point GetSpawnPoint();
+        IGameObject GetAt(Point pos);
+        void SetAt(Point pos, IGameObject gameObject);
+        Point GetZero();
+        bool IsReachable(Point src, Point dst, int radius, out int dist);
     }
 }

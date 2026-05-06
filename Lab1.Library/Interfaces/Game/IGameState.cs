@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Lab1.Library.Entities;
 using Lab1.Library.Interfaces.Entities;
+using Lab1.Library.Interfaces.Events;
 using Lab1.Library.Interfaces.Printing;
 
 namespace Lab1.Library.Interfaces.Game
@@ -18,6 +19,8 @@ namespace Lab1.Library.Interfaces.Game
         public IPrinter Printer { get; set; }
         public IDestroyer Destroyer { get; set; }
         public ILogScreen LogScreen { get; set; }
+        public IMediatorsDirector<INoiseData, IKillData> MediatorsDirector { get; set; }
+        public IEnemyMover EnemyMover { get; set; }
         public string EndReason { get; }
         public void Stop(string reason);
         public void Start();

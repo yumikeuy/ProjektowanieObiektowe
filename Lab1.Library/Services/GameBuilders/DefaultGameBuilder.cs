@@ -16,6 +16,10 @@ using Lab1.Library.Services.Logging;
 using Lab1.Library.Interfaces.Entities.GameObjects;
 using Lab1.Library.Interfaces.Entities.GameObjects.Items;
 using Lab1.Library.Interfaces.Entities.GameObjects.Items.Weapons;
+using Lab1.Library.Services.EventsMediators;
+using Lab1.Library.Services.EventsMediators.Noise;
+using Lab1.Library.Services.EventsMediators.Killing;
+using Lab1.Library.Interfaces.Events;
 
 
 namespace Lab1.Library.Services.GameBuilders
@@ -40,8 +44,9 @@ namespace Lab1.Library.Services.GameBuilders
             printAt = new(_width + 10 + _gameConfiguration.PlayerStateWidth + 5, 1);
             _boardBuilder = boardBuilder;
             _instructionsBuilder = instructionsBuilder;
-            _gameState.Destroyer = new Destroyer();
             _gameState.LogScreen = new LogScreen(_height);
+            _gameState.MediatorsDirector = new MediatorsDirector(new Destroyer(), new Mediator<INoiseData>(), new Mediator<IKillData>());
+            _gameState.EnemyMover = new EnemyMover();
         }
 
         // IGameBuilder
@@ -101,7 +106,7 @@ namespace Lab1.Library.Services.GameBuilders
 
         public IGameBuilder AddEnemies(List<IEnemy> enemies, int amount)
         {
-            _boardBuilder.AddEnemies(_gameState.Destroyer, enemies, amount);
+            _boardBuilder.AddEnemies(_gameState.EnemyMover, _gameState.MediatorsDirector, enemies, amount);
             _instructionsBuilder.AddEnemies();
 
             return this;
@@ -120,9 +125,9 @@ namespace Lab1.Library.Services.GameBuilders
             _gameState.Printer = new Printer();
             _gameState.Board = _boardBuilder.GetResult();
             _gameState.Instructions = _instructionsBuilder.GetResult();
-            _gameState.Destroyer.AddBoard(_gameState.Board);
+            _gameState.MediatorsDirector.Destroyer.AddBoard(_gameState.Board);
             _gameState.Player = new Player(_gameState.Board.GetZero(), _gameState.Board.GetSpawnPoint(), _width);
-            _gameState.Destroyer.Add(_gameState.Player);
+            _gameState.MediatorsDirector.Destroyer.Add(_gameState.Player);
             return _gameState;
         }
     }

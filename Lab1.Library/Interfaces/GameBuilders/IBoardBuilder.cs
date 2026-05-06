@@ -7,6 +7,7 @@ using Lab1.Library.Interfaces.Entities;
 using Lab1.Library.Interfaces.Entities.GameObjects;
 using Lab1.Library.Interfaces.Entities.GameObjects.Items;
 using Lab1.Library.Interfaces.Entities.GameObjects.Items.Weapons;
+using Lab1.Library.Interfaces.Events;
 using Lab1.Library.Interfaces.Game;
 
 namespace Lab1.Library.Interfaces.GameBuilders
@@ -21,7 +22,7 @@ namespace Lab1.Library.Interfaces.GameBuilders
         public IBoardBuilder AddItems(List<IItem> items, int ammount);
         public IBoardBuilder AddWeapons(List<IWeapon> items, int amount);
         public IBoardBuilder AddMoney(int amount);
-        public IBoardBuilder AddEnemies(IDestroyer destroyer, List<IEnemy> items, int amount);
+        public IBoardBuilder AddEnemies(IEnemyMover enemyMover, IMediatorsDirector<INoiseData, IKillData> mediatorsDirector, List<IEnemy> items, int amount);
         public IBoardBuilder AddArtefact(IItem artefact);
         public IBoard GetResult();
     }

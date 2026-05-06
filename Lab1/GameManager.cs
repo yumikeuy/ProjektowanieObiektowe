@@ -29,7 +29,7 @@ namespace Lab1.Console
             var hasChanged = true;
             while (_gameState.IsActive)
             {
-                _gameState.Destroyer.CleanUp();
+                _gameState.MediatorsDirector.Destroyer.CleanUp();
 
                 if (hasChanged || _gameState.Printer.CheckForResize()) _gameState.Printer.Print();
                 hasChanged = false;

@@ -8,6 +8,7 @@ using Lab1.Library.Entities.GameObjects.Items;
 using Lab1.Library.Entities.GameObjects.Main;
 using Lab1.Library.Entities.GameObjects.Money;
 using Lab1.Library.Interfaces.Entities.GameObjects;
+using Lab1.Library.Interfaces.Entities.GameObjects.Enemies;
 using Lab1.Library.Interfaces.Entities.GameObjects.Items;
 using Lab1.Library.Interfaces.Entities.GameObjects.Money;
 
@@ -22,6 +23,8 @@ namespace Lab1.Library.Services.Visitors.GameObject
         public virtual bool Visit(IMoney money) { return false; }
         public virtual bool Visit(Coin coin) { return false; }
         public virtual bool Visit(Gold gold) { return false; }
+        public virtual bool Visit(IAggressive aggressive) { return false; }
+        public virtual bool Visit(ICowardly cowardly) { return false; }
         public virtual bool Visit(IItem item) { return false; }
     }
 }

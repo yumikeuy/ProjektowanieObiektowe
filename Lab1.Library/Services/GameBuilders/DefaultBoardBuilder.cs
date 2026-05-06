@@ -8,6 +8,7 @@ using Lab1.Library.Interfaces.Entities;
 using Lab1.Library.Interfaces.Entities.GameObjects;
 using Lab1.Library.Interfaces.Entities.GameObjects.Items;
 using Lab1.Library.Interfaces.Entities.GameObjects.Items.Weapons;
+using Lab1.Library.Interfaces.Events;
 using Lab1.Library.Interfaces.Game;
 using Lab1.Library.Interfaces.GameBuilders;
 
@@ -94,11 +95,11 @@ namespace Lab1.Library.Services.GameBuilders
             _board.IntroductionText += IntroductionTexts.MoneyText;
             return this;
         }
-        public IBoardBuilder AddEnemies(IDestroyer destroyer, List<IEnemy> enemies, int amount)
+        public IBoardBuilder AddEnemies(IEnemyMover enemyMover, IMediatorsDirector<INoiseData, IKillData> mediatorsDirector,  List<IEnemy> enemies, int amount)
         {
             if (!isInitialized) throw new Exception("Board hasn't been initialized yet.");
 
-            _modificator.AddEnemies(_board, destroyer, enemies, amount);
+            _modificator.AddEnemies(_board, enemyMover, mediatorsDirector, enemies, amount);
             _board.IntroductionText += IntroductionTexts.EnemiesText;
             return this;
         }

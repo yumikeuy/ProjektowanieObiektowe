@@ -88,5 +88,11 @@ namespace Lab1.Library.Entities.Main
         {
             return PrintAt + (1, 1);
         }
+
+        public bool IsReachable(Point src, Point dst, int radius, out int dist)
+        {
+            dist = 0;
+            return true;
+        }
     }
 }
