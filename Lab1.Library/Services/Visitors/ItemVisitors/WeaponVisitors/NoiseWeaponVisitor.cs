@@ -16,7 +16,7 @@ namespace Lab1.Library.Services.Visitors.ItemVisitors.WeaponVisitors
         public int Radius { get; set; } = 0;
         public override bool Visit(IHeavyWeapon heavyWeapon)
         {
-            Radius = 7;
+            Radius = 30;
             return true;
         }
         public override bool Visit(ILightWeapon lightWeapon)

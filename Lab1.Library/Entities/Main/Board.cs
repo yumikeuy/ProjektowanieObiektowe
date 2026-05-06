@@ -6,6 +6,7 @@ using Lab1.Library.Interfaces.Entities.GameObjects;
 using Lab1.Library.Interfaces.Printing;
 using Lab1.Library.Services;
 using Lab1.Library.Services.Printing;
+using Lab1.Library.Services.Validators.BoardValidators;
 using Lab1.Library.Services.Validators.ItemsValidators;
 using Lab1.Library.Services.Visitors;
 using Lab1.Library.Services.Visitors.GameObject;
@@ -91,8 +92,54 @@ namespace Lab1.Library.Entities.Main
 
         public bool IsReachable(Point src, Point dst, int radius, out int dist)
         {
-            dist = 0;
-            return true;
+            dist = -1; 
+
+            if (src.X == dst.X && src.Y == dst.Y)
+            {
+                dist = 0;
+                return true;
+            }
+
+            Queue<(Point Point, int Distance)> queue = new();
+            HashSet<Point> visited = new();
+
+            queue.Enqueue((src, 0));
+            visited.Add(src);
+
+            while (queue.Count > 0)
+            {
+                var (current, currentDist) = queue.Dequeue();
+
+                if (currentDist >= radius) continue;
+
+                foreach (var neighbor in current.Neighbors)
+                {
+                    if (!IsInsideBoardValidator.IsValid(this, neighbor)) continue;
+
+                    if (visited.Contains(neighbor)) continue;
+
+                    if (GetAt(neighbor).AcceptGameObjectVisitor(new CantBeGoneThrough())) continue;
+
+                    int nextDist = currentDist + 1;
+
+                    if (neighbor == dst)
+                    {
+                        dist = nextDist;
+                        return true;
+                    }
+
+                    if (Point.LinearDistance(neighbor, dst) <= 1 && nextDist < radius)
+                    {
+                        dist = nextDist + 1;
+                        return true;
+                    }
+
+                    visited.Add(neighbor);
+                    queue.Enqueue((neighbor, nextDist));
+                }
+            }
+
+            return false;
         }
     }
 }
