@@ -82,14 +82,15 @@ namespace Lab1.Library.Entities.GameObjects.Enemies
         {
             var dirs = new List<Point>();
             foreach(var p in Pos.Neighbors)
-                if (IsInsideBoardValidator.IsValid(board, p) && board.GetAt(p).AcceptGameObjectVisitor(new CantBeGoneThrough()))
+                if (IsInsideBoardValidator.IsValid(board, p) && !board.GetAt(p).AcceptGameObjectVisitor(new CantBeGoneThrough()))
                     dirs.Add(p);
-
-            var newPos = dirs[Random.Shared.Next(dirs.Count - 1)];
-
-            board.SetAt(newPos, this);
-            board.SetAt(Pos, new EmptyGameObject());
-            Pos = PrintAt = newPos;
+            if(dirs.Count > 0)
+            {
+                var newPos = dirs[Random.Shared.Next(dirs.Count - 1)];
+                board.SetAt(newPos, this);
+                board.SetAt(Pos, new EmptyGameObject());
+                Pos = PrintAt = newPos;
+            }            
         }
 
         public abstract void RegisterInKillMediator(IMediatorsDirector<INoiseData, IKillData> md);

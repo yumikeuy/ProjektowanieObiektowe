@@ -7,6 +7,7 @@ namespace Lab1.Console
     public class GameManager : IGameManager
     {
         private readonly IGameState _gameState;
+        private double speedOfEnemies = 5;
 
         public GameManager(IGameState gameState)
         {
@@ -27,8 +28,11 @@ namespace Lab1.Console
         private void StartGameLoop()
         {
             var hasChanged = true;
+            int enemiesFrameCounter = 0;
             while (_gameState.IsActive)
             {
+             
+
                 _gameState.MediatorsDirector.Destroyer.CleanUp();
 
                 if (hasChanged || _gameState.Printer.CheckForResize()) _gameState.Printer.Print();
@@ -41,10 +45,18 @@ namespace Lab1.Console
                     _gameState.Instructions.ExecuteAction(_gameState, key);
                 }
 
+                if (enemiesFrameCounter > speedOfEnemies)
+                {
+                    _gameState.EnemyMover.Move(_gameState.Board);
+                    enemiesFrameCounter = 0;
+                    hasChanged = true;
+                }
+
                 if (_gameState.Player.IsPendingDeletion)
                     _gameState.Stop("You died in a battle.");
 
                 Thread.Sleep(16);
+                enemiesFrameCounter++;
             }
 
             ShowEndScreen();
