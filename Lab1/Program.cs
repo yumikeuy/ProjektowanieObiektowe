@@ -10,8 +10,9 @@ var config = JsonSerializer.Deserialize<GameConfiguration>(File.ReadAllText("Con
                 ?? throw new NullReferenceException("Game configuration is invalid.");
 
 var argsManager = new ArgsManager(new(IPAddress.Parse(config.DefaultIp), config.DefaultPort));
-(var isServer, var ipep) = argsManager.HandleArgs(args);
+(var isServer, var ipep, var nick) = argsManager.HandleArgs(args);
 
+config.PlayerName = nick;
 config.DefaultPort = ipep.Port;
 config.DefaultIp = ipep.Address.ToString();
 

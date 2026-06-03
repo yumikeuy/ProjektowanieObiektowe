@@ -12,43 +12,45 @@ namespace Lab1.Console
         private readonly IPAddress defaultIp = ipEndPoint.Address;
         private readonly int defaultPort = ipEndPoint.Port;
 
-        public (bool, IPEndPoint) HandleArgs(string[] args)
+        public (bool, IPEndPoint, string) HandleArgs(string[] args)
         {
-            if (args.Length < 1 || args.Length > 2)
+            if (args.Length < 2 || args.Length > 3)
             {
                 Usage();
             }
 
-            if (args[0] == "--server" || args[0] == "-s")
+
+            if (args[1] == "--server" || args[1] == "-s")
             {
-                if (args.Length > 1 && int.TryParse(args[1], out var port) && 0 <= port && port <= 65535)
+                if (args.Length > 2 && int.TryParse(args[2], out var port) && 0 <= port && port <= 65535)
                 {
-                    return (true, new(defaultIp, port));
+                    return (true, new(defaultIp, port), args[0]);
                 }
                 else
                 {
-                    return (true, new(defaultIp, defaultPort));
+                    return (true, new(defaultIp, defaultPort), args[0]);
                 }
             }
-            else if(args[0] == "--client" || args[0] == "-c")
+            else if(args[1] == "--client" || args[1] == "-c")
             {
-                if (args.Length > 1 && IPEndPoint.TryParse(args[1], out var ipEndPoint))
+                if (args.Length > 2 && IPEndPoint.TryParse(args[2], out var ipEndPoint))
                 {
-                    return (false, ipEndPoint);
+                    return (false, ipEndPoint, args[0]);
                 }
                 else
                 {
-                    return (false, new(defaultIp, defaultPort));
+                    return (false, new(defaultIp, defaultPort), args[0]);
                 }
             }
 
             Usage();
-            return (false, new(0, 0)); // Not reachable
+            return (false, new(0, 0), ""); // Not reachable
         }
 
         private void Usage()
         {
-            System.Console.WriteLine("Usage: program --server (or -s) [port]\n\t program --client (or -c) [port]\n default adress: 127.0.0.1:5555\n");
+            System.Console.WriteLine("Usage: program nickname --server (or -s) [port]\n\t program nickname --client (or -c) [port]\n default adress: 127.0.0.1:5555\n");
+            System.Console.ReadKey();
             Environment.Exit(1);
         }
 
