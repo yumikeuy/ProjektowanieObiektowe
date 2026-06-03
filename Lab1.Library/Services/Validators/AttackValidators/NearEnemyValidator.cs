@@ -8,6 +8,7 @@ using Lab1.Library.Entities;
 using Lab1.Library.Entities.GameObjects.Enemies;
 using Lab1.Library.Interfaces.Entities;
 using Lab1.Library.Interfaces.Entities.GameObjects;
+using Lab1.Library.Interfaces.Game;
 using Lab1.Library.Services.Validators.BoardValidators;
 using Lab1.Library.Services.Visitors;
 using Lab1.Library.Services.Visitors.GameObject;
@@ -16,8 +17,9 @@ namespace Lab1.Library.Services.Validators.AttackValidators
 {
     public static class NearEnemyValidator
     {
-        public static bool IsValid(IBoard board, IPlayer player, out IGameObject go)
+        public static bool IsValid(IGameState gameState, IPlayer player, out IGameObject go)
         {
+            var board = gameState.Board;
             var pos = player.Pos;
             Point orientedPos = player.State.Orientation switch
             {
@@ -28,18 +30,36 @@ namespace Lab1.Library.Services.Validators.AttackValidators
                 _ => new(-1, -1)
             };
 
-            if (IsInsideBoardValidator.IsValid(board, orientedPos) && board.GetAt(orientedPos).AcceptGameObjectVisitor(new IsEnemy()))
-            {
-                go = board.GetAt(orientedPos);
-                return true;
+            var orientationPlayer = gameState.PlayerManager.GetPlayer(orientedPos);
+
+            if (IsInsideBoardValidator.IsValid(board, orientedPos))            {
+                if(board.GetAt(orientedPos).AcceptGameObjectVisitor(new IsEnemy()))
+                {
+                    go = board.GetAt(orientedPos);
+                    return true;
+                }
+                if (orientationPlayer != null)
+                {
+                    go = orientationPlayer;
+                    return true;
+                }
             }
 
             foreach(var p in pos.Neighbors)
             {
-                if(IsInsideBoardValidator.IsValid(board, p) && board.GetAt(p).AcceptGameObjectVisitor(new IsEnemy()))
+                if(IsInsideBoardValidator.IsValid(board, p))
                 {
-                    go = board.GetAt(p);
-                    return true;
+                    if (board.GetAt(p).AcceptGameObjectVisitor(new IsEnemy()))
+                    {
+                        go = board.GetAt(p);
+                        return true;
+                    }
+                    var enemyPlayer = gameState.PlayerManager.GetPlayer(p);
+                    if (enemyPlayer != null)
+                    {
+                        go = enemyPlayer;
+                        return true;
+                    }   
                 }
             }
 

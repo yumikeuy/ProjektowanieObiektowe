@@ -17,9 +17,9 @@ namespace Lab1.Library.Services.GameInstructions.Items
         public override void Execute(IInputEvent inputEvent)
         {
             if (inputEvent.Key == ConsoleKey.L)
-                inputEvent.GameState.Player.State.SelectHand(Hands.Left);
+                inputEvent.Player.State.SelectHand(Hands.Left);
             else
-                inputEvent.GameState.Player.State.SelectHand(Hands.Right);
+                inputEvent.Player.State.SelectHand(Hands.Right);
 
             base.Execute(inputEvent);
         }

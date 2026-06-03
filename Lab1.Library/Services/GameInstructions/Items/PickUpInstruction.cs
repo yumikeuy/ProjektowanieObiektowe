@@ -23,8 +23,8 @@ namespace Lab1.Library.Services.GameInstructions.Items
         public override string Description { get; set; } = "Press \"E\" to pick up the item";
         public override void Execute(IInputEvent inputEvent)
         {
-            var player = inputEvent.GameState.Player;
-            var board = inputEvent.GameState.Board;
+            var player = inputEvent.Player;
+            var board = inputEvent.Game.GameState.Board;
 
             if (PickUpItemValidator.IsValid(board, player.Pos, player.State))
             {
@@ -36,7 +36,7 @@ namespace Lab1.Library.Services.GameInstructions.Items
                 board.SetAt(player.Pos, new EmptyGameObject());
 
                 var noiseData = new NoiseData(player.Pos, noiseVisitor.Radius, board, "Picking up an item");
-                inputEvent.GameState.MediatorsDirector.NoiseMediator.Notify(noiseData);
+                inputEvent.Game.GameState.MediatorsDirector.NoiseMediator.Notify(noiseData);
             }                
                 
 

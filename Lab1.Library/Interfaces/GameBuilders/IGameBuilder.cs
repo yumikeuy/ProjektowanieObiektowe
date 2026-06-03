@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Lab1.Library.Interfaces.Entities;
 using Lab1.Library.Interfaces.Entities.GameObjects;
 using Lab1.Library.Interfaces.Entities.GameObjects.Items;
 using Lab1.Library.Interfaces.Entities.GameObjects.Items.Weapons;
@@ -22,6 +23,6 @@ namespace Lab1.Library.Interfaces.GameBuilders
         public IGameBuilder AddMoney(int amount);
         public IGameBuilder AddEnemies(List<IEnemy> enemies, int amount);
         public IGameBuilder AddArtefact(IItem artefact);
-        public IGameState GetResult();
+        public IGame GetResult();
     }
 }

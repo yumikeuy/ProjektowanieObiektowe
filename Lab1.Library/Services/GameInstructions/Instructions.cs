@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Lab1.Library.Entities.Game;
 using Lab1.Library.Entities.Printing;
+using Lab1.Library.Interfaces.Entities;
 using Lab1.Library.Interfaces.Game;
 using Lab1.Library.Interfaces.Printing;
 using Lab1.Library.Services;
@@ -46,14 +47,9 @@ namespace Lab1.Library.Services.GameInstructions
                 _handler.SetNext(handler);
         }
 
-        public InputHandler GetHandler()
+        public void ExecuteAction(IGame game, ConsoleKey key, IPlayer player)
         {
-            return _handler;
-        }
-
-        public void ExecuteAction(IGameState gameState, ConsoleKey key)
-        {
-            _handler.Handle(new InputEvent(gameState, key));
+            _handler.Handle(new InputEvent(game, key, player));
         }
     }
 }

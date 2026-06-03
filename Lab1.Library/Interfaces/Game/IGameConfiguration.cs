@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -25,5 +26,8 @@ namespace Lab1.Library.Interfaces.Game
         public string InitializeOption { get; set; }
         public string LogPath { get; set; }
         public string PlayerName { get; set; }
+        public string Theme { get; set; }
+        public string DefaultIp { get; set; }
+        public int DefaultPort { get; set; }
     }
 }

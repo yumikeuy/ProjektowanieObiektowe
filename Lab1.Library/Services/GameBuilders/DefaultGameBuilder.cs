@@ -20,6 +20,8 @@ using Lab1.Library.Services.EventsMediators;
 using Lab1.Library.Services.EventsMediators.Noise;
 using Lab1.Library.Services.EventsMediators.Killing;
 using Lab1.Library.Interfaces.Events;
+using Lab1.Library.Interfaces.Entities;
+using System.Net;
 
 
 namespace Lab1.Library.Services.GameBuilders
@@ -47,6 +49,7 @@ namespace Lab1.Library.Services.GameBuilders
             _gameState.LogScreen = new LogScreen(_height);
             _gameState.MediatorsDirector = new MediatorsDirector(new Destroyer(), new Mediator<INoiseData>(), new Mediator<IKillData>());
             _gameState.EnemyMover = new EnemyMover();
+            _gameState.PlayerManager = new PlayerManager();
         }
 
         // IGameBuilder
@@ -120,15 +123,15 @@ namespace Lab1.Library.Services.GameBuilders
             return this;
         }
 
-        public IGameState GetResult()
+        public IGame GetResult()
         {
-            _gameState.Printer = new Printer();
             _gameState.Board = _boardBuilder.GetResult();
-            _gameState.Instructions = _instructionsBuilder.GetResult();
             _gameState.MediatorsDirector.Destroyer.AddBoard(_gameState.Board);
-            _gameState.Player = new Player(_gameState.Board.GetZero(), _gameState.Board.GetSpawnPoint(), _width);
-            _gameState.MediatorsDirector.Destroyer.Add(_gameState.Player);
-            return _gameState;
+
+            _gameState.AddPlayer(_gameConfiguration.PlayerName, new(IPAddress.Parse(_gameConfiguration.DefaultIp), _gameConfiguration.DefaultPort), true);
+
+            var game = new Game(_gameState, new Printer(), _instructionsBuilder.GetResult());
+            return game;
         }
     }
 }

@@ -90,7 +90,7 @@ namespace Lab1.Library.Entities.GameObjects.Enemies
                 var newPos = dirs[Random.Shared.Next(dirs.Count)];
                 board.SetAt(newPos, this);
                 board.SetAt(Pos, new EmptyGameObject());
-                Pos = PrintAt = newPos;
+                Pos = newPos;
             }            
         }
 

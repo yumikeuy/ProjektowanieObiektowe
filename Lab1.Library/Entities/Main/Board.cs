@@ -1,4 +1,5 @@
-﻿using Lab1.Library.Entities.GameObjects;
+﻿using Lab1.Library.Entities.Changes;
+using Lab1.Library.Entities.GameObjects;
 using Lab1.Library.Entities.GameObjects.Items.Weapons;
 using Lab1.Library.Entities.GameObjects.Money;
 using Lab1.Library.Interfaces.Entities;
@@ -26,6 +27,8 @@ namespace Lab1.Library.Entities.Main
         public int Width { get; }
         public int Height { get; }
         public string IntroductionText { get; set; } = string.Empty;
+        public bool HasChanged { get; set; } = false;
+        private BoardChanges boardChanges = new BoardChanges();
 
         private IGameObject[,] _data;
 
@@ -36,7 +39,6 @@ namespace Lab1.Library.Entities.Main
             Height = data.GetLength(1);
         }
 
-        // IPrtintable
         public Point PrintAt { get; set; } = new Point(1, 1);
         public IPrintable Text()
         {
@@ -59,7 +61,6 @@ namespace Lab1.Library.Entities.Main
             return lines;
         }
 
-        // IBoard
         public ICollection<Point> GetEmptyCells()
         {
             var sps = new List<Point>();
@@ -84,6 +85,9 @@ namespace Lab1.Library.Entities.Main
         public void SetAt(Point pos, IGameObject gameObject)
         {
             _data[pos.X, pos.Y] = gameObject;
+
+            boardChanges.Changes.Add(new(pos.X, pos.Y, new(gameObject.Char)));
+            HasChanged = true;
         }
         public Point GetZero()
         {
@@ -140,6 +144,17 @@ namespace Lab1.Library.Entities.Main
             }
 
             return false;
+        }
+
+        public BoardChanges FlushChanges()
+        {
+            var changes = boardChanges;
+
+            boardChanges = new BoardChanges();
+
+            HasChanged = false;
+
+            return changes;
         }
     }
 }

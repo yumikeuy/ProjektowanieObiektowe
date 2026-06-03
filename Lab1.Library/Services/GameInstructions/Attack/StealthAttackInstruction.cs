@@ -18,7 +18,7 @@ namespace Lab1.Library.Services.GameInstructions.Attack
         public override string Description { get; set; } = "Press \"V\" to use stealth attack on an enemy";
         public override void Execute(IInputEvent inputEvent)
         {
-            _attackVisitor = new StealthAttackVisitor(inputEvent.GameState.Player.State);
+            _attackVisitor = new StealthAttackVisitor(inputEvent.Player.State);
 
             base.Execute(inputEvent);
         }

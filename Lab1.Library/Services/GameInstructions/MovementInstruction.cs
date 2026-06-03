@@ -18,8 +18,8 @@ namespace Lab1.Library.Services.GameInstructions
         public override string Description { get; set; } = "Press \"W\", \"A\", \"S\", \"D\" to move";
         public override void Execute(IInputEvent inputEvent)
         {
-            var board = inputEvent.GameState.Board;
-            var player = inputEvent.GameState.Player;
+            var board = inputEvent.Game.GameState.Board;
+            var player = inputEvent.Player;
             var pos = player.Pos;
 
             (Point newPos, char orientation) = inputEvent.Key switch

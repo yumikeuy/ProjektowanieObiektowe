@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Formats.Asn1;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Lab1.Library.Entities.Main;
@@ -15,8 +16,10 @@ using Lab1.Library.Services.Visitors.GameObject;
 
 namespace Lab1.Library.Entities.GameObjects.Main
 {
-    public class Player(Point printAt, Point pos, int boardWidth) : IPlayer
+    public class Player(Point printAt, Point pos, int boardWidth, string name, IPEndPoint iPEndPoint) : IPlayer
     {
+        public string Name { get; set; } = name;
+        public IPEndPoint IP { get; set; } = iPEndPoint;
         public char Char { get; set; } = '@';
         public Point Pos { get; set; } = pos;
         public Point PrintAt { get; set; } = printAt;
@@ -53,7 +56,7 @@ namespace Lab1.Library.Entities.GameObjects.Main
             return false;
         }
 
-        private void Die()
+        public void Die()
         {
             IsPendingDeletion = true;
             OnDestroyRequested?.Invoke(this);

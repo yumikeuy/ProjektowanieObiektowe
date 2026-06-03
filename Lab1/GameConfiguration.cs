@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Lab1.Library.Interfaces.Game;
@@ -28,5 +29,7 @@ namespace Lab1.Console
         public string PlayerName { get; set; } = string.Empty;
         public string BuildingStrategy { get; set; } = string.Empty;
         public string Theme { get; set; } = string.Empty;
+        public string DefaultIp { get; set; } = null!;
+        public int DefaultPort { get; set; } = 0;
     }
 }

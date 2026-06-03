@@ -20,9 +20,9 @@ namespace Lab1.Library.Services.GameInstructions.Attack
         protected AttackVisitor _attackVisitor = null!;
         public override void Execute(IInputEvent inputEvent)
         {
-            var board = inputEvent.GameState.Board;
-            var player = inputEvent.GameState.Player;
-            var mediators = inputEvent.GameState.MediatorsDirector;
+            var board = inputEvent.Game.GameState.Board;
+            var player = inputEvent.Player;
+            var mediators = inputEvent.Game.GameState.MediatorsDirector;
             var item = player.State.GetCurrentItem();
             int damage = 0;
             int armor = 0;
@@ -34,7 +34,7 @@ namespace Lab1.Library.Services.GameInstructions.Attack
                 armor = _attackVisitor.CalculatedArmor;
             }
 
-            if (NearEnemyValidator.IsValid(board, player, out var gameObject))
+            if (NearEnemyValidator.IsValid(inputEvent.Game.GameState, player, out var gameObject))
             {
                 var takeDamageVisitor = new TakeDamage(damage);
                 if (gameObject.AcceptGameObjectVisitor(takeDamageVisitor))

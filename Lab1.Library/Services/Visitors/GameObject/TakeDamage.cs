@@ -32,7 +32,7 @@ namespace Lab1.Library.Services.Visitors.GameObject
         public override bool Visit(Player player)
         {
             HasDied = player.TakeDamage(damage);
-            return true;
+            return true; 
         }
     }
 }

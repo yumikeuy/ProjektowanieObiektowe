@@ -15,10 +15,10 @@ namespace Lab1.Library.Services.GameInstructions
         public override string Description { get; set; } = "Press \"J\" to show the log screen";
         public override void Execute(IInputEvent inputEvent)
         {
-            inputEvent.GameState.Printer.PrepareConsole();
-            inputEvent.GameState.Printer.PrintText(string.Join(Environment.NewLine, Logger.Instance.GetLogs()));
+            inputEvent.Game.Printer.PrepareConsole();
+            inputEvent.Game.Printer.PrintText(string.Join(Environment.NewLine, Logger.Instance.GetLogs()));
             Console.ReadKey();
-            inputEvent.GameState.Printer.PrepareConsole();
+            inputEvent.Game.Printer.PrepareConsole();
             base.Execute(inputEvent);
         }
     }

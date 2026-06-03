@@ -17,7 +17,7 @@ namespace Lab1.Library.Entities.GameObjects.Enemies.Cowardly
 {
     public class Robot(Point pos) : Enemy(pos), ICowardly
     {
-        public override int Health { get; set; } = 80;
+        public override int Health { get; set; } = 40;
         public override int Damage { get; set; } = 4;
         public override int Armor { get; set; } = 5;
         public override char Char { get; set; } = '%';
@@ -26,7 +26,7 @@ namespace Lab1.Library.Entities.GameObjects.Enemies.Cowardly
 
         public override bool AcceptGameObjectVisitor(GameObjectVisitor visitor)
         {
-            return visitor.Visit(this);
+            return visitor.Visit(this); //TODO unsubscribe, die destroy
         }
         protected override void Die()
         {
