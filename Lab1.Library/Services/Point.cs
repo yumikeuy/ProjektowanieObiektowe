@@ -86,11 +86,11 @@ namespace Lab1.Library.Services
         {
             return base.Equals(obj);
         }
+
         public override int GetHashCode()
         {
             return base.GetHashCode();
         }
-
 
         public static implicit operator (int X, int Y)(Point point)
         {

@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace Lab1.Library.Entities.DTOs
 {
-    public record GameObjectDto(Char Char);
+    public record GameObjectDto(char Char);
 }

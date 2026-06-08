@@ -21,5 +21,5 @@ var buildingThemeFactory = new BuildingThemeFactory();
 var gameInit = new DefaultGameInitializer(config, buildingThemeFactory);
 
 
-gameInit.Initialize(isServer, ipep);
+await gameInit.Initialize(isServer, ipep);
 

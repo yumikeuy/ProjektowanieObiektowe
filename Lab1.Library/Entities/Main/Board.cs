@@ -28,7 +28,7 @@ namespace Lab1.Library.Entities.Main
         public int Height { get; }
         public string IntroductionText { get; set; } = string.Empty;
         public bool HasChanged { get; set; } = false;
-        private BoardChanges boardChanges = new BoardChanges();
+        private BoardChanges boardChanges = new();
 
         private IGameObject[,] _data;
 
@@ -39,7 +39,7 @@ namespace Lab1.Library.Entities.Main
             Height = data.GetLength(1);
         }
 
-        public Point PrintAt { get; set; } = new Point(1, 1);
+        public Point PrintAt { get; set; } = new(0, 0);
         public IPrintable Text()
         {
             Printable lines = new();
@@ -91,7 +91,7 @@ namespace Lab1.Library.Entities.Main
         }
         public Point GetZero()
         {
-            return PrintAt + (1, 1);
+            return PrintAt;
         }
 
         public bool IsReachable(Point src, Point dst, int radius, out int dist)
@@ -104,8 +104,8 @@ namespace Lab1.Library.Entities.Main
                 return true;
             }
 
-            Queue<(Point Point, int Distance)> queue = new();
-            HashSet<Point> visited = new();
+            Queue<(Point Point, int Distance)> queue = [];
+            HashSet<Point> visited = [];
 
             queue.Enqueue((src, 0));
             visited.Add(src);

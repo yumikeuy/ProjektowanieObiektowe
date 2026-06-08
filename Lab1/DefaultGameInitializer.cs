@@ -22,7 +22,7 @@ namespace Lab1.Console
 {
     public class DefaultGameInitializer(IGameConfiguration config, IBuildingThemeFactory buildingThemeFactory) : IGameInitializer
     {
-        public void Initialize(bool isServer, IPEndPoint ipEndPoint)
+        public async Task Initialize(bool isServer, IPEndPoint ipEndPoint)
         {
             if (isServer)
             {
@@ -30,7 +30,7 @@ namespace Lab1.Console
             }
             else
             {
-                InitializeClient(ipEndPoint);
+                 await InitializeClient(ipEndPoint);
             }
         }
         private void InitializeServer(IPEndPoint ipEndPoint)
@@ -59,7 +59,7 @@ namespace Lab1.Console
             gameManager.StartGame(null, connectionListener);
         }
 
-        private async void InitializeClient(IPEndPoint ipEndPoint)
+        private async Task InitializeClient(IPEndPoint ipEndPoint)
         {
             Logger.Instance.Initialize(config.LogPath, config.PlayerName, new FileMessageWriter(), new FileLogReader());
 

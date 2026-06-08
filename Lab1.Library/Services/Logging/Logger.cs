@@ -18,6 +18,7 @@ namespace Lab1.Library.Services.Logging
         private static bool _isInitialized = false;
         private IMessageWriter _messageWriter = null!;
         private ILogReader _logReader = null!;
+        private readonly object lockObj = new();
         private Logger() { }
 
         public void Initialize(string logPath, string playerName, IMessageWriter messageWriter, ILogReader logReader)
@@ -45,12 +46,18 @@ namespace Lab1.Library.Services.Logging
                 throw new NullReferenceException("Logger is not initialized");
             }
 
-            _messageWriter.Write(message);
+            lock (lockObj)
+            {
+                _messageWriter.Write(message);
+            }
         }
 
         public string[] GetLogs()
         {
-            return _logReader.GetLogs();
+            lock (lockObj)
+            {
+                return _logReader.GetLogs();
+            }
         }
     }
 }

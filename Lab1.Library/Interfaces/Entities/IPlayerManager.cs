@@ -15,6 +15,7 @@ namespace Lab1.Library.Interfaces.Entities
     {
         void AddPlayer(Player player, bool isLocal = false);
         void RemovePlayer(string name);
+        void RemoveAllPlayers();
         IPlayer? GetPlayer(string name);
         IPlayer? GetPlayer(Point pos);
         IPlayer? GetLocalPlayer();

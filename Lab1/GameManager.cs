@@ -11,7 +11,7 @@ namespace Lab1.Console
     {
         private readonly IGame _game;
         private readonly double speedOfEnemies = 20;
-        private readonly int refreshRate = 32;
+        private readonly int refreshRate = 60;
         private readonly bool _isServer;
 
         public GameManager(IGame game, bool isServer)
@@ -39,16 +39,16 @@ namespace Lab1.Console
 
             if (_isServer)
             {
-                _ = Task.Run(async () =>
+                Task.Run(() =>
                 {
-                    await StartGameLoopServerAsync(connectionListener);
+                    StartGameLoopServerAsync(connectionListener);
                 });
             }
 
             StartGameLoopClient(connectionHandler);
         }
 
-        private async Task StartGameLoopServerAsync(IConnectionListener? connectionListener = null)
+        private void StartGameLoopServerAsync(IConnectionListener? connectionListener = null)
         {
             var gs = _game.GameState;
             int enemiesFrameCounter = 0;
@@ -71,22 +71,7 @@ namespace Lab1.Console
                 if (gs.HasChanged)
                 {
                     var changes = _game.GameState.FlushChanges();
-
-                    var broadcastTasks = new List<Task>();
-
-                    var localPlayer = _game.GameState.PlayerManager.GetLocalPlayer();
-
-                    foreach (var player in _game.GameState.PlayerManager.GetAllPlayers())
-                    {
-                        if (player == localPlayer) continue;
-
-                        broadcastTasks.Add(connectionListener!.SendChangesToPlayerAsync(player, changes));
-                    }
-
-                    if(broadcastTasks.Count > 0)
-                    {
-                        await Task.WhenAll(broadcastTasks);
-                    }
+                    connectionListener!.BroadcastChanges(changes);
                 }
 
 
@@ -98,7 +83,7 @@ namespace Lab1.Console
         private void StartGameLoopClient(IConnectionHandler? connectionHandler = null)
         {
             var gs = _game.GameState;
-
+            var localPlayer = gs.PlayerManager.GetLocalPlayer();
             while (gs.IsActive)
             {
                 if (gs.HasChanged || _game.Printer.CheckForResize())
@@ -112,7 +97,7 @@ namespace Lab1.Console
 
                     if (_isServer)
                     {
-                        _game.Instructions.ExecuteAction(_game, key, gs.PlayerManager.GetLocalPlayer()!);
+                        _game.Instructions.ExecuteAction(_game, key, localPlayer!);
                     }
                     else
                     {

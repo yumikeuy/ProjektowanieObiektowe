@@ -53,7 +53,7 @@ namespace Lab1.Library.Entities.Game
 
         public void AddPlayer(string name, IPEndPoint ipep, bool isLocal = false)
         {
-            var player = new Player(Board.GetZero(), Board.GetSpawnPoint(), Board.Width, name, ipep);
+            var player = new Player(Board.GetZero() + (1, 1), Board.GetSpawnPoint(), Board.Width, name, ipep);
             MediatorsDirector.Destroyer.Add(player);
             PlayerManager.AddPlayer(player, isLocal);
 
@@ -82,7 +82,10 @@ namespace Lab1.Library.Entities.Game
 
             p.Add(PlayerManager.Text());
             
-            p.Add(LogScreen.Text());
+            if(LogScreen != null)
+            {
+                p.Add(LogScreen.Text());
+            }
 
             return p;
         }

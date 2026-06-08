@@ -24,27 +24,44 @@ namespace Lab1.Library.Services.Printing
         public void Print()
         {
             System.Console.SetCursorPosition(0, 0);
-            System.Console.Write(CreateString(_objectsToPrint));
+
+            var stringData = CreateString(_objectsToPrint);
+
+            if(stringData == null)
+            {
+                return;
+            }
+
+            System.Console.Write(stringData);
         }
 
-        private string CreateString(ICollection<ITextConvertible> objectsToPrint)
+        private string? CreateString(ICollection<ITextConvertible> objectsToPrint)
         {
             var consoleHeight = System.Console.BufferHeight;
             var consoleWidth = System.Console.BufferWidth;
             char[] result = new char[consoleWidth * consoleHeight];
             Array.Fill(result, ' ');
 
-            foreach (var printable in objectsToPrint)
+            try
             {
-                foreach(var txtPos in printable.Text().GetData())
+                foreach (var printable in objectsToPrint)
                 {
-                    char[] txt = txtPos.Text.ToCharArray();
-                    int ind = txtPos.PrintAt.X + txtPos.PrintAt.Y * consoleWidth;
-                    txt.AsSpan().CopyTo(result.AsSpan(ind));
+                    foreach (var txtPos in printable.Text().GetData())
+                    {
+                        char[] txt = txtPos.Text.ToCharArray();
+                        int ind = txtPos.PrintAt.X + txtPos.PrintAt.Y * consoleWidth;
+                        txt.AsSpan().CopyTo(result.AsSpan(ind));
+                    }
                 }
+                return new string(result);
+            }
+            catch
+            {
+                return null;
             }
 
-            return new string(result);
+
+
         }
 
         public void PrintText(string text)

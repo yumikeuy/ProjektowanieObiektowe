@@ -120,7 +120,7 @@ namespace Lab1.Library.Entities.Main
         }
         public PlayerState(int boardWidth)
         {
-            PrintAt = (boardWidth + 10, 1);
+            PrintAt = (boardWidth + 10, 0);
             _inventory = new Inventory.Inventory();
             _hands = new TwoHands(this);
             _handInvTransfer = new HandInventoryTransfer(_hands, _inventory);

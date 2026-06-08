@@ -11,6 +11,6 @@ namespace Lab1.Library.Interfaces.Game
 {
     public interface IGameInitializer
     {
-        void Initialize(bool isServer, IPEndPoint iPEndPoint);
+        Task Initialize(bool isServer, IPEndPoint iPEndPoint);
     }
 }

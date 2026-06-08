@@ -43,7 +43,7 @@ namespace Lab1.Library.Services.GameBuilders
             _gameConfiguration = gameConfiguration;
             _width = _gameConfiguration.BoardWidth;
             _height = _gameConfiguration.BoardHeight;
-            printAt = new(_width + 10 + _gameConfiguration.PlayerStateWidth + 5, 1);
+            printAt = new(_width + 10 + _gameConfiguration.PlayerStateWidth + 5, 0);
             _boardBuilder = boardBuilder;
             _instructionsBuilder = instructionsBuilder;
             _gameState.LogScreen = new LogScreen(_height);

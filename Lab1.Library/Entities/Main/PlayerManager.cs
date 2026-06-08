@@ -21,46 +21,55 @@ namespace Lab1.Library.Entities.Main
         private string localPlayer = string.Empty;
 
         public bool HasChanged { get; set; } = false;
-        private PlayerChanges playerChanges = new();
         private LocalPlayerChanges localPlayerChanges = new();
 
         public void AddPlayer(Player player, bool isLocal = false)
         {
-            _players.AddOrUpdate(player.Name, player, (n, p) => p);
+            _players[player.Name] = player;
 
             if (isLocal)
             {
                 localPlayer = player.Name;
             }
 
-            playerChanges.Changes.Add(new(player.Name, new(true, player.Pos)));
 
             HasChanged = true;
         }
 
         public IPlayer? GetPlayer(string name)
         {
-            if(_players.TryGetValue(name, out var player))
+            if(!_players.TryGetValue(name, out var player))
             {
-                return player;
+                return null;
             }
+
 
             HasChanged = true;
 
-            return null;
+            return player;
         }
         public IPlayer? GetPlayer(Point pos)
         {
             var player = _players.Values.FirstOrDefault(p => p.Pos == pos);
-            HasChanged = true;
 
+            if(player != null)
+            {
+                HasChanged = true;
+            }
+            
             return player;
         }
 
         public IPlayer? GetLocalPlayer()
         {
-            HasChanged = true;
-            return _players.Values.FirstOrDefault(p => p.Name == localPlayer);
+            var player = _players.Values.FirstOrDefault(p => p.Name == localPlayer);
+
+            if (player != null)
+            {
+                HasChanged = true;
+            }
+
+            return player;
         }
 
         public List<IPlayer> GetAllPlayers()
@@ -80,9 +89,14 @@ namespace Lab1.Library.Entities.Main
             }
             if(player != null)
             {
-                playerChanges.Changes.Add(new(player.Name, new(true, player.Pos)));
                 HasChanged = true;
             }
+        }
+
+        public void RemoveAllPlayers()
+        {
+            _players.Clear();
+
         }
 
         public Point PrintAt { get; set; } = (0, 0);
@@ -110,11 +124,12 @@ namespace Lab1.Library.Entities.Main
 
         public PlayerChanges FlushChanges()
         {
-            var changes = playerChanges;
-
-            playerChanges = new PlayerChanges();
-
-            HasChanged = false;
+            var changes = new PlayerChanges();
+            
+            foreach(var player in _players.Values)
+            {
+                changes.Changes.Add(new(player.Name, new(true, player.Pos)));
+            }
 
             return changes;
         }
