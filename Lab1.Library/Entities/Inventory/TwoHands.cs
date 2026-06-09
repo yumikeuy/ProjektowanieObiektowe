@@ -141,6 +141,20 @@ namespace Lab1.Library.Entities.Inventory
             isCurrentTwoHanded = false;
             return removedItem;
         }
+
+        public (IItem? left, IItem? right) GetItemsFromHands()
+        {
+            return (hands.left.GetItem(), hands.right.GetItem());
+        }
+
+        public bool TryAddToLeft(IItem item)
+        {
+            return hands.left.TryAdd(item);
+        }
+        public bool TryAddToRight(IItem item)
+        {
+            return hands.right.TryAdd(item);
+        }
         public IItem? GetCurrentItem()
         {
             return current.GetItem();

@@ -10,6 +10,6 @@ namespace Lab1.Library.Entities.Changes
 {
     public class PlayerChanges
     {
-        public List<PlayerChange> Changes { get; set; } = [];
+        public List<PlayerDto> Changes { get; set; } = [];
     }
 }

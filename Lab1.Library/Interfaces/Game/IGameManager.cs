@@ -12,6 +12,6 @@ namespace Lab1.Library.Interfaces.Game
 {
     public interface IGameManager
     {
-        public void StartGame(IConnectionHandler? connectionHandler = null, IConnectionListener? connectionListener = null);
+        void StartGame(IConnectionHandler? connectionHandler = null, IConnectionListener? connectionListener = null);
     }
 }

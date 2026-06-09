@@ -39,16 +39,23 @@ namespace Lab1.Console
 
             if (_isServer)
             {
-                Task.Run(() =>
+                _ = Task.Run(async () =>
                 {
-                    StartGameLoopServerAsync(connectionListener);
+                    try
+                    {
+                        await StartGameLoopServerAsync(connectionListener);
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Instance.Log($"[Critical Server Error] {ex.Message}");
+                    }
                 });
             }
 
             StartGameLoopClient(connectionHandler);
         }
 
-        private void StartGameLoopServerAsync(IConnectionListener? connectionListener = null)
+        private async Task StartGameLoopServerAsync(IConnectionListener? connectionListener = null)
         {
             var gs = _game.GameState;
             int enemiesFrameCounter = 0;
@@ -71,7 +78,9 @@ namespace Lab1.Console
                 if (gs.HasChanged)
                 {
                     var changes = _game.GameState.FlushChanges();
-                    connectionListener!.BroadcastChanges(changes);
+                    await connectionListener!.BroadcastChangesAsync(changes);
+
+                    await _game.GameState.PlayerManager.SendIndividualChanges(connectionListener!);
                 }
 
 

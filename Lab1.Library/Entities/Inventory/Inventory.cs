@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 using System.Linq;
@@ -74,6 +75,19 @@ namespace Lab1.Library.Entities.Inventory
                 p.AddText(new TextPos($"{++i}. " + item.Description, PrintAt.DownN(i)));
 
             return p;
+        }
+
+        public IEnumerator<IItem> GetEnumerator()
+        {
+            foreach (var item in _items)
+            {
+                yield return item;
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

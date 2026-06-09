@@ -10,7 +10,7 @@ namespace Lab1.Library.Interfaces.Connections
     public interface IConnectedClient : IDisposable
     {
         TcpClient TcpClient { get; }
-        void Send(string message);
+        Task SendAsync(string message);
         Task<string> ReceiveAsync();
     }
 }

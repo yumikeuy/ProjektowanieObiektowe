@@ -12,12 +12,15 @@ namespace Lab1.Library.Interfaces.Entities
 {
     public interface IHands : ITextConvertible
     {
-        public void SelectHand(Hands hand);
-        public bool TryAdd(IItem item);
-        public bool TryAdd(ICollection<IItem> items);
-        public ICollection<IItem> AddOrSwap(IItem item);
-        public ICollection<IItem>? AddOrSwap(ICollection<IItem> items);
-        public IItem? Remove();
-        public IItem? GetCurrentItem();
+        void SelectHand(Hands hand);
+        bool TryAdd(IItem item);
+        bool TryAdd(ICollection<IItem> items);
+        ICollection<IItem> AddOrSwap(IItem item);
+        ICollection<IItem>? AddOrSwap(ICollection<IItem> items);
+        (IItem? left, IItem? right) GetItemsFromHands();
+        bool TryAddToLeft(IItem item);
+        bool TryAddToRight(IItem item);
+        IItem? Remove();
+        IItem? GetCurrentItem();
     }
 }

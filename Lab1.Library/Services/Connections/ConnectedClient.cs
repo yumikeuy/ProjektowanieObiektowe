@@ -35,9 +35,9 @@ namespace Lab1.Library.Services.Connections
             _reader = new StreamReader(stream, Encoding.UTF8);
         }
 
-        public void Send(string message)
+        public async Task SendAsync(string message)
         {
-            Task.Run(() => {
+            await Task.Run(() => {
                 lock (_writeLock)
                 {
                     _writer.WriteLine(message);

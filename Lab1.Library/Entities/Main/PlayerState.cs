@@ -18,19 +18,22 @@ namespace Lab1.Library.Entities.Main
 {
     public class PlayerState : IPlayerState
     {
-        private IInventory _inventory;
-        private IHands _hands;
-        private IHandInventoryTransfer _handInvTransfer;
+        private readonly IInventory _inventory;
+        private readonly IHands _hands;
+        private readonly IHandInventoryTransfer _handInvTransfer;
 
-        public int Damage { get; set; }
-        public int Health { get; set; }
-        public int Luck { get; set; }
-        public int Agility { get; set; }
-        public int Agressiveness { get; set; }
-        public int Iq { get; set; }
-        public int Coins { get; set; }
-        public int Gold { get; set; }
-        public int Armor { get; set; }
+        private int _damage, _health, _luck, _agility, _agressiveness, _iq, _coins, _gold, _armor;
+
+        public int Damage { get => _damage; set => Set(ref _damage, value); }
+        public int Health { get => _health; set => Set(ref _health, value); }
+        public int Luck { get => _luck; set => Set(ref _luck, value); }
+        public int Agility { get => _agility; set => Set(ref _agility, value); }
+        public int Agressiveness { get => _agressiveness; set => Set(ref _agressiveness, value); }
+        public int Iq { get => _iq; set => Set(ref _iq, value); }
+        public int Coins { get =>_coins; set => Set(ref _coins, value); }
+        public int Gold { get => _gold; set => Set(ref _gold, value); }
+        public int Armor { get => _armor; set => Set(ref _armor, value); }
+        public bool HasChanged { get; set; }
 
         public Point PrintAt { get; set; }
         private Point currentPrintPos;
@@ -79,19 +82,31 @@ namespace Lab1.Library.Entities.Main
         {
             p.AddText(new TextPos(str, new(currentPrintPos.X, currentPrintPos.Y++)));
         }
-
         public bool TryAdd(IItem item)
         {
             if (_inventory.TryAdd(item))
+            {
+                HasChanged = true;
                 return true;
+            }
             else if (_hands.TryAdd(item))
+            {
+                HasChanged = true;
                 return true;
+            }
 
             return false;
         }
         public IItem? Drop()
         {
-            return _hands.Remove();
+            var item = _hands.Remove();
+
+            if(item != null)
+            {
+                HasChanged = true;
+            }
+
+            return item;
         }
         public void SelectHand(Hands hand)
         {
@@ -117,7 +132,51 @@ namespace Lab1.Library.Entities.Main
             Coins = 0;
             Gold = 0;
             Armor = 0;
+            HasChanged = true;
         }
+
+        public IInventory GetInventory()
+        {
+            return _inventory;
+        }
+        public (IItem? left, IItem? right) GetItemsFromHands()
+        {
+            return _hands.GetItemsFromHands();
+        }
+        public bool TryAddToLeft(IItem item)
+        {
+            var res = _hands.TryAddToLeft(item);
+
+            if(res == true)
+            {
+                HasChanged = true;
+                return true;
+            }
+
+            return res;
+        }
+        public bool TryAddToRight(IItem item)
+        {
+            var res = _hands.TryAddToRight(item);
+
+            if (res == true)
+            {
+                HasChanged = true;
+                return true;
+            }
+
+            return res;
+        }
+
+        private void Set(ref int field, int value)
+        {
+            if (field != value)
+            {
+                field = value;
+                HasChanged = true;
+            }
+        }
+
         public PlayerState(int boardWidth)
         {
             PrintAt = (boardWidth + 10, 0);

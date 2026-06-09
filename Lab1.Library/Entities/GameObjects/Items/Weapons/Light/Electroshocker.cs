@@ -18,7 +18,7 @@ namespace Lab1.Library.Entities.GameObjects.Items.Weapons.Light
         public int Damage { get; set; } = 2;
         public char Char { get; set; } = 'z';
         public bool IsTwoHanded { get; set; } = true;
-        public string Description { get; set; } = "Enormous MachineGun";
+        public string Description { get; set; } = "Electroshocker";
         public Point PrintAt { get; set; } = (0, 0);
 
         public bool AcceptGameObjectVisitor(GameObjectVisitor visitor)

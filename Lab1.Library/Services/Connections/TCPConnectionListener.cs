@@ -6,10 +6,8 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 using Lab1.Library.Entities.Changes;
 using Lab1.Library.Entities.DTOs;
-using Lab1.Library.Entities.Main;
 using Lab1.Library.Interfaces.Connections;
 using Lab1.Library.Interfaces.Entities;
 using Lab1.Library.Services.Logging;
@@ -18,7 +16,8 @@ namespace Lab1.Library.Services.Connections
 {
     public class TCPConnectionListener : IConnectionListener
     {
-        private ConcurrentDictionary<string, IConnectedClient> _clients = [];
+        private readonly ConcurrentDictionary<string, IConnectedClient> _clients = [];
+
         public void Start(IPEndPoint ipep, IGame game)
         {
             Task.Run(async () =>
@@ -68,7 +67,7 @@ namespace Lab1.Library.Services.Connections
                 }
 
                 var jsonString = PrepareData(game);
-                connectedClient.Send(jsonString);
+                await connectedClient.SendAsync(jsonString);
 
                 await HandleInputLoop(game, playerName, connectedClient);
                 game.GameState.PlayerManager.RemovePlayer(playerName);
@@ -105,7 +104,7 @@ namespace Lab1.Library.Services.Connections
             game.Instructions.ExecuteAction(game, key, game.GameState.PlayerManager.GetPlayer(name)!);
         }
 
-        public void SendChangesToPlayer(IPlayer player, GameChanges changes)
+        public async Task SendChangesToPlayerAsync(IPlayer player)
         {
             var res = _clients.TryGetValue(player.Name, out var connectedClient);
 
@@ -116,8 +115,9 @@ namespace Lab1.Library.Services.Connections
 
             try
             {
-                string jsonPayload = JsonSerializer.Serialize(changes);
-                connectedClient.Send(jsonPayload);
+                var stateDto = ConvertStateToDto(player.State);
+                string jsonPayload = JsonSerializer.Serialize(stateDto);
+                await connectedClient.SendAsync(jsonPayload);
             } 
             catch (SocketException ex)
             {
@@ -129,9 +129,39 @@ namespace Lab1.Library.Services.Connections
             }
         }
 
-        public void BroadcastChanges(GameChanges changes)
+        private static PlayerStateDto ConvertStateToDto(IPlayerState playerState)
+        {
+            var stateDto = new PlayerStateDto
+            {
+                Damage = playerState.Damage,
+                Health = playerState.Health,
+                Luck = playerState.Luck,
+                Agility = playerState.Agility,
+                Agressiveness = playerState.Agressiveness,
+                Iq = playerState.Iq,
+                Coins = playerState.Coins,
+                Gold = playerState.Gold,
+                Armor = playerState.Armor
+            };
+
+            foreach(var item in playerState.GetInventory())
+            {
+                stateDto.Inventory.Items.Add(new ItemDto { Description = item.Description });
+            }
+
+            (var leftItem, var rightItem) = playerState.GetItemsFromHands();
+            stateDto.HandsDto.LeftItem = new ItemDto { Description = leftItem?.Description ?? string.Empty };
+            stateDto.HandsDto.RightItem = new ItemDto { Description = rightItem?.Description ?? string.Empty};
+
+            return stateDto;
+
+        }
+
+        public async Task BroadcastChangesAsync(GameChanges changes)
         {
             string jsonPayload = JsonSerializer.Serialize(changes);
+
+            var tasks = new List<Task>();
 
             foreach (var connectedClient in _clients.Values)
             {
@@ -139,7 +169,7 @@ namespace Lab1.Library.Services.Connections
                 {
                     try
                     {
-                        connectedClient.Send(jsonPayload);
+                        tasks.Add(connectedClient.SendAsync(jsonPayload));
                     }
                     catch (Exception ex)
                     {
@@ -147,6 +177,8 @@ namespace Lab1.Library.Services.Connections
                     }
                 }
             }
+
+            await Task.WhenAll(tasks);
         }
 
 
@@ -174,7 +206,7 @@ namespace Lab1.Library.Services.Connections
 
             foreach (var player in game.GameState.PlayerManager.GetAllPlayers())
             {
-                playerDtos.Add(new(true, player.Pos));
+                playerDtos.Add(new(player.Name, player.Pos));
             }
 
             var gameDto = new GameStateDto(boardDto, playerDtos);

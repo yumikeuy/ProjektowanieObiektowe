@@ -9,7 +9,7 @@ using Lab1.Library.Interfaces.Printing;
 
 namespace Lab1.Library.Interfaces.Entities
 {
-    public interface IInventory : ITextConvertible
+    public interface IInventory : ITextConvertible, IEnumerable<IItem>
     {
         public bool TryAdd(IItem item);
         public bool TryAdd(ICollection<IItem> items);

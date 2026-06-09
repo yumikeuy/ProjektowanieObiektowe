@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Lab1.Library.Entities.Changes;
 using Lab1.Library.Entities.GameObjects.Main;
+using Lab1.Library.Interfaces.Connections;
 using Lab1.Library.Interfaces.Printing;
 using Lab1.Library.Services;
 
@@ -22,6 +23,7 @@ namespace Lab1.Library.Interfaces.Entities
         List<IPlayer> GetAllPlayers();
         void SetLocalPlayer(string name);
         bool HasChanged { get; set; }
+        Task SendIndividualChanges(IConnectionListener connectionListener);
         PlayerChanges FlushChanges();
     }
 }

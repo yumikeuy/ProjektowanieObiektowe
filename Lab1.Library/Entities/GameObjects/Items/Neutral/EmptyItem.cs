@@ -4,45 +4,41 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Lab1.Library.Interfaces.Entities;
-using Lab1.Library.Interfaces.Entities.GameObjects.Items.Weapons.MagicWeapons;
+using Lab1.Library.Interfaces.Entities.GameObjects.Items;
 using Lab1.Library.Interfaces.Printing;
 using Lab1.Library.Services;
 using Lab1.Library.Services.Printing;
 using Lab1.Library.Services.Visitors.GameObject;
 using Lab1.Library.Services.Visitors.ItemVisitors;
 
-namespace Lab1.Library.Entities.GameObjects.Items.Weapons.Magic
+namespace Lab1.Library.Entities.GameObjects.Items.Neutral
 {
-    public class UraniumOre : IMagicWeapon
+    public class EmptyItem(string description) : IItem
     {
-        public int Damage { get; set; } = 5;
-        public char Char { get; set; } = 'p';
-        public bool IsTwoHanded { get; set; } = true;
-        public string Description { get; set; } = "Enchanted Uranium Ore";
         public Point PrintAt { get; set; } = (0, 0);
+        public bool IsTwoHanded { get; set; } = false;
+        public char Char { get; set; } = ' ';
+        public string Description { get; set; } = description;
 
         public bool AcceptGameObjectVisitor(GameObjectVisitor visitor)
         {
-            return visitor.Visit(this);
+            throw new NotImplementedException();
         }
 
         public bool AcceptItemVisitor(ItemVisitor visitor)
         {
-            return visitor.Visit(this);
+            throw new NotImplementedException();
         }
+
         public void Activate(IPlayerState playerState)
         {
-            playerState.Damage += Damage;
         }
         public void Deactivate(IPlayerState playerState)
         {
-            playerState.Damage -= Damage;
         }
         public IPrintable Text()
         {
-            Printable p = new();
-            p.AddText(new TextPos(Char.ToString(), PrintAt));
-            return p;
+           throw new NotImplementedException();
         }
     }
 }

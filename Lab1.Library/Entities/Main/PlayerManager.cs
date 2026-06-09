@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Lab1.Library.Entities.Changes;
 using Lab1.Library.Entities.GameObjects.Main;
+using Lab1.Library.Interfaces.Connections;
 using Lab1.Library.Interfaces.Entities;
 using Lab1.Library.Interfaces.Game;
 using Lab1.Library.Interfaces.Printing;
@@ -21,7 +22,6 @@ namespace Lab1.Library.Entities.Main
         private string localPlayer = string.Empty;
 
         public bool HasChanged { get; set; } = false;
-        private LocalPlayerChanges localPlayerChanges = new();
 
         public void AddPlayer(Player player, bool isLocal = false)
         {
@@ -128,10 +128,25 @@ namespace Lab1.Library.Entities.Main
             
             foreach(var player in _players.Values)
             {
-                changes.Changes.Add(new(player.Name, new(true, player.Pos)));
+                changes.Changes.Add(new(player.Name, player.Pos));
             }
 
             return changes;
+        }
+        public async Task SendIndividualChanges(IConnectionListener connectionListener)
+        {
+            var tasks = new List<Task>();
+
+            foreach(var player in _players.Values)
+            {
+                if (player.State.HasChanged)
+                {
+                    tasks.Add(connectionListener.SendChangesToPlayerAsync(player));
+                    player.State.HasChanged = false;
+                }
+            }
+
+            await Task.WhenAll(tasks);
         }
     }
 }

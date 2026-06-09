@@ -11,7 +11,7 @@ namespace Lab1.Library.Interfaces.Connections
     public interface IConnectionHandler
     {
         Task<IGame> ConnectAsync(IPEndPoint ipep, string name);
-        void SendCommandToServerAsync(ConsoleKey key);
+        Task SendCommandToServerAsync(ConsoleKey key);
         void Disconnect();
     }
 }

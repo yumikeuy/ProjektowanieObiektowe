@@ -13,7 +13,7 @@ namespace Lab1.Library.Interfaces.Connections
     public interface IConnectionListener
     {
         void Start(IPEndPoint ipep, IGame game);
-        void SendChangesToPlayer(IPlayer player, GameChanges changes);
-        public void BroadcastChanges(GameChanges changes);
+        Task SendChangesToPlayerAsync(IPlayer player);
+        Task BroadcastChangesAsync(GameChanges changes);
     }
 }
