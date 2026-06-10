@@ -168,6 +168,15 @@ namespace Lab1.Library.Entities.Main
             return res;
         }
 
+        public IItem? TryRemoveLeft()
+        {
+            return _hands.TryRemoveLeft();
+        }
+        public IItem? TryRemoveRight()
+        {
+            return _hands.TryRemoveRight();
+        }
+
         private void Set(ref int field, int value)
         {
             if (field != value)

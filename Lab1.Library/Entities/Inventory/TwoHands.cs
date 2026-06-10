@@ -155,6 +155,14 @@ namespace Lab1.Library.Entities.Inventory
         {
             return hands.right.TryAdd(item);
         }
+        public IItem? TryRemoveLeft()
+        {
+            return hands.left.Remove();
+        }
+        public IItem? TryRemoveRight()
+        {
+            return hands.right.Remove();
+        }
         public IItem? GetCurrentItem()
         {
             return current.GetItem();

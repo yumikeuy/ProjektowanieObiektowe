@@ -19,6 +19,7 @@ namespace Lab1.Library.Entities.GameObjects.Items.Neutral
         public bool IsTwoHanded { get; set; } = false;
         public char Char { get; set; } = 'o';
         public string Description { get; set; } = "Juicy Red Apple";
+        private int luckBoost = 5;
 
         public bool AcceptGameObjectVisitor(GameObjectVisitor visitor)
         {
@@ -32,9 +33,11 @@ namespace Lab1.Library.Entities.GameObjects.Items.Neutral
 
         public void Activate(IPlayerState playerState)
         {
+            playerState.Luck += luckBoost;
         }
         public void Deactivate(IPlayerState playerState)
         {
+            playerState.Luck -= luckBoost;
         }
         public IPrintable Text()
         {
@@ -42,5 +45,30 @@ namespace Lab1.Library.Entities.GameObjects.Items.Neutral
             p.AddText(new TextPos(Char.ToString(), PrintAt));
             return p;
         }
+
+        public bool TryAdd(INeutralItem item)
+        {
+            return false;
+        }
+        public INeutralItem? TryRemoveAt(int index)
+        {
+            return null;
+        }
+        public INeutralItem? TryRemove()
+        {
+            return null;
+        }
+
+        public object Clone()
+        {
+            return new Apple 
+            { 
+                Char =  Char, 
+                Description = Description,
+                IsTwoHanded = IsTwoHanded,
+                PrintAt = PrintAt
+            };
+        }
+
     }
 }

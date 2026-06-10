@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Lab1.Library.Entities.GameObjects.Items.Neutral;
 using Lab1.Library.Interfaces.Entities;
+using Lab1.Library.Interfaces.Entities.GameObjects.Items.NeutralItems;
 using Lab1.Library.Interfaces.Entities.GameObjects.Items.Weapons.HeavyWeapons;
 using Lab1.Library.Interfaces.Printing;
 using Lab1.Library.Services;
@@ -43,6 +45,31 @@ namespace Lab1.Library.Entities.GameObjects.Items.Weapons.Heavy
             Printable p = new();
             p.AddText(new TextPos(Char.ToString(), PrintAt));
             return p;
+        }
+
+        public bool TryAdd(INeutralItem item)
+        {
+            return false;
+        }
+
+        public INeutralItem? TryRemoveAt(int index)
+        {
+            return null;
+        }
+        public INeutralItem? TryRemove()
+        {
+            return null;
+        }
+        public object Clone()
+        {
+            return new MachineGun
+            {
+                Char = Char,
+                Description = Description,
+                IsTwoHanded = IsTwoHanded,
+                PrintAt = PrintAt,
+                Damage = Damage
+            };
         }
     }
 }

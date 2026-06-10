@@ -84,7 +84,7 @@ namespace Lab1.Library.Services.GameBuilders
                 for (int i = 0; i < amount; i++)
                 {
                     int ind = Random.Shared.Next(0, items.Count);
-                    var item = items[ind];
+                    var item = (IItem)items[ind].Clone();
                     board.SetAt(empty.ElementAt(Random.Shared.Next(empty.Count)), item);
                 }
                  

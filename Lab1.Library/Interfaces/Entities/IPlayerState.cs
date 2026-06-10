@@ -32,6 +32,8 @@ namespace Lab1.Library.Interfaces.Entities
         (IItem? left, IItem? right) GetItemsFromHands();
         bool TryAddToLeft(IItem item);
         bool TryAddToRight(IItem item);
+        IItem? TryRemoveLeft();
+        IItem? TryRemoveRight();
         IItem? GetCurrentItem();
         IInventory GetInventory();
     }
