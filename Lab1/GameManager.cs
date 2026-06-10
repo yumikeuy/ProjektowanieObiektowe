@@ -68,7 +68,7 @@ namespace Lab1.Console
 
                 if (enemiesFrameCounter > speedOfEnemies)
                 {
-                    gs.EnemyMover.Move(gs.Board);
+                    gs.EnemyMover.Move(gs);
 
                     enemiesFrameCounter = 0;
                 }
@@ -112,6 +112,11 @@ namespace Lab1.Console
                     {
                         connectionHandler!.SendCommandToServerAsync(key);
                     }
+                }
+
+                if (localPlayer != null && localPlayer.IsPendingDeletion)
+                {
+                    gs.Stop("You died.");
                 }
 
                 Thread.Sleep(refreshRate);

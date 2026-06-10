@@ -60,7 +60,7 @@ namespace Lab1.Library.Entities.GameObjects.Main
         {
             IsPendingDeletion = true;
             OnDestroyRequested?.Invoke(this);
-            Logger.Instance.Log("Got killed an enemy.");
+            Logger.Instance.Log("Got killed by an enemy.");
         }
     }
 }

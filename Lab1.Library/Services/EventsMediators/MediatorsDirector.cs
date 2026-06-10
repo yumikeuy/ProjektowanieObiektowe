@@ -17,6 +17,7 @@ namespace Lab1.Library.Services.EventsMediators
         public IMediator<INoiseData> NoiseMediator { get; set; } = noiseMediator;
         public IMediator<IKillData> CowardlyKillMediator { get; set; } = killMediator;
         public IMediator<IKillData> AggressiveKillMediator { get; set; } = killMediator;
+        public IMediator<IKillData> OrdinaryKillMediator { get; set; } = killMediator;
         public void SubscribeKill(IAggressive aggressive)
         {
             AggressiveKillMediator.Subscribe(aggressive);
@@ -24,6 +25,10 @@ namespace Lab1.Library.Services.EventsMediators
         public void SubscribeKill(ICowardly cowardly)
         {
             CowardlyKillMediator.Subscribe(cowardly);
+        }
+        public void SubscribeKill(IOrdinary ordinary)
+        {
+            OrdinaryKillMediator.Subscribe(ordinary);
         }
     }
 }

@@ -16,6 +16,8 @@ namespace Lab1.Library.Services
         public readonly Point Up => (X, Y - 1);
         [JsonIgnore]
         public readonly Point Down => (X, Y + 1);
+        [JsonIgnore]
+        public readonly int Sum => X + Y;
 
         [JsonIgnore]
         public readonly Point Abs => (Math.Abs(X), Math.Abs(Y));
@@ -57,6 +59,10 @@ namespace Lab1.Library.Services
         {
             return (left.X * a, left.Y * a);
         }
+        public static Point operator *(int a, Point p)
+        {
+            return p * a;
+        }
         public static bool operator ==(Point left, Point right)
         {
             return left.X == right.X && left.Y == right.Y;
@@ -67,11 +73,12 @@ namespace Lab1.Library.Services
         }
         public static bool operator >(Point left, Point right)
         {
-            return left.X > right.X && left.Y > right.Y;
+            return (left.X > right.X && left.Y > right.Y) || (left.X > right.X && left.Y == right.Y) 
+                || (left.X == right.X && left.Y > right.Y);
         }
         public static bool operator <(Point left, Point right)
         {
-            return left.X < right.X && left.Y < right.Y;
+            return right > left;
         }
         public static bool operator >=(Point left, Point right)
         {
@@ -110,6 +117,11 @@ namespace Lab1.Library.Services
         public static int LinearDistance(Point point1, Point point2)
         {
             return point1.LinearDistance(point2);
+        }
+
+        public static bool IsNear(Point point1, Point point2)
+        {
+            return (point1 - point2).Abs.Sum <= 1;
         }
     }
 }

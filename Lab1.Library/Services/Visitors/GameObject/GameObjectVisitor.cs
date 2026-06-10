@@ -26,6 +26,7 @@ namespace Lab1.Library.Services.Visitors.GameObject
         public virtual bool Visit(Gold gold) { return false; }
         public virtual bool Visit(IAggressive aggressive) { return false; }
         public virtual bool Visit(ICowardly cowardly) { return false; }
+        public virtual bool Visit(IOrdinary ordinary) { return false; }
         public virtual bool Visit(IItem item) { return false; }
     }
 }

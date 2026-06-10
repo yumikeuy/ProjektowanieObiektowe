@@ -27,6 +27,8 @@ namespace Lab1.Library.Entities.Main
         public int Width { get; }
         public int Height { get; }
         public string IntroductionText { get; set; } = string.Empty;
+
+        private readonly object[,] lockObjects;
         public bool HasChanged { get; set; } = false;
         private BoardChanges boardChanges = new();
 
@@ -37,6 +39,11 @@ namespace Lab1.Library.Entities.Main
             _data = data;
             Width = data.GetLength(0);
             Height = data.GetLength(1);
+            lockObjects = new object[Width, Height];
+
+            for (int i = 0; i < Width; i++)
+                for (int j = 0; j < Height; j++)
+                    lockObjects[i, j] = new object();
         }
 
         public Point PrintAt { get; set; } = new(0, 0);
@@ -80,11 +87,17 @@ namespace Lab1.Library.Entities.Main
         }
         public IGameObject GetAt(Point pos)
         {
-            return _data[pos.X, pos.Y];
+            lock (lockObjects[pos.X, pos.Y])
+            {
+                return _data[pos.X, pos.Y];
+            }
         }
         public void SetAt(Point pos, IGameObject gameObject)
         {
-            _data[pos.X, pos.Y] = gameObject;
+            lock (lockObjects[pos.X, pos.Y])
+            {
+                _data[pos.X, pos.Y] = gameObject;
+            }
 
             boardChanges.Changes.Add(new(pos.X, pos.Y, new(gameObject.Char)));
             HasChanged = true;
@@ -92,6 +105,79 @@ namespace Lab1.Library.Entities.Main
         public Point GetZero()
         {
             return PrintAt;
+        }
+
+        public void Swap(Point p1, Point p2)
+        {
+            lock (lockObjects[p1.X, p1.Y])
+            {
+                lock (lockObjects[p2.X, p2.Y])
+                {
+                    var tmp = GetAt(p2);
+                    SetAt(p2, GetAt(p1));
+                    SetAt(p1, tmp);
+                }
+            }
+        }
+
+        public List<Point> FindPath(Point src, Point dst)
+        {
+            if (src.X == dst.X && src.Y == dst.Y)
+            {
+                return [src];
+            }
+
+            Queue<Point> queue = [];
+            HashSet<Point> visited = [];
+            Dictionary<Point, Point> parentMap = [];
+
+            queue.Enqueue(src);
+            visited.Add(src);
+
+            bool pathFound = false;
+
+            while (queue.Count > 0)
+            {
+                var current = queue.Dequeue();
+
+                if (current == dst)
+                {
+                    pathFound = true;
+                    break;
+                }
+
+                foreach (var neighbor in current.Neighbors)
+                {
+                    if (!IsInsideBoardValidator.IsValid(this, neighbor)) continue;
+
+                    if (visited.Contains(neighbor)) continue;
+
+                    if (neighbor != dst && GetAt(neighbor).AcceptGameObjectVisitor(new CantBeGoneThrough())) continue;
+
+                    visited.Add(neighbor);
+                    parentMap[neighbor] = current;
+                    queue.Enqueue(neighbor);
+                }
+            }
+
+            if (!pathFound)
+            {
+                return [];
+            }
+
+            List<Point> path = [];
+            Point curr = dst;
+
+            while (curr != src)
+            {
+                path.Add(curr);
+                curr = parentMap[curr];
+            }
+            path.Add(src);
+
+            path.Reverse();
+
+            return path;
         }
 
         public bool IsReachable(Point src, Point dst, int radius, out int dist)

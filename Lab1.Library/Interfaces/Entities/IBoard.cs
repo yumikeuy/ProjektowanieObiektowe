@@ -21,8 +21,10 @@ namespace Lab1.Library.Interfaces.Entities
         Point GetSpawnPoint();
         IGameObject GetAt(Point pos);
         void SetAt(Point pos, IGameObject gameObject);
+        void Swap(Point p1, Point p2);
         Point GetZero();
         bool IsReachable(Point src, Point dst, int radius, out int dist);
+        List<Point> FindPath(Point src, Point dst);
         bool HasChanged { get; set; }
         BoardChanges FlushChanges();
     }

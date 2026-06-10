@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Lab1.Library.Interfaces.Entities.GameObjects;
 using Lab1.Library.Interfaces.Entities;
+using Lab1.Library.Services;
 
 namespace Lab1.Library.Interfaces.Game
 {
-    public interface IEnemyMover
+    public interface IMovementState
     {
-        public void Add(IEnemy enemy);
-        public void Move(IGameState gs);
+        Point? CalculateNewPos(Point currentPos, ref Point? lastPlayerPos, IGameState gameState);
     }
 }

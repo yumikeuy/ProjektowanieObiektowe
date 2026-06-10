@@ -22,5 +22,10 @@ namespace Lab1.Library.Services.Visitors.GameObject
             mediatorsDirector.CowardlyKillMediator.Notify(new KillData(pos));
             return true;
         }
+        public override bool Visit(IOrdinary ordinary)
+        {
+            mediatorsDirector.OrdinaryKillMediator.Notify(new KillData(pos));
+            return true;
+        }
     }
 }

@@ -18,7 +18,9 @@ namespace Lab1.Library.Interfaces.Events
         public IMediator<TNoiseData> NoiseMediator { get; set; }
         public IMediator<TKillData> CowardlyKillMediator { get; set; }
         public IMediator<TKillData> AggressiveKillMediator { get; set; }
+        public IMediator<TKillData> OrdinaryKillMediator { get; set; }
         public void SubscribeKill(IAggressive aggressive);
         public void SubscribeKill(ICowardly cowardly);
+        public void SubscribeKill(IOrdinary cowardly);
     }
 }

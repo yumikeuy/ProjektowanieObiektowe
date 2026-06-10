@@ -14,6 +14,7 @@ using Lab1.Library.Entities.GameObjects.Items.Weapons.Magic;
 using Lab1.Library.Entities.GameObjects.Enemies;
 using Lab1.Library.Entities.GameObjects.Enemies.Cowardly;
 using Lab1.Library.Entities.GameObjects.Enemies.Aggressive;
+using Lab1.Library.Entities.GameObjects.Enemies.Ordinary;
 
 namespace Lab1.Library.Services.GameBuilders.BuildingThemes
 {
@@ -22,7 +23,7 @@ namespace Lab1.Library.Services.GameBuilders.BuildingThemes
         public IBuildingStrategy BuildingStrategy { get; set; } = new DungeonStategy();
         public IItem Artefact { get; set; } = new NuclearBlaster();
         public List<IItem> Items { get; set; } = [new Electroshocker(), new MachineGun(), new LaserSword(), new UraniumOre()];
-        public List<IEnemy> Enemies { get; set; } = [new Robot(new(0, 0)), new UraniumGolem(new(0, 0))];
+        public List<IEnemy> Enemies { get; set; } = [new Robot(new(0, 0)), new UraniumGolem(new(0, 0)), new RickSanchez(new(0, 0))];
         public string Message { get; set; } = null!;
     }
 }

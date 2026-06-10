@@ -15,14 +15,5 @@ namespace Lab1.Library.Services.Visitors.GameObject
     {
         public override bool Visit(Wall wall) { return true; }
         public override bool Visit(Player player) { return true; }
-        public override bool Visit(IEnemy enemy) { return true; }
-        public override bool Visit(ICowardly cowardly)
-        {
-            return true;
-        }
-        public override bool Visit(IAggressive aggressive)
-        {
-            return true;
-        }
     }
 }

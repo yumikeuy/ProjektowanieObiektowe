@@ -11,15 +11,15 @@ namespace Lab1.Library.Entities.Main
 {
     public class EnemyMover : IEnemyMover
     {
-        private List<IEnemy> enemies = [];
+        private readonly List<IEnemy> enemies = [];
         public void Add(IEnemy enemy)
         {
             enemies.Add(enemy);
         }
-        public void Move(IBoard board)
+        public void Move(IGameState gs)
         {
             foreach(var enemy in enemies)
-                enemy.Move(board);
+                enemy.Move(gs);
         }
     }
 }

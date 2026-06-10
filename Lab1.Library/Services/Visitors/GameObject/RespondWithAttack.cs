@@ -26,6 +26,12 @@ namespace Lab1.Library.Services.Visitors.GameObject
             Logger.Instance.Log($"Got attacked by an enemy with {enemy.Damage} damage.");
             return true;
         }
+        public override bool Visit(IOrdinary enemy)
+        {
+            player.AcceptGameObjectVisitor(new TakeDamage(enemy.Damage));
+            Logger.Instance.Log($"Got attacked by an enemy with {enemy.Damage} damage.");
+            return true;
+        }
         public override bool Visit(IEnemy enemy)
         {
             player.AcceptGameObjectVisitor(new TakeDamage(enemy.Damage));
