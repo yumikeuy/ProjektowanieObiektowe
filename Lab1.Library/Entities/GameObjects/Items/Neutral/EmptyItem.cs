@@ -14,56 +14,18 @@ using Lab1.Library.Services.Visitors.ItemVisitors;
 
 namespace Lab1.Library.Entities.GameObjects.Items.Neutral
 {
-    public class EmptyItem(string description) : IItem
+    public class EmptyItem(string description) : Item, IItem
     {
-        public Point PrintAt { get; set; } = (0, 0);
-        public bool IsTwoHanded { get; set; } = false;
-        public char Char { get; set; } = ' ';
-        public string Description { get; set; } = description;
+        public override string Description { get; set; } = description;
 
         public bool AcceptGameObjectVisitor(GameObjectVisitor visitor)
         {
-            throw new NotImplementedException();
+            return visitor.Visit(this);
         }
 
         public bool AcceptItemVisitor(ItemVisitor visitor)
         {
-            throw new NotImplementedException();
-        }
-
-        public void Activate(IPlayerState playerState)
-        {
-        }
-        public void Deactivate(IPlayerState playerState)
-        {
-        }
-        public IPrintable Text()
-        {
-           throw new NotImplementedException();
-        }
-        public bool TryAdd(INeutralItem item)
-        {
-            return false;
-        }
-
-        public INeutralItem? TryRemoveAt(int index)
-        {
-            return null;
-        }
-        public INeutralItem? TryRemove()
-        {
-            return null;
-        }
-
-        public object Clone()
-        {
-            return new EmptyItem(Description)
-            {
-                Char = Char,
-                Description = Description,
-                IsTwoHanded = IsTwoHanded,
-                PrintAt = PrintAt
-            };
+            return visitor.Visit(this);
         }
     }
 }

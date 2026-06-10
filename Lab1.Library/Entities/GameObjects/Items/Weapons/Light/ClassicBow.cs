@@ -16,14 +16,12 @@ using Lab1.Library.Services.Visitors.ItemVisitors;
 
 namespace Lab1.Library.Entities.GameObjects.Items.Weapons.Light
 {
-    public class ClassicBow : ILightWeapon
+    public class ClassicBow : Item, ILightWeapon
     {
         public int Damage { get; set; } = 3;
-        public char Char { get; set; } = 'D';
-        public bool IsTwoHanded { get; set; } = false;
-        public string Description { get; set; } = "Classic Ancient Bow";
-
-        public Point PrintAt { get; set; } = (0, 0);
+        public override char Char { get; set; } = 'D';
+        public override bool IsTwoHanded { get; set; } = false;
+        public override string Description { get; set; } = "Classic Ancient Bow";
 
         public bool AcceptGameObjectVisitor(GameObjectVisitor visitor)
         {
@@ -33,45 +31,6 @@ namespace Lab1.Library.Entities.GameObjects.Items.Weapons.Light
         public bool AcceptItemVisitor(ItemVisitor visitor)
         {
             return visitor.Visit(this);
-        }
-        public void Activate(IPlayerState playerState)
-        {
-            playerState.Damage += Damage;
-        }
-        public void Deactivate(IPlayerState playerState)
-        {
-            playerState.Damage -= Damage;
-        }
-        public IPrintable Text()
-        {
-            Printable p = new();
-            p.AddText(new TextPos(Char.ToString(), PrintAt));
-            return p;
-        }
-
-        public bool TryAdd(INeutralItem item)
-        {
-            return false;
-        }
-
-        public INeutralItem? TryRemoveAt(int index)
-        {
-            return null;
-        }
-        public INeutralItem? TryRemove()
-        {
-            return null;
-        }
-        public object Clone()
-        {
-            return new ClassicBow
-            {
-                Char = Char,
-                Description = Description,
-                IsTwoHanded = IsTwoHanded,
-                PrintAt = PrintAt,
-                Damage = Damage
-            };
         }
     }
 }

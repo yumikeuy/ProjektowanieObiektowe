@@ -15,13 +15,12 @@ using Lab1.Library.Services.Visitors.ItemVisitors;
 
 namespace Lab1.Library.Entities.GameObjects.Items.Weapons.Heavy
 {
-    public class MachineGun : IHeavyWeapon
+    public class MachineGun : WeaponWithTwoHandles, IHeavyWeapon
     {
-        public int Damage { get; set; } = 10;
-        public char Char { get; set; } = '*';
-        public bool IsTwoHanded { get; set; } = true;
-        public string Description { get; set; } = "Enormous MachineGun";
-        public Point PrintAt { get; set; } = (0, 0);
+        public override int Damage { get; set; } = 10;
+        public override char Char { get; set; } = '*';
+        public override bool IsTwoHanded { get; set; } = true;
+        protected override string _description { get; set; } = "Enormous Machinegun";
 
         public bool AcceptGameObjectVisitor(GameObjectVisitor visitor)
         {
@@ -31,45 +30,6 @@ namespace Lab1.Library.Entities.GameObjects.Items.Weapons.Heavy
         public bool AcceptItemVisitor(ItemVisitor visitor)
         {
             return visitor.Visit(this);
-        }
-        public void Activate(IPlayerState playerState)
-        {
-            playerState.Damage += Damage;
-        }
-        public void Deactivate(IPlayerState playerState)
-        {
-            playerState.Damage -= Damage;
-        }
-        public IPrintable Text()
-        {
-            Printable p = new();
-            p.AddText(new TextPos(Char.ToString(), PrintAt));
-            return p;
-        }
-
-        public bool TryAdd(INeutralItem item)
-        {
-            return false;
-        }
-
-        public INeutralItem? TryRemoveAt(int index)
-        {
-            return null;
-        }
-        public INeutralItem? TryRemove()
-        {
-            return null;
-        }
-        public object Clone()
-        {
-            return new MachineGun
-            {
-                Char = Char,
-                Description = Description,
-                IsTwoHanded = IsTwoHanded,
-                PrintAt = PrintAt,
-                Damage = Damage
-            };
         }
     }
 }

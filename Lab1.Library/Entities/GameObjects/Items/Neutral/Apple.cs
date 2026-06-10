@@ -13,13 +13,12 @@ using Lab1.Library.Services.Visitors.ItemVisitors;
 
 namespace Lab1.Library.Entities.GameObjects.Items.Neutral
 {
-    public class Apple : INeutralItem
+    public class Apple : Item, INeutralItem
     {
-        public Point PrintAt { get; set; } = (0, 0);
-        public bool IsTwoHanded { get; set; } = false;
-        public char Char { get; set; } = 'o';
-        public string Description { get; set; } = "Juicy Red Apple";
-        private int luckBoost = 5;
+        public override char Char { get; set; } = 'o';
+        public override string Description { get; set; } = "Juicy Red Apple";
+
+        private readonly int luckBoost = 5;
 
         public bool AcceptGameObjectVisitor(GameObjectVisitor visitor)
         {
@@ -31,44 +30,17 @@ namespace Lab1.Library.Entities.GameObjects.Items.Neutral
             return visitor.Visit(this);
         }
 
-        public void Activate(IPlayerState playerState)
+        public override void Activate(IPlayerState playerState)
         {
+            base.Activate(playerState);
+
             playerState.Luck += luckBoost;
         }
-        public void Deactivate(IPlayerState playerState)
+        public override void Deactivate(IPlayerState playerState)
         {
+            base.Deactivate(playerState);
+
             playerState.Luck -= luckBoost;
         }
-        public IPrintable Text()
-        {
-            Printable p = new();
-            p.AddText(new TextPos(Char.ToString(), PrintAt));
-            return p;
-        }
-
-        public bool TryAdd(INeutralItem item)
-        {
-            return false;
-        }
-        public INeutralItem? TryRemoveAt(int index)
-        {
-            return null;
-        }
-        public INeutralItem? TryRemove()
-        {
-            return null;
-        }
-
-        public object Clone()
-        {
-            return new Apple 
-            { 
-                Char =  Char, 
-                Description = Description,
-                IsTwoHanded = IsTwoHanded,
-                PrintAt = PrintAt
-            };
-        }
-
     }
 }

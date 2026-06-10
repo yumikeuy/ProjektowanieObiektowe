@@ -149,19 +149,43 @@ namespace Lab1.Library.Entities.Inventory
 
         public bool TryAddToLeft(IItem item)
         {
-            return hands.left.TryAdd(item);
+            var res = hands.left.TryAdd(item);
+            if(res == true)
+            {
+                item.Activate(_playerState);
+            }
+
+            return res;
         }
         public bool TryAddToRight(IItem item)
         {
-            return hands.right.TryAdd(item);
+            var res = hands.right.TryAdd(item);
+            if (res == true)
+            {
+                item.Activate(_playerState);
+            }
+
+            return res;
         }
         public IItem? TryRemoveLeft()
         {
-            return hands.left.Remove();
+            var item = hands.left.Remove();
+            if (item != null)
+            {
+                item.Deactivate(_playerState);
+            }
+
+            return item;
         }
         public IItem? TryRemoveRight()
         {
-            return hands.right.Remove();
+            var item = hands.right.Remove();
+            if (item != null)
+            {
+                item.Deactivate(_playerState);
+            }
+
+            return item;
         }
         public IItem? GetCurrentItem()
         {

@@ -16,14 +16,12 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace Lab1.Library.Entities.GameObjects.Items.Weapons.Magic
 {
-    public class EnchantedRing : IMagicWeapon
+    public class EnchantedRing : Item, IMagicWeapon
     {
         public int Damage { get; set; } = 6;
-        public char Char { get; set; } = 'q';
-        public bool IsTwoHanded { get; set; } = false;
-        public string Description { get; set; } = "Legendary enchanted ring";
-
-        public Point PrintAt { get; set; } = (0, 0);
+        public override char Char { get; set; } = 'q';
+        public override bool IsTwoHanded { get; set; } = false;
+        public override string Description { get; set; } = "Legendary enchanted ring";
 
         public bool AcceptGameObjectVisitor(GameObjectVisitor visitor)
         {
@@ -33,47 +31,6 @@ namespace Lab1.Library.Entities.GameObjects.Items.Weapons.Magic
         public bool AcceptItemVisitor(ItemVisitor visitor)
         {
             return visitor.Visit(this);
-        }
-        public void Activate(IPlayerState playerState)
-        {
-            playerState.Damage += Damage;
-        }
-        public void Deactivate(IPlayerState playerState)
-        {
-            playerState.Damage -= Damage;
-        }
-        public IPrintable Text()
-        {
-            Printable p = new();
-            p.AddText(new TextPos(Char.ToString(), PrintAt));
-            return p;
-        }
-
-        public bool TryAdd(INeutralItem item)
-        {
-            return false;
-        }
-
-        public INeutralItem? TryRemoveAt(int index)
-        {
-            return null;
-        }
-
-        public INeutralItem? TryRemove()
-        {
-            return null;
-        }
-
-        public object Clone()
-        {
-            return new EnchantedRing
-            {
-                Char = Char,
-                Description = Description,
-                IsTwoHanded = IsTwoHanded,
-                PrintAt = PrintAt,
-                Damage = Damage
-            };
         }
     }
 }

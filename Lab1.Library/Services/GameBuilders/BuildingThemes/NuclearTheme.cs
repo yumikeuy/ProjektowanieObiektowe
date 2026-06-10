@@ -24,22 +24,23 @@ namespace Lab1.Library.Services.GameBuilders.BuildingThemes
     {
         public IBuildingStrategy BuildingStrategy { get; set; } = new DungeonStategy();
         public IItem Artefact { get; set; } = new NuclearBlaster();
+
         public List<IItem> Items { get; set; } = 
-            [
-                new Electroshocker(), 
-                new MachineGun(), 
-                new LaserSword(), 
-                new UraniumOre(), 
-                new TwoSlotHandle(), 
-                new Apple()
-            ];
+        [
+            new Electroshocker(), 
+            new MachineGun(), 
+            new LaserSword(), 
+            new UraniumOre(), 
+            new TwoSlotHandle(), 
+            new Apple()
+        ];
 
         public List<IEnemy> Enemies { get; set; } = 
-            [   
-                new Robot(new(0, 0)), 
-                new UraniumGolem(new(0, 0)), 
-                new RickSanchez(new(0, 0))
-            ];
+        [   
+            new Robot(new(0, 0)), 
+            new UraniumGolem(new(0, 0)), 
+            new RickSanchez(new(0, 0))
+        ];
 
         public string Message { get; set; } = null!;
     }

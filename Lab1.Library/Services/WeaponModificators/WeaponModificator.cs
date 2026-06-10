@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Lab1.Library.Entities.GameObjects.Items;
 using Lab1.Library.Entities.GameObjects.Items.Neutral;
 using Lab1.Library.Entities.GameObjects.Items.Weapons;
 using Lab1.Library.Interfaces.Entities;
@@ -16,21 +17,21 @@ using Lab1.Library.Services.Visitors.ItemVisitors;
 
 namespace Lab1.Library.Services.WeaponModificators
 {
-    public abstract class WeaponModificator(IWeapon weapon) : IWeapon
+    public class WeaponModificator(IWeapon weapon) : Item, IWeapon
     {
         protected IWeapon _weapon = weapon;
 
-        public char Char { get => _weapon.Char; set => _weapon.Char = value; }
-        public Point PrintAt { get => _weapon.PrintAt; set => _weapon.PrintAt = value; }
-        public virtual string Description { get => _weapon.Description; set => _weapon.Description = value; }
-        public bool IsTwoHanded { get => _weapon.IsTwoHanded; set => _weapon.IsTwoHanded = value; }
+        public override char Char { get => _weapon.Char; set => _weapon.Char = value; }
+        public override Point PrintAt { get => _weapon.PrintAt; set => _weapon.PrintAt = value; }
+        public override string Description { get => _weapon.Description; set => _weapon.Description = value; }
+        public override bool IsTwoHanded { get => _weapon.IsTwoHanded; set => _weapon.IsTwoHanded = value; }
         public int Damage { get => _weapon.Damage; set => _weapon.Damage = value; }
 
-        public virtual void Activate(IPlayerState playerState)
+        public override void Activate(IPlayerState playerState)
         {
             _weapon.Activate(playerState);
         }
-        public virtual void Deactivate(IPlayerState playerState)
+        public override void Deactivate(IPlayerState playerState)
         {
             _weapon.Deactivate(playerState);
         }
@@ -44,33 +45,33 @@ namespace Lab1.Library.Services.WeaponModificators
             return visitor.Visit(this);
         }
 
-        public IPrintable Text()
+        public override IPrintable Text()
         {
             return _weapon.Text();
         }
 
-        public bool TryAdd(INeutralItem item)
+        public override bool TryAdd(INeutralItem item)
         {
-            return false;
+            return _weapon.TryAdd(item);
         }
 
-        public INeutralItem? TryRemoveAt(int index)
+        public override INeutralItem? TryRemoveAt(int index)
         {
-            return null;
+            return _weapon.TryRemoveAt(index);
         }
-        public INeutralItem? TryRemove()
+        public override INeutralItem? TryRemove()
         {
-            return null;
+            return _weapon.TryRemove();
         }
-        public object Clone()
+        public override object Clone()
         {
-            return new
+            return new WeaponModificator((IWeapon)_weapon.Clone())
             {
-                Char,
-                Description,
-                IsTwoHanded,
-                PrintAt,
-                Damage
+                Char = Char,
+                Description = Description,
+                IsTwoHanded = IsTwoHanded,
+                PrintAt = PrintAt,
+                Damage = Damage
             };
         }
     }
