@@ -30,10 +30,12 @@ namespace Lab1.Library.Interfaces.Entities
         void SelectHand(Hands hand);
         IHandInventoryTransfer GetInventoryTransfer();
         (IItem? left, IItem? right) GetItemsFromHands();
+        Hands GetCurrentHand();
         bool TryAddToLeft(IItem item);
         bool TryAddToRight(IItem item);
         IItem? TryRemoveLeft();
         IItem? TryRemoveRight();
+        IItem? TryRemoveAt(Hands hand);
         IItem? GetCurrentItem();
         IInventory GetInventory();
     }

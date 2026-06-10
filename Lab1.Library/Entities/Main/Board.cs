@@ -102,6 +102,18 @@ namespace Lab1.Library.Entities.Main
             boardChanges.Changes.Add(new(pos.X, pos.Y, new(gameObject.Char)));
             HasChanged = true;
         }
+
+        private IGameObject GetAtNonBlock(Point pos)
+        {
+            return _data[pos.X, pos.Y];
+        }
+        private void SetAtNonBlock(Point pos, IGameObject gameObject)
+        {
+            _data[pos.X, pos.Y] = gameObject;
+
+            boardChanges.Changes.Add(new(pos.X, pos.Y, new(gameObject.Char)));
+            HasChanged = true;
+        }
         public Point GetZero()
         {
             return PrintAt;
@@ -113,8 +125,8 @@ namespace Lab1.Library.Entities.Main
             {
                 lock (lockObjects[p2.X, p2.Y])
                 {
-                    var tmp = GetAt(p2);
-                    SetAt(p2, GetAt(p1));
+                    var tmp = GetAtNonBlock(p2);
+                    SetAt(p2, GetAtNonBlock(p1));
                     SetAt(p1, tmp);
                 }
             }

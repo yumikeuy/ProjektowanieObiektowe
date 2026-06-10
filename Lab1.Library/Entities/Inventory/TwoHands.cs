@@ -170,16 +170,36 @@ namespace Lab1.Library.Entities.Inventory
         public IItem? TryRemoveLeft()
         {
             var item = hands.left.Remove();
-            if (item != null)
-            {
-                item.Deactivate(_playerState);
-            }
+            //if (item != null)
+            //{
+            //    item.Deactivate(_playerState);
+            //}
 
             return item;
         }
         public IItem? TryRemoveRight()
         {
             var item = hands.right.Remove();
+            //if (item != null)
+            //{
+            //    item.Deactivate(_playerState);
+            //}
+
+            return item;
+        }
+        public IItem? TryRemoveAt(Hands hand)
+        {
+            IItem? item = null;
+
+            if(hand == Hands.Left)
+            {
+                item = hands.left.Remove();
+            }
+            else if (hand == Hands.Right)
+            {
+                item = hands.right.Remove();
+            }
+
             if (item != null)
             {
                 item.Deactivate(_playerState);
@@ -190,6 +210,17 @@ namespace Lab1.Library.Entities.Inventory
         public IItem? GetCurrentItem()
         {
             return current.GetItem();
+        }
+        public Hands GetCurrentHand()
+        {
+            if(current == hands.left)
+            {
+                return Hands.Left;
+            }
+            else
+            {
+                return Hands.Right;
+            }
         }
 
         private IItem? Remove(IHand hand)

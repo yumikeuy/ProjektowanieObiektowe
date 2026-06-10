@@ -121,6 +121,11 @@ namespace Lab1.Library.Entities.Main
             return _hands.GetCurrentItem();
         }
 
+        public Hands GetCurrentHand()
+        {
+            return _hands.GetCurrentHand();
+        }
+
         private void StateDefaultInit()
         {
             Damage = 0;
@@ -175,6 +180,10 @@ namespace Lab1.Library.Entities.Main
         public IItem? TryRemoveRight()
         {
             return _hands.TryRemoveRight();
+        }
+        public IItem? TryRemoveAt(Hands hand)
+        {
+            return _hands.TryRemoveAt(hand);
         }
 
         private void Set(ref int field, int value)

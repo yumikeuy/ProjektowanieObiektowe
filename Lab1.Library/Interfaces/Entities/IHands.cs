@@ -22,7 +22,9 @@ namespace Lab1.Library.Interfaces.Entities
         bool TryAddToRight(IItem item);
         IItem? TryRemoveLeft();
         IItem? TryRemoveRight();
+        IItem? TryRemoveAt(Hands hand);
         IItem? Remove();
         IItem? GetCurrentItem();
+        Hands GetCurrentHand();
     }
 }
