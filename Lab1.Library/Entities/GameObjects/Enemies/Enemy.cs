@@ -2,10 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using Lab1.Library.Entities.Game;
-using Lab1.Library.Entities.GameObjects.Main;
-using Lab1.Library.Entities.Main;
 using Lab1.Library.Entities.Main.EnemyMovement;
 using Lab1.Library.Interfaces.Entities;
 using Lab1.Library.Interfaces.Entities.GameObjects;
@@ -13,7 +9,6 @@ using Lab1.Library.Interfaces.Events;
 using Lab1.Library.Interfaces.Game;
 using Lab1.Library.Interfaces.Printing;
 using Lab1.Library.Services;
-using Lab1.Library.Services.EventsMediators.Noise;
 using Lab1.Library.Services.Logging;
 using Lab1.Library.Services.Printing;
 using Lab1.Library.Services.Validators.BoardValidators;
@@ -62,7 +57,7 @@ namespace Lab1.Library.Entities.GameObjects.Enemies
             var actualDamage = damage - Armor;
             if (actualDamage < 0) actualDamage = 0;
 
-            Health -= actualDamage - Armor;
+            Health -= actualDamage;
 
             if (Health <= 0)
             {

@@ -24,13 +24,22 @@ namespace Lab1.Library.Entities.GameObjects.Enemies.Ordinary
             { 
                 _health = value;
 
-                if (_health >= 50)
+
+                if(_health >= 40)
+                {
+                    _movementState = new RandomMovementState();
+                }
+                else if (_health >= 20 && _health < 40)
                 {
                     _movementState = new AggressiveMovementState();
                 }
-                else
+                else if (_health > 0 && _health < 20)
                 {
                     _movementState = new CowardlyMovementState();
+                }
+                else
+                {
+                    _movementState = new RandomMovementState();
                 }
             } 
         } 
@@ -43,7 +52,7 @@ namespace Lab1.Library.Entities.GameObjects.Enemies.Ordinary
 
         public override bool AcceptGameObjectVisitor(GameObjectVisitor visitor)
         {
-            return visitor.Visit(this); //TODO unsubscribe, die destroy
+            return visitor.Visit(this); 
         }
         protected override void Die()
         {

@@ -24,6 +24,10 @@ namespace Lab1.Library.Services.Visitors.GameObject
         {
             return true;
         }
+        public override bool Visit(IOrdinary aggressive)
+        {
+            return true;
+        }
         public override bool Visit(Player player)
         {
             return true;

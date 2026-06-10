@@ -28,6 +28,11 @@ namespace Lab1.Library.Services.Visitors.GameObject
             HasDied = aggressive.TakeDamage(damage);
             return true;
         }
+        public override bool Visit(IOrdinary aggressive)
+        {
+            HasDied = aggressive.TakeDamage(damage);
+            return true;
+        }
 
         public override bool Visit(Player player)
         {

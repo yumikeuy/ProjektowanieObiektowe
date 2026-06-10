@@ -36,7 +36,7 @@ namespace Lab1.Library.Entities.GameObjects.Items
             var clone = (WeaponWithTwoHandles)cloneObj;
 
             clone.Char = Char;
-            clone.Description = Description;
+            clone.Description = _description;
             clone.IsTwoHanded = IsTwoHanded;
             clone.PrintAt = PrintAt;
             clone.Damage = Damage;
