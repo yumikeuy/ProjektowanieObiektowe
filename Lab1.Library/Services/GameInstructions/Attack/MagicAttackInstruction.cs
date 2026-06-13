@@ -16,7 +16,7 @@ namespace Lab1.Library.Services.GameInstructions.Attack
         public override string Description { get; set; } = "Press \"C\" to use magic attack on an enemy";
         public override void Execute(IInputEvent inputEvent)
         {
-            _attackVisitor = new MagicAttackVisitor(inputEvent.GameState.Player.State);
+            _attackVisitor = new MagicAttackVisitor(inputEvent.Player.State);
             
             base.Execute(inputEvent);
         }

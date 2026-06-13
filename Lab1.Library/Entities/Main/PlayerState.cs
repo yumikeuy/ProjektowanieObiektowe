@@ -1,15 +1,15 @@
-﻿using Lab1.Library.Entities.GameObjects;
+﻿using Lab1.Library.Entities.GameObjects.Items;
 using Lab1.Library.Entities.GameObjects.Items.Weapons;
 using Lab1.Library.Entities.Inventory;
 using Lab1.Library.Entities.Printing;
-using Lab1.Library.Interfaces;
 using Lab1.Library.Interfaces.Entities;
+using Lab1.Library.Interfaces.Entities.GameObjects.Items;
 using Lab1.Library.Interfaces.Printing;
 using Lab1.Library.Services;
 using Lab1.Library.Services.Printing;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
+
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,19 +18,22 @@ namespace Lab1.Library.Entities.Main
 {
     public class PlayerState : IPlayerState
     {
-        private IInventory _inventory;
-        private IHands _hands;
-        private IHandInventoryTransfer _handInvTransfer;
+        private readonly IInventory _inventory;
+        private readonly IHands _hands;
+        private readonly IHandInventoryTransfer _handInvTransfer;
 
-        public int Damage { get; set; }
-        public int Health { get; set; }
-        public int Luck { get; set; }
-        public int Agility { get; set; }
-        public int Agressiveness { get; set; }
-        public int Iq { get; set; }
-        public int Coins { get; set; }
-        public int Gold { get; set; }
-        public int Armor { get; set; }
+        private int _damage, _health, _luck, _agility, _agressiveness, _iq, _coins, _gold, _armor;
+
+        public int Damage { get => _damage; set => Set(ref _damage, value); }
+        public int Health { get => _health; set => Set(ref _health, value); }
+        public int Luck { get => _luck; set => Set(ref _luck, value); }
+        public int Agility { get => _agility; set => Set(ref _agility, value); }
+        public int Agressiveness { get => _agressiveness; set => Set(ref _agressiveness, value); }
+        public int Iq { get => _iq; set => Set(ref _iq, value); }
+        public int Coins { get =>_coins; set => Set(ref _coins, value); }
+        public int Gold { get => _gold; set => Set(ref _gold, value); }
+        public int Armor { get => _armor; set => Set(ref _armor, value); }
+        public bool HasChanged { get; set; }
 
         public Point PrintAt { get; set; }
         private Point currentPrintPos;
@@ -79,19 +82,31 @@ namespace Lab1.Library.Entities.Main
         {
             p.AddText(new TextPos(str, new(currentPrintPos.X, currentPrintPos.Y++)));
         }
-
-        public bool TryAdd(Item item)
+        public bool TryAdd(IItem item)
         {
             if (_inventory.TryAdd(item))
+            {
+                HasChanged = true;
                 return true;
+            }
             else if (_hands.TryAdd(item))
+            {
+                HasChanged = true;
                 return true;
+            }
 
             return false;
         }
-        public Item? Drop()
+        public IItem? Drop()
         {
-            return _hands.Remove();
+            var item = _hands.Remove();
+
+            if(item != null)
+            {
+                HasChanged = true;
+            }
+
+            return item;
         }
         public void SelectHand(Hands hand)
         {
@@ -101,9 +116,14 @@ namespace Lab1.Library.Entities.Main
         {
             return _handInvTransfer;
         }
-        public Item? GetCurrentItem()
+        public IItem? GetCurrentItem()
         {
             return _hands.GetCurrentItem();
+        }
+
+        public Hands GetCurrentHand()
+        {
+            return _hands.GetCurrentHand();
         }
 
         private void StateDefaultInit()
@@ -117,10 +137,67 @@ namespace Lab1.Library.Entities.Main
             Coins = 0;
             Gold = 0;
             Armor = 0;
+            HasChanged = true;
         }
+
+        public IInventory GetInventory()
+        {
+            return _inventory;
+        }
+        public (IItem? left, IItem? right) GetItemsFromHands()
+        {
+            return _hands.GetItemsFromHands();
+        }
+        public bool TryAddToLeft(IItem item)
+        {
+            var res = _hands.TryAddToLeft(item);
+
+            if(res == true)
+            {
+                HasChanged = true;
+                return true;
+            }
+
+            return res;
+        }
+        public bool TryAddToRight(IItem item)
+        {
+            var res = _hands.TryAddToRight(item);
+
+            if (res == true)
+            {
+                HasChanged = true;
+                return true;
+            }
+
+            return res;
+        }
+
+        public IItem? TryRemoveLeft()
+        {
+            return _hands.TryRemoveLeft();
+        }
+        public IItem? TryRemoveRight()
+        {
+            return _hands.TryRemoveRight();
+        }
+        public IItem? TryRemoveAt(Hands hand)
+        {
+            return _hands.TryRemoveAt(hand);
+        }
+
+        private void Set(ref int field, int value)
+        {
+            if (field != value)
+            {
+                field = value;
+                HasChanged = true;
+            }
+        }
+
         public PlayerState(int boardWidth)
         {
-            PrintAt = new(boardWidth + 5, 1);
+            PrintAt = (boardWidth + 10, 0);
             _inventory = new Inventory.Inventory();
             _hands = new TwoHands(this);
             _handInvTransfer = new HandInventoryTransfer(_hands, _inventory);

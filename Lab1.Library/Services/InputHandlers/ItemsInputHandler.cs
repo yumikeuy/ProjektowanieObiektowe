@@ -16,6 +16,8 @@ namespace Lab1.Library.Services.InputHandlers
             _instructions.Add(new HideItemToInventory());
             _instructions.Add(new DropItemInstruction());
             _instructions.Add(new PickUpInstruction());
+            _instructions.Add(new RetrieveItemFromHandle());
+            _instructions.Add(new HangItemOnHandle());
         }
     }
 }

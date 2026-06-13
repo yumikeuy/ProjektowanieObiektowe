@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
+
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Lab1.Library.Entities.GameObjects;
+using Lab1.Library.Entities.GameObjects.Items;
 using Lab1.Library.Interfaces.Entities;
+using Lab1.Library.Interfaces.Entities.GameObjects.Items;
 using Lab1.Library.Interfaces.Printing;
 using Lab1.Library.Services;
+using Lab1.Library.Services.Logging;
 
 namespace Lab1.Library.Entities.Inventory
 {
@@ -31,7 +33,7 @@ namespace Lab1.Library.Entities.Inventory
         public IPrintable Text()
         {
             hands.left.PrintAt = PrintAt;
-            hands.right.PrintAt = new(PrintAt.X, PrintAt.Y + 1);
+            hands.right.PrintAt = PrintAt.Down;
             return hands.left.Text().Add(hands.right.Text());
         }
 
@@ -47,7 +49,7 @@ namespace Lab1.Library.Entities.Inventory
                     break;
             }
         }
-        public bool TryAdd(Item item)
+        public bool TryAdd(IItem item)
         {
             if (item.IsTwoHanded)
             {
@@ -62,7 +64,7 @@ namespace Lab1.Library.Entities.Inventory
 
             return Add(current, item);
         }
-        public bool TryAdd(ICollection<Item> items)
+        public bool TryAdd(ICollection<IItem> items)
         {
             if (items.Count > 2 || items.Count == 0)
                 return false;
@@ -82,14 +84,14 @@ namespace Lab1.Library.Entities.Inventory
                 return true;
 
         }
-        public ICollection<Item> AddOrSwap(Item item)
+        public ICollection<IItem> AddOrSwap(IItem item)
         {
             if (item.IsTwoHanded)
             {
-                ICollection<Item> returnItems = [];
+                ICollection<IItem> returnItems = [];
 
-                Item? left = Remove(hands.left);
-                Item? right = Remove(hands.right);
+                IItem? left = Remove(hands.left);
+                IItem? right = Remove(hands.right);
                 if (left != null) returnItems.Add(left);
                 if (right != null) returnItems.Add(right);
 
@@ -98,8 +100,8 @@ namespace Lab1.Library.Entities.Inventory
             }
             else
             {
-                ICollection<Item> returnItems = [];
-                Item? removedItem = Remove();
+                ICollection<IItem> returnItems = [];
+                IItem? removedItem = Remove();
                 if (removedItem != null)
                     returnItems.Add(removedItem);
 
@@ -107,7 +109,7 @@ namespace Lab1.Library.Entities.Inventory
                 else throw new Exception("Poorly managed Swaping the one-handed item");
             }
         }
-        public ICollection<Item>? AddOrSwap(ICollection<Item> items)
+        public ICollection<IItem>? AddOrSwap(ICollection<IItem> items)
         {
             if (items.Count > 2 || items.Count == 0)
                 return null;
@@ -115,16 +117,16 @@ namespace Lab1.Library.Entities.Inventory
             if (items.Count == 2 && items.First().IsTwoHanded || items.Last().IsTwoHanded)
                 return null;
 
-            ICollection<Item> returnItems = [];
+            ICollection<IItem> returnItems = [];
             foreach (var i in items)
                 foreach (var item in AddOrSwap(i))
                     returnItems.Add(item);
 
             return returnItems;
         }
-        public Item? Remove()
+        public IItem? Remove()
         {
-            Item? removedItem;
+            IItem? removedItem;
 
             if (isCurrentTwoHanded)
             {
@@ -139,23 +141,101 @@ namespace Lab1.Library.Entities.Inventory
             isCurrentTwoHanded = false;
             return removedItem;
         }
-        public Item? GetCurrentItem()
+
+        public (IItem? left, IItem? right) GetItemsFromHands()
+        {
+            return (hands.left.GetItem(), hands.right.GetItem());
+        }
+
+        public bool TryAddToLeft(IItem item)
+        {
+            var res = hands.left.TryAdd(item);
+            if(res == true)
+            {
+                item.Activate(_playerState);
+            }
+
+            return res;
+        }
+        public bool TryAddToRight(IItem item)
+        {
+            var res = hands.right.TryAdd(item);
+            if (res == true)
+            {
+                item.Activate(_playerState);
+            }
+
+            return res;
+        }
+        public IItem? TryRemoveLeft()
+        {
+            var item = hands.left.Remove();
+            //if (item != null)
+            //{
+            //    item.Deactivate(_playerState);
+            //}
+
+            return item;
+        }
+        public IItem? TryRemoveRight()
+        {
+            var item = hands.right.Remove();
+            //if (item != null)
+            //{
+            //    item.Deactivate(_playerState);
+            //}
+
+            return item;
+        }
+        public IItem? TryRemoveAt(Hands hand)
+        {
+            IItem? item = null;
+
+            if(hand == Hands.Left)
+            {
+                item = hands.left.Remove();
+            }
+            else if (hand == Hands.Right)
+            {
+                item = hands.right.Remove();
+            }
+
+            if (item != null)
+            {
+                item.Deactivate(_playerState);
+            }
+
+            return item;
+        }
+        public IItem? GetCurrentItem()
         {
             return current.GetItem();
         }
+        public Hands GetCurrentHand()
+        {
+            if(current == hands.left)
+            {
+                return Hands.Left;
+            }
+            else
+            {
+                return Hands.Right;
+            }
+        }
 
-        private Item? Remove(IHand hand)
+        private IItem? Remove(IHand hand)
         {
             var item = hand.Remove();
             item?.Deactivate(_playerState);
 
             return item;
         }
-        private bool Add(IHand hand, Item item)
+        private bool Add(IHand hand, IItem item)
         {
             if (hand.TryAdd(item))
             {
                 hand.ActivateItem(_playerState);
+                Logger.Instance.Log("Took item to hand.");
                 return true;
             }
 

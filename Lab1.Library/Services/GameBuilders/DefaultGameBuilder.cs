@@ -10,7 +10,19 @@ using Lab1.Library.Interfaces.GameBuilders;
 using Lab1.Library.Interfaces.Game;
 using Lab1.Library.Entities.Game;
 using Lab1.Library.Services.Printing;
-using System.Drawing;
+using Lab1.Library.Entities.GameObjects.Main;
+using Lab1.Library.Entities.Main;
+using Lab1.Library.Services.Logging;
+using Lab1.Library.Interfaces.Entities.GameObjects;
+using Lab1.Library.Interfaces.Entities.GameObjects.Items;
+using Lab1.Library.Interfaces.Entities.GameObjects.Items.Weapons;
+using Lab1.Library.Services.EventsMediators;
+using Lab1.Library.Services.EventsMediators.Noise;
+using Lab1.Library.Services.EventsMediators.Killing;
+using Lab1.Library.Interfaces.Events;
+using Lab1.Library.Interfaces.Entities;
+using System.Net;
+
 
 namespace Lab1.Library.Services.GameBuilders
 {
@@ -18,36 +30,40 @@ namespace Lab1.Library.Services.GameBuilders
     {
         private readonly int _width;
         private readonly int _height;
-        private readonly Point PrintAt;
+        private readonly Point printAt;
 
         private readonly IBoardBuilder _boardBuilder;
         private readonly IInstructionsBuilder _instructionsBuilder;
 
         private IGameState _gameState = new GameState();
-
-        public DefaultGameBuilder(int width, int height, int playerStateWidth,
+        private IGameConfiguration _gameConfiguration;
+        public DefaultGameBuilder(IGameConfiguration gameConfiguration,
         IBoardBuilder boardBuilder, IInstructionsBuilder instructionsBuilder)
         {
-            _width = width;
-            _height = height;
-            PrintAt = new(width + playerStateWidth + 3, 1);
+            _gameConfiguration = gameConfiguration;
+            _width = _gameConfiguration.BoardWidth;
+            _height = _gameConfiguration.BoardHeight;
+            printAt = new(_width + 10 + _gameConfiguration.PlayerStateWidth + 5, 0);
             _boardBuilder = boardBuilder;
             _instructionsBuilder = instructionsBuilder;
-            _gameState.Destroyer = new Destroyer();
+            _gameState.LogScreen = new LogScreen(_height);
+            _gameState.MediatorsDirector = new MediatorsDirector(new Destroyer(), new Mediator<INoiseData>(), new Mediator<IKillData>());
+            _gameState.EnemyMover = new EnemyMover();
+            _gameState.PlayerManager = new PlayerManager();
         }
 
         // IGameBuilder
         public IGameBuilder InitializeEmpty()
         {
             _boardBuilder.InitializeEmpty(_width, _height);
-            _instructionsBuilder.Initialize(PrintAt);
+            _instructionsBuilder.Initialize(printAt);
 
             return this;
         }
         public IGameBuilder InitializeFull()
         {
             _boardBuilder.InitializeFull(_width, _height);
-            _instructionsBuilder.Initialize(PrintAt);
+            _instructionsBuilder.Initialize(printAt);
 
             return this;
         }
@@ -69,16 +85,16 @@ namespace Lab1.Library.Services.GameBuilders
 
             return this;
         }
-        public IGameBuilder AddItems(int ammount)
+        public IGameBuilder AddItems(List<IItem> items, int amount)
         {
-            _boardBuilder.AddItems(ammount);
+            _boardBuilder.AddItems(items, amount);
             _instructionsBuilder.AddItems();
 
             return this;
         }
-        public IGameBuilder AddWeapons(int amount)
+        public IGameBuilder AddWeapons(List<IWeapon> weapons, int amount)
         {
-            _boardBuilder.AddWeapons(amount);
+            _boardBuilder.AddWeapons(weapons, amount);
             _instructionsBuilder.AddItems();
 
             return this;
@@ -91,23 +107,31 @@ namespace Lab1.Library.Services.GameBuilders
             return this;
         }
 
-        public IGameBuilder AddEnemies(int amount)
+        public IGameBuilder AddEnemies(List<IEnemy> enemies, int amount)
         {
-            _boardBuilder.AddEnemies(_gameState.Destroyer, amount);
+            _boardBuilder.AddEnemies(_gameState.EnemyMover, _gameState.MediatorsDirector, enemies, amount);
             _instructionsBuilder.AddEnemies();
 
             return this;
         }
 
-        public IGameState GetResult()
+        public IGameBuilder AddArtefact(IItem artefact)
         {
-            _gameState.Printer = new Printer();
+            _boardBuilder.AddArtefact(artefact);
+            _instructionsBuilder.AddItems();
+
+            return this;
+        }
+
+        public IGame GetResult()
+        {
             _gameState.Board = _boardBuilder.GetResult();
-            _gameState.Instructions = _instructionsBuilder.GetResult();
-            _gameState.Destroyer.AddBoard(_gameState.Board);
-            _gameState.Player = new Player(_gameState.Board.GetZero(), _gameState.Board.GetSpawnPoint(), _width);
-            _gameState.Destroyer.Add(_gameState.Player);
-            return _gameState;
+            _gameState.MediatorsDirector.Destroyer.AddBoard(_gameState.Board);
+
+            _gameState.AddPlayer(_gameConfiguration.PlayerName, new(IPAddress.Parse(_gameConfiguration.DefaultIp), _gameConfiguration.DefaultPort), true);
+
+            var game = new Game(_gameState, new Printer(), _instructionsBuilder.GetResult());
+            return game;
         }
     }
 }

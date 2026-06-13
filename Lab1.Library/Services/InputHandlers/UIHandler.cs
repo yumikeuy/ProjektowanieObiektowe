@@ -14,6 +14,7 @@ namespace Lab1.Library.Services.InputHandlers
         public UIHandler()
         {
             _instructions.Add(new StopGameInstruction());
+            _instructions.Add(new ShowLogsInstruction());
         }
     }
 }

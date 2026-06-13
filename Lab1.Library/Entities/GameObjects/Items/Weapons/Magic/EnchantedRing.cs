@@ -3,22 +3,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Lab1.Library.Entities.GameObjects.Items.Neutral;
+using Lab1.Library.Interfaces.Entities;
+using Lab1.Library.Interfaces.Entities.GameObjects.Items.NeutralItems;
+using Lab1.Library.Interfaces.Entities.GameObjects.Items.Weapons.MagicWeapons;
+using Lab1.Library.Interfaces.Printing;
+using Lab1.Library.Services;
+using Lab1.Library.Services.Printing;
 using Lab1.Library.Services.Visitors.GameObject;
+using Lab1.Library.Services.Visitors.ItemVisitors;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Lab1.Library.Entities.GameObjects.Items.Weapons.Magic
 {
-    public class EnchantedRing : MagicWeapon
+    public class EnchantedRing : Item, IMagicWeapon
     {
-        public const int damage = 6;
+        public int Damage { get; set; } = 6;
         public override char Char { get; set; } = 'q';
         public override bool IsTwoHanded { get; set; } = false;
         public override string Description { get; set; } = "Legendary enchanted ring";
 
-        public EnchantedRing()
+        public bool AcceptGameObjectVisitor(GameObjectVisitor visitor)
         {
-            Damage = damage;
+            return visitor.Visit(this);
         }
-        public override bool AcceptGameObjectVisitor(GameObjectVisitor visitor)
+
+        public bool AcceptItemVisitor(ItemVisitor visitor)
         {
             return visitor.Visit(this);
         }

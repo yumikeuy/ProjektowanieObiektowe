@@ -1,12 +1,14 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
+
 using System.Linq;
 using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
-using Lab1.Library.Entities.GameObjects;
+using Lab1.Library.Entities.GameObjects.Items;
 using Lab1.Library.Interfaces.Entities;
+using Lab1.Library.Interfaces.Entities.GameObjects.Items;
 using Lab1.Library.Interfaces.Printing;
 using Lab1.Library.Services;
 using Lab1.Library.Services.Printing;
@@ -15,14 +17,14 @@ namespace Lab1.Library.Entities.Inventory
 {
     public class Inventory : IInventory
     {
-        private ICollection<Item> _items = [];
+        private ICollection<IItem> _items = [];
         private int _inventorySize = 5;
         public Point PrintAt { get; set; } = new(0, 0);
 
         private bool IsInventoryFull() => IsInventoryFull(1);
         private bool IsInventoryFull(int newItems) => _items.Count + newItems > _inventorySize;
 
-        public bool TryAdd(Item item)
+        public bool TryAdd(IItem item)
         {
             if (!IsInventoryFull())
             {
@@ -32,7 +34,7 @@ namespace Lab1.Library.Entities.Inventory
 
             return false;
         }
-        public bool TryAdd(ICollection<Item> items)
+        public bool TryAdd(ICollection<IItem> items)
         {
             if (!IsInventoryFull(items.Count))
             {
@@ -44,7 +46,7 @@ namespace Lab1.Library.Entities.Inventory
 
             return false;
         }
-        public Item? TryRemove(int itemIndex)
+        public IItem? TryRemove(int itemIndex)
         {
             if (_items.Count <= itemIndex) return null;
             var item = _items.ToList()[itemIndex];
@@ -70,9 +72,22 @@ namespace Lab1.Library.Entities.Inventory
             p.AddText(new TextPos("Inventory : ", PrintAt));
             int i = 0;
             foreach (var item in _items)
-                p.AddText(new TextPos($"{++i}. " + item.Description, new(PrintAt.X, PrintAt.Y + i)));
+                p.AddText(new TextPos($"{++i}. " + item.Description, PrintAt.DownN(i)));
 
             return p;
+        }
+
+        public IEnumerator<IItem> GetEnumerator()
+        {
+            foreach (var item in _items)
+            {
+                yield return item;
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

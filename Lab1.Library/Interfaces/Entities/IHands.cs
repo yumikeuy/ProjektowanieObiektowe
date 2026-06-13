@@ -3,20 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Lab1.Library.Entities.GameObjects;
 using Lab1.Library.Interfaces.Printing;
 using Lab1.Library.Entities.Inventory;
+using Lab1.Library.Entities.GameObjects.Items;
+using Lab1.Library.Interfaces.Entities.GameObjects.Items;
 
 namespace Lab1.Library.Interfaces.Entities
 {
     public interface IHands : ITextConvertible
     {
-        public void SelectHand(Hands hand);
-        public bool TryAdd(Item item);
-        public bool TryAdd(ICollection<Item> items);
-        public ICollection<Item> AddOrSwap(Item item);
-        public ICollection<Item>? AddOrSwap(ICollection<Item> items);
-        public Item? Remove();
-        public Item? GetCurrentItem();
+        void SelectHand(Hands hand);
+        bool TryAdd(IItem item);
+        bool TryAdd(ICollection<IItem> items);
+        ICollection<IItem> AddOrSwap(IItem item);
+        ICollection<IItem>? AddOrSwap(ICollection<IItem> items);
+        (IItem? left, IItem? right) GetItemsFromHands();
+        bool TryAddToLeft(IItem item);
+        bool TryAddToRight(IItem item);
+        IItem? TryRemoveLeft();
+        IItem? TryRemoveRight();
+        IItem? TryRemoveAt(Hands hand);
+        IItem? Remove();
+        IItem? GetCurrentItem();
+        Hands GetCurrentHand();
     }
 }

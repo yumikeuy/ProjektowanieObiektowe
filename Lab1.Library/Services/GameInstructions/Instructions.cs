@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
+
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Lab1.Library.Entities.Game;
 using Lab1.Library.Entities.Printing;
+using Lab1.Library.Interfaces.Entities;
 using Lab1.Library.Interfaces.Game;
 using Lab1.Library.Interfaces.Printing;
 using Lab1.Library.Services;
@@ -22,15 +23,15 @@ namespace Lab1.Library.Services.GameInstructions
         {
             Printable p = new();
             p.AddText(new TextPos("Controls: ", PrintAt));
-            p.Add(new EmptyLine(new(PrintAt.X, PrintAt.Y + 1), 10).Text());
+            p.Add(new EmptyLine(PrintAt.Down, 10).Text());
             int i = 1;
             var handler = _handler;
             while (handler != null)
             {
                 foreach (var instruction in handler.GetInstructions())
                 {
-                    p.AddText(new TextPos(instruction.Description, new(PrintAt.X, PrintAt.Y + i++)));
-                    p.Add(new EmptyLine(new(PrintAt.X, PrintAt.Y + i++), 10).Text());
+                    p.AddText(new TextPos(instruction.Description, PrintAt.DownN(i++)));
+                    p.Add(new EmptyLine(PrintAt.DownN(i++), 10).Text());
                 }
                 handler = handler.GetNext();
             }
@@ -46,14 +47,9 @@ namespace Lab1.Library.Services.GameInstructions
                 _handler.SetNext(handler);
         }
 
-        public InputHandler GetHandler()
+        public void ExecuteAction(IGame game, ConsoleKey key, IPlayer player)
         {
-            return _handler;
-        }
-
-        public void ExecuteAction(IGameState gameState, ConsoleKey key)
-        {
-            _handler.Handle(new InputEvent(gameState, key));
+            _handler.Handle(new InputEvent(game, key, player));
         }
     }
 }

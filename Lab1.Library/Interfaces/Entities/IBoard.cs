@@ -1,24 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
+
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Lab1.Library.Entities.Changes;
 using Lab1.Library.Entities.GameObjects;
-using Lab1.Library.Interfaces.Game;
+using Lab1.Library.Interfaces.Entities.GameObjects;
 using Lab1.Library.Interfaces.Printing;
+using Lab1.Library.Services;
 
 namespace Lab1.Library.Interfaces.Entities
 {
     public interface IBoard : ITextConvertible
     {
-        public int Width { get; }
-        public int Height { get; }
-        public string IntroductionText { get; set; }
-        public ICollection<Point> GetEmptyCells();
-        public Point GetSpawnPoint();
-        public IGameObject GetAt(Point pos);
-        public void SetAt(Point pos, IGameObject gameObject);
-        public Point GetZero();
+        int Width { get; }
+        int Height { get; }
+        string IntroductionText { get; set; }
+        ICollection<Point> GetEmptyCells();
+        Point GetSpawnPoint();
+        IGameObject GetAt(Point pos);
+        void SetAt(Point pos, IGameObject gameObject);
+        void Swap(Point p1, Point p2);
+        Point GetZero();
+        bool IsReachable(Point src, Point dst, int radius, out int dist);
+        List<Point> FindPath(Point src, Point dst);
+        bool HasChanged { get; set; }
+        BoardChanges FlushChanges();
     }
 }

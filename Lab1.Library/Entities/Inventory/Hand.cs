@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
+
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Lab1.Library.Entities.GameObjects;
+using Lab1.Library.Entities.GameObjects.Items;
 using Lab1.Library.Interfaces.Entities;
+using Lab1.Library.Interfaces.Entities.GameObjects.Items;
 using Lab1.Library.Interfaces.Printing;
 using Lab1.Library.Services;
 using Lab1.Library.Services.Printing;
@@ -14,7 +15,7 @@ namespace Lab1.Library.Entities.Inventory
 {
     public class Hand : ITextConvertible, IHand
     {
-        private Item? _item;
+        private IItem? _item;
         public Point PrintAt { get; set; } = new(0, 0);
         private Hands leftOrRight;
 
@@ -28,14 +29,14 @@ namespace Lab1.Library.Entities.Inventory
         }
         public Hand() { }
 
-        public bool TryAdd(Item item)
+        public bool TryAdd(IItem item)
         {
             if (_item != null) return false;
             _item = item;
             return true;
         }
 
-        public Item? Remove()
+        public IItem? Remove()
         {
             var tmp = _item;
             _item = null;
@@ -50,7 +51,7 @@ namespace Lab1.Library.Entities.Inventory
             return p;
         }
 
-        public Item? GetItem()
+        public IItem? GetItem()
         {
             return _item;
         }

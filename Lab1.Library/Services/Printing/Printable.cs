@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
+
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -59,14 +59,6 @@ namespace Lab1.Library.Services.Printing
         public ICollection<ITextPos> GetData()
         {
             return _data;
-        }
-
-        private bool IsNearEdge()
-        {
-            bool nearRight = Console.CursorLeft >= Console.WindowWidth - 1;
-            bool nearBottom = Console.CursorTop >= Console.WindowHeight - 1;
-
-            return nearRight || nearBottom;
         }
     }
 }

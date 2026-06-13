@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Lab1.Library.Entities.GameObjects;
+using Lab1.Library.Entities.GameObjects.Main;
 using Lab1.Library.Interfaces.Entities;
 using Lab1.Library.Interfaces.Game;
 
@@ -12,7 +13,7 @@ namespace Lab1.Library.Entities.Game
     public class Destroyer : IDestroyer
     {
         private IBoard? _board;
-        private List<IDestroyable> _toRemove = new List<IDestroyable>();
+        private List<IDestroyable> _toRemove = [];
 
         public void Add(IDestroyable entity)
         {

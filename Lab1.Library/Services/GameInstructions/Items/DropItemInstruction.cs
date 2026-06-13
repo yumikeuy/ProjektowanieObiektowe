@@ -17,8 +17,8 @@ namespace Lab1.Library.Services.GameInstructions.Items
         public override string Description { get; set; } = "Press \"Q\" to drop item from current hand";
         public override void Execute(IInputEvent inpuEvent)
         {
-            var board = inpuEvent.GameState.Board;
-            var player = inpuEvent.GameState.Player;
+            var board = inpuEvent.Game.GameState.Board;
+            var player = inpuEvent.Player;
 
             if (DropItemValidator.IsValid(board, player.Pos))
             {
