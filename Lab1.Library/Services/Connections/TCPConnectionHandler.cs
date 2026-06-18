@@ -236,18 +236,9 @@ namespace Lab1.Library.Services.Connections
             return playerState;
         }
 
-        private DateTime _lastCommandTime = DateTime.MinValue;
-        private readonly TimeSpan _commandCooldown = TimeSpan.FromMilliseconds(60);
-
         public async Task SendCommandToServerAsync(ConsoleKey key)
         {
-            var now = DateTime.UtcNow;
-            if (now - _lastCommandTime < _commandCooldown)
-            {
-                return;
-            }
 
-            _lastCommandTime = now;
 
             if (_isConnected)
             {
