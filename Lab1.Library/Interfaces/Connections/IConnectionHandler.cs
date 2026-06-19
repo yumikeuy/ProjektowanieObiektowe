@@ -10,7 +10,7 @@ namespace Lab1.Library.Interfaces.Connections
 {
     public interface IConnectionHandler
     {
-        Task<IGame> ConnectAsync(IPEndPoint ipep, string name);
+        Task<IGame> ConnectAsync(IPEndPoint ipep, string name, CancellationToken ct = new CancellationToken());
         Task SendCommandToServerAsync(ConsoleKey key);
         void Disconnect();
     }

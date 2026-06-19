@@ -13,8 +13,13 @@ namespace Lab1.Library.Services.Printing
     {
         private ICollection<ITextConvertible> _objectsToPrint = [];
 
-        private int currentBufferWidth = System.Console.BufferWidth;
-        private int currentBufferHeight = System.Console.BufferHeight;
+        private int currentBufferWidth = !System.Console.IsOutputRedirected
+            ? System.Console.BufferWidth
+            : 80; // Fallback default for tests
+
+        private int currentBufferHeight = !System.Console.IsOutputRedirected
+            ? System.Console.BufferHeight
+            : 25;
 
         public void Add(ITextConvertible printable)
         {

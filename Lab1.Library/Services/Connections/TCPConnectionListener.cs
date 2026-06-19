@@ -18,7 +18,7 @@ namespace Lab1.Library.Services.Connections
     {
         private readonly ConcurrentDictionary<string, IConnectedClient> _clients = [];
 
-        public void Start(IPEndPoint ipep, IGame game)
+        public void Start(IPEndPoint ipep, IGame game, CancellationToken ct = new CancellationToken())
         {
             Task.Run(async () =>
             {
@@ -28,12 +28,16 @@ namespace Lab1.Library.Services.Connections
                 {
                     listener.Start();
 
-                    while (true)
+                    while (!ct.IsCancellationRequested)
                     {
                         var client = await listener.AcceptTcpClientAsync();
 
-                        _ = HandleNewPlayerAsync(client, game);
+                        _ = HandleNewPlayerAsync(client, game, ct);
                     }
+                }
+                catch (OperationCanceledException)
+                {
+
                 }
                 catch (Exception ex)
                 {
@@ -47,7 +51,7 @@ namespace Lab1.Library.Services.Connections
         }
 
 
-        private async Task HandleNewPlayerAsync(TcpClient client, IGame game)
+        private async Task HandleNewPlayerAsync(TcpClient client, IGame game, CancellationToken ct = new CancellationToken())
         {
             try
             {
@@ -69,8 +73,12 @@ namespace Lab1.Library.Services.Connections
                 var jsonString = PrepareData(game);
                 await connectedClient.SendAsync(jsonString);
 
-                await HandleInputLoop(game, playerName, connectedClient);
+                await HandleInputLoop(game, playerName, connectedClient, ct);
                 game.GameState.PlayerManager.RemovePlayer(playerName);
+            }
+            catch (OperationCanceledException)
+            {
+
             }
             catch (Exception ex)
             {
@@ -78,13 +86,13 @@ namespace Lab1.Library.Services.Connections
             }
         }
 
-        private async Task HandleInputLoop(IGame game, string playerName, IConnectedClient connectedClient)
+        private async Task HandleInputLoop(IGame game, string playerName, IConnectedClient connectedClient, CancellationToken ct = new CancellationToken())
         {
             while (true)
             {
                 string? incomingInput = await connectedClient.ReceiveAsync();
 
-                if (incomingInput == null)
+                if (incomingInput == null || ct.IsCancellationRequested)
                     break;
 
                 try

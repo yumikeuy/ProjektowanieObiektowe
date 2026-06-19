@@ -27,11 +27,11 @@ namespace Lab1.Library.Services.Connections
         private bool _isConnected = false;
         private string localPlayerName = string.Empty;
 
-        public async Task<IGame> ConnectAsync(IPEndPoint serverEndPoint, string playerName)
+        public async Task<IGame> ConnectAsync(IPEndPoint serverEndPoint, string playerName, CancellationToken ct = new CancellationToken())
         {
             localPlayerName = playerName;
             bool isConnected = false;
-            while(!isConnected)
+            while(!isConnected && !ct.IsCancellationRequested)
             {
                 try
                 {
@@ -44,7 +44,7 @@ namespace Lab1.Library.Services.Connections
 
                     var game = PrepareGameFromJson(initialGameJson);
 
-                    _ = StartListeningForUpdatesAsync(game.GameState);
+                    _ = StartListeningForUpdatesAsync(game.GameState, ct);
 
                     return game;
                 } 
@@ -107,11 +107,11 @@ namespace Lab1.Library.Services.Connections
             return game;
         }
 
-        private async Task StartListeningForUpdatesAsync(IGameState gameState)
+        private async Task StartListeningForUpdatesAsync(IGameState gameState, CancellationToken ct = new CancellationToken())
         {
             try
             {
-                while (_isConnected && _client.TcpClient.Connected)
+                while (_isConnected && _client.TcpClient.Connected && !ct.IsCancellationRequested)
                 {
                     string liveUpdateJson = (await _client.ReceiveAsync())!;
 
@@ -122,6 +122,10 @@ namespace Lab1.Library.Services.Connections
 
                     ProcessIncomingServerData(liveUpdateJson, gameState);
                 }
+            }
+            catch (OperationCanceledException)
+            {
+
             }
             catch (Exception ex)
             {
